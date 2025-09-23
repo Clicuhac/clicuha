@@ -8,7 +8,6 @@ deployment:
         --exclude '.well-known' \
         --exclude 'cgi-bin' \
         --exclude 'logs' \
-        --exclude 'index.php' \
         ./ $DEPLOY_PATH/
 
 
