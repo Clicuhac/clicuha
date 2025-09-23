@@ -1,0 +1,4 @@
+deployment:
+  tasks:
+    - export DEPLOY_PATH=/home3/clicuhac/public_html
+    - /bin/rsync -a --delete --exclude '.git' ./ $DEPLOY_PATH/
