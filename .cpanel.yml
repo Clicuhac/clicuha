@@ -5,5 +5,10 @@ deployment:
         --exclude '.git' \
         --exclude '.cpanel.yml' \
         --exclude 'README.md' \
+        --exclude '.well-known' \
+        --exclude 'cgi-bin' \
+        --exclude 'logs' \
+        --exclude 'index.php' \
         ./ $DEPLOY_PATH/
+
 
