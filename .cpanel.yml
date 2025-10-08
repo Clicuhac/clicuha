@@ -1,16 +1,7 @@
 deployment:
   tasks:
     - export DEPLOY_PATH=/home3/clicuhac/public_html
-    - /bin/rsync -a \
-        --exclude '.git' \
-        --exclude '.cpanel.yml' \
-        --exclude 'README.md' \
-        --exclude '.well-known' \
-        --exclude 'cgi-bin' \
-        --exclude 'logs' \
-        --exclude 'index.php' \
-        ./ $DEPLOY_PATH/
-    # Логування деплою (створить/допише файл на сайті):
-    - /bin/echo "$(date '+%F %T') — deploy OK (main @ $CPANEL_GIT_COMMIT)" >> $DEPLOY_PATH/deploy.log
+    - /bin/rsync -a --no-perms --omit-dir-times --exclude '.git' --exclude '.cpanel.yml' --exclude 'README.md' --exclude '.well-known' --exclude 'cgi-bin' --exclude 'logs' --exclude 'index.php' ./ $DEPLOY_PATH/
+
 
 
