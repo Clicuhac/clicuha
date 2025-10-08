@@ -8,6 +8,9 @@ deployment:
         --exclude '.well-known' \
         --exclude 'cgi-bin' \
         --exclude 'logs' \
+        --exclude 'index.php' \
         ./ $DEPLOY_PATH/
+    # Логування деплою (створить/допише файл на сайті):
+    - /bin/echo "$(date '+%F %T') — deploy OK (main @ $CPANEL_GIT_COMMIT)" >> $DEPLOY_PATH/deploy.log
 
 
