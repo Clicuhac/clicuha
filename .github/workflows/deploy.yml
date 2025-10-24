@@ -24,6 +24,11 @@ jobs:
           mkdir -p ~/.ssh
           printf "Host *\n    StrictHostKeyChecking no\n    UserKnownHostsFile=/dev/null\n" > ~/.ssh/config
 
+      - name: Quick SSH test
+        run: |
+          ssh -o BatchMode=yes -o ConnectTimeout=10 \
+            ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} 'echo ssh-ok'
+
       - name: Rsync dry-run preview
         run: |
           rsync -azn --delete --itemize-changes \
