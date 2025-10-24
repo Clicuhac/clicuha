@@ -2,17 +2,20 @@ name: Deploy to public_html (dry-run)
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      RAW_HOST: ${{ secrets.DEPLOY_HOST }}
+      DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+      DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+      DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
+        with: { fetch-depth: 1 }
 
       - name: Start SSH agent
         uses: webfactory/ssh-agent@v0.9.0
@@ -24,18 +27,22 @@ jobs:
           mkdir -p ~/.ssh
           printf "Host *\n    StrictHostKeyChecking no\n    UserKnownHostsFile=/dev/null\n" > ~/.ssh/config
 
+      - name: Sanitize & validate host
+        run: |
+          CLEAN_HOST="$(printf "%s" "$RAW_HOST" | tr -d '\r' | tr -d '[:space:]')"
+          echo "CLEAN_HOST=$CLEAN_HOST" >> $GITHUB_ENV
+          echo "Using host: $CLEAN_HOST  port: ${DEPLOY_PORT:-22}"
+          if [[ ! "$CLEAN_HOST" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Bad DEPLOY_HOST value (expect IPv4 like 45.94.159.104)."; exit 1; fi
+
       - name: Quick SSH test
         run: |
-          ssh -o BatchMode=yes -o ConnectTimeout=10 \
-            ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} 'echo ssh-ok'
+          ssh -o BatchMode=yes -o ConnectTimeout=10 -p "${DEPLOY_PORT:-22}" \
+            "${DEPLOY_USER}@${CLEAN_HOST}" 'echo ssh-ok'
 
       - name: Rsync dry-run preview
         run: |
-          rsync -azn --delete --itemize-changes \
-            --exclude ".git" \
-            --exclude ".github" \
-            --exclude "README.md" \
-            --exclude ".env" \
-            --exclude "node_modules" \
-            --exclude "vendor" \
-            ./ "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.DEPLOY_PATH }}/"
+          rsync -azn --delete --itemize-changes -e "ssh -p ${DEPLOY_PORT:-22}" \
+            --exclude ".git" --exclude ".github" --exclude "README.md" \
+            --exclude ".env" --exclude "node_modules" --exclude "vendor" \
+            ./ "${DEPLOY_USER}@${CLEAN_HOST}:${DEPLOY_PATH}/"
