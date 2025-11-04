@@ -1,0 +1,6 @@
+/deploy.sh
+/_logs/
+/hooks/
+/README.md
+/LICENSE
+/.env
