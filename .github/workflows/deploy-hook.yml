@@ -11,4 +11,4 @@ jobs:
     steps:
       - name: call hook
         run: |
-          curl -fsSL "https://clicuha.com/deploy/hook.php?token=${{ secrets.CLICUHA_DEPLOY_TOKEN }}"
+           curl -fsSL "https://clicuha.com/api/gh_ab12cd.php?token=${{ secrets.CLICUHA_DEPLOY_TOKEN }}"
