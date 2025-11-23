@@ -1,64 +1,138 @@
 <?php
-echo "Hello, Clicuha! Deployed ✓";
-?>
+require __DIR__ . '/config.php';
 
+// Показ помилок тимчасово
+ini_set('display_errors',1);
+ini_set('display_startup_errors',1);
+error_reporting(E_ALL);
+
+// Пагінація
+$page = max(1, (int)($_GET['page'] ?? 1));
+$limit = 12;
+$offset = ($page - 1) * $limit;
+
+// Загальна кількість
+$total = (int)$pdo->query("SELECT COUNT(*) FROM nicknames")->fetchColumn();
+$totalPages = max(1, ceil($total / $limit));
+
+// Дані
+$stmt = $pdo->prepare("
+    SELECT n.*, u.username AS author_username
+    FROM nicknames n
+    LEFT JOIN users u ON u.id = n.user_id
+    ORDER BY n.created_at DESC
+    LIMIT :limit OFFSET :offset
+");
+$stmt->bindValue(':limit',  $limit,  PDO::PARAM_INT);
+$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+$stmt->execute();
+$nicknames = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+?>
 <!doctype html>
-<html lang="en">
+<html lang="<?= h($lang) ?>">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Clicuha</title>
-  <!-- Bootstrap CSS -->
+  <title>Clicuha — Галерея</title>
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/sema.css?v=<?= time() ?>">
 </head>
 <body class="bg-light">
-<body class="bg-light">
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="/">Clicuha</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navMain">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link active" href="/">Головна</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Клікухи</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Про проєкт</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Контакти</a></li>
-        </ul>
+
+<?php require __DIR__.'/partials/navbar.php'; ?>
+
+<main class="container py-4">
+
+  <h1 class="h4 mb-3">Hello world</h1>
+  <p class="text-muted">Галерея творчих клікух. Створюй образ, дивись інших, грайся з персонажами.</p>
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="h4">Галерея</h2>
+
+      <a href="/cabinet.php?open=create" class="btn btn-sm btn-primary">
+        Створити клікуху
+      </a>
+  </div>
+
+  <div class="row g-3">
+
+    <?php if (!$nicknames): ?>
+        <div class="col-12">
+            <div class="alert alert-secondary">Поки нічого немає.</div>
+        </div>
+    <?php endif; ?>
+
+    <?php foreach ($nicknames as $n): ?>
+      <div class="col-12 col-sm-6 col-lg-4">
+        <div class="card h-100">
+          <div class="card-body d-flex flex-column">
+
+            <h3 class="h5 mb-1"><?= h($n['title']) ?></h3>
+
+            <?php if ($n['slug']): ?>
+              <div class="text-muted small">@<?= h($n['slug']) ?></div>
+            <?php endif; ?>
+
+            <div class="mt-1 mb-2">
+              <?php if (!$n['user_id']): ?>
+                <span class="badge bg-success">Вільна</span>
+              <?php else: ?>
+                <?php if ((int)$n['is_anonymous'] === 0 && $n['author_username']): ?>
+                    <span class="badge bg-secondary">Автор: @<?= h($n['author_username']) ?></span>
+                <?php else: ?>
+                    <span class="badge bg-secondary">Вже належить</span>
+                <?php endif; ?>
+              <?php endif; ?>
+            </div>
+
+            <?php if ($n['description']): ?>
+                <p class="small text-muted mb-1">
+                  <?= h(mb_substr($n['description'], 0, 100)) ?>…
+                </p>
+            <?php endif; ?>
+
+            <a href="view.php?id=<?= (int)$n['id'] ?>" class="btn btn-sm btn-outline-primary mt-auto">
+              Go →
+            </a>
+
+          </div>
+        </div>
       </div>
-    </div>
-  </nav>
+    <?php endforeach; ?>
 
-  <!-- Main -->
-  <main class="container py-5">
-    <div class="text-center">
-      <h1 class="display-4 mb-3">Hello world</h1>
-      <p class="lead">Bootstrap підключено. Далі будуємо Clicuha.</p>
-    </div>
-  </main>
+  </div>
 
-  <!-- Footer -->
-  <footer class="border-top py-4">
-    <div class="container text-center small text-muted">
-      © <span id="y"></span> Clicuha
-    </div>
-  </footer>
+  <?php if ($totalPages > 1): ?>
+    <nav>
+      <ul class="pagination justify-content-center mt-4">
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
-</body>
+        <li class="page-item <?= $page <= 1 ? 'disabled' : '' ?>">
+          <a class="page-link" href="?page=<?= $page-1 ?>">«</a>
+        </li>
 
-<div class="container py-5 text-center">
-  <h1 class="display-4 mb-4">Hello world</h1>
-  <p class="lead">Bootstrap підключено. Далі робимо Clicuha.</p>
-</div>
+        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+          <li class="page-item <?= $i === $page ? 'active' : '' ?>">
+            <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+          </li>
+        <?php endfor; ?>
 
-<!-- Bootstrap JS -->
+        <li class="page-item <?= $page >= $totalPages ? 'disabled' : '' ?>">
+          <a class="page-link" href="?page=<?= $page+1 ?>">»</a>
+        </li>
+
+      </ul>
+    </nav>
+  <?php endif; ?>
+
+</main>
+
+<footer class="border-top py-3 mt-4 text-center small text-muted">
+  © <?= date('Y') ?> Clicuha
+</footer>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
-
-
