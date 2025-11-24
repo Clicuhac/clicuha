@@ -1,0 +1,14 @@
+name: Deploy via HTTP hook
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: call hook
+        run: |
+           curl -fsSL "https://clicuha.com/api/gh_ab12cd.php?token=${{ secrets.CLICUHA_DEPLOY_TOKEN }}"
