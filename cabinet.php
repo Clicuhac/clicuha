@@ -11,10 +11,12 @@ $userTheme = $_SESSION['cabinet_theme'] ?? 'classic';
     <meta charset="UTF-8">
     <title>Кабінет</title>
 
-    <!-- Базовий стиль -->
-    <link rel="stylesheet" href="assets/css/cabinet-base.css">
+    <!-- Глобальні стилі сайту -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/sema.css">
 
-    <!-- Тема -->
+    <!-- Стилі кабінету -->
+    <link rel="stylesheet" href="assets/css/cabinet-base.css">
     <link rel="stylesheet" href="assets/css/themes/<?= htmlspecialchars($userTheme) ?>.css">
 </head>
 
