@@ -1,6 +1,6 @@
 /* Базовий макет кабінету Clicuha */
 
-/* Значення за замовчуванням (їх можна перевизначати в темах) */
+/* Значення за замовчуванням (потім можуть перевизначатися темами) */
 :root {
     --cabinet-bg: #f3f4f6;
     --cabinet-card-bg: #ffffff;
@@ -11,38 +11,42 @@
     --cabinet-muted: #6b7280;
 }
 
-/* Фон для сторінки з темою */
-body[class*="cabinet-theme-"] {
+/* Стиль для сторінки кабінету */
+body.cabinet-page {
     background: var(--cabinet-bg);
 }
 
-/* Головна сітка */
+/* Обгортка (щоб не липло до країв) */
+.cabinet-shell {
+    padding: 24px 16px 40px 16px;
+}
+
+/* Головна сітка кабінету */
 .cabinet-layout {
     max-width: 1200px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 240px minmax(0, 1.3fr) minmax(0, 1.3fr) minmax(0, 1.1fr);
+    grid-template-columns: 260px minmax(0, 1.3fr) minmax(0, 1.3fr) minmax(0, 1.1fr);
     gap: 24px;
     align-items: stretch;
-    padding: 16px 0 40px 0;
 }
 
 /* Адаптивка */
 @media (max-width: 1100px) {
     .cabinet-layout {
-        grid-template-columns: 220px minmax(0, 1.4fr);
+        grid-template-columns: 230px minmax(0, 1.4fr);
         grid-template-rows: auto auto auto;
         grid-template-areas:
             "sidebar events"
-            "personal extra"
+            "personal library"
             "ads ads";
     }
 
-    .cabinet-sidebar   { grid-area: sidebar; }
-    .cabinet-events    { grid-area: events; }
-    .cabinet-personal  { grid-area: personal; }
-    .cabinet-extra     { grid-area: extra; }
-    .cabinet-ads       { grid-area: ads; }
+    .cabinet-sidebar { grid-area: sidebar; }
+    .cabinet-events  { grid-area: events; }
+    .cabinet-personal{ grid-area: personal; }
+    .cabinet-library { grid-area: library; }
+    .cabinet-ads     { grid-area: ads; }
 }
 
 @media (max-width: 768px) {
@@ -52,17 +56,13 @@ body[class*="cabinet-theme-"] {
             "sidebar"
             "events"
             "personal"
-            "extra"
+            "library"
             "ads";
     }
 }
 
-/* Карточки-зони */
-.cabinet-sidebar,
-.cabinet-events,
-.cabinet-personal,
-.cabinet-extra,
-.cabinet-ads {
+/* Універсальна панель */
+.cabinet-panel {
     background: var(--cabinet-card-bg);
     border-radius: 16px;
     border: 1px solid var(--cabinet-card-border);
@@ -72,18 +72,15 @@ body[class*="cabinet-theme-"] {
 }
 
 /* Заголовки блоків */
-.cabinet-sidebar h3,
-.cabinet-events h3,
-.cabinet-personal h3,
-.cabinet-extra h3,
-.cabinet-ads h3 {
-    font-size: 1.1rem;
+.cabinet-panel h3 {
+    font-size: 1.05rem;
     font-weight: 600;
     margin-bottom: 12px;
     color: var(--cabinet-heading);
+    letter-spacing: 0.01em;
 }
 
-/* Бічне меню */
+/* Ліва колонка: меню */
 .cabinet-sidebar ul {
     list-style: none;
     padding-left: 0;
@@ -104,18 +101,14 @@ body[class*="cabinet-theme-"] {
     text-decoration: underline;
 }
 
-/* Плейсхолдери */
+/* Плейсхолдерний текст */
 .placeholder {
     font-size: 0.95rem;
     color: var(--cabinet-muted);
     font-style: italic;
 }
 
-/* Блок особистої печери */
-.cabinet-personal p {
-    margin-bottom: 10px;
-}
-
+/* Підпис під кнопкою в "Моя печера" */
 .cabinet-personal small {
     font-size: 0.85rem;
     color: var(--cabinet-muted);
@@ -125,4 +118,5 @@ body[class*="cabinet-theme-"] {
 .cabinet-ads {
     font-size: 0.9rem;
 }
+
 
