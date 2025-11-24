@@ -1,39 +1,128 @@
-/* Головна сітка кабінету */
+/* Базовий макет кабінету Clicuha */
+
+/* Значення за замовчуванням (їх можна перевизначати в темах) */
+:root {
+    --cabinet-bg: #f3f4f6;
+    --cabinet-card-bg: #ffffff;
+    --cabinet-card-border: rgba(148, 163, 184, 0.35);
+    --cabinet-card-shadow: 0 8px 25px rgba(15, 23, 42, 0.06);
+    --cabinet-heading: #111827;
+    --cabinet-text: #374151;
+    --cabinet-muted: #6b7280;
+}
+
+/* Фон для сторінки з темою */
+body[class*="cabinet-theme-"] {
+    background: var(--cabinet-bg);
+}
+
+/* Головна сітка */
 .cabinet-layout {
+    max-width: 1200px;
+    margin: 0 auto;
     display: grid;
-    grid-template-columns: 240px 1fr 1fr 1fr 260px;
-    grid-gap: 20px;
-    padding: 20px;
+    grid-template-columns: 240px minmax(0, 1.3fr) minmax(0, 1.3fr) minmax(0, 1.1fr);
+    gap: 24px;
+    align-items: stretch;
+    padding: 16px 0 40px 0;
 }
 
-/* Ліва панель */
-.cabinet-sidebar {
-    background: #f7f7f7;
-    border-radius: 8px;
-    padding: 15px;
+/* Адаптивка */
+@media (max-width: 1100px) {
+    .cabinet-layout {
+        grid-template-columns: 220px minmax(0, 1.4fr);
+        grid-template-rows: auto auto auto;
+        grid-template-areas:
+            "sidebar events"
+            "personal extra"
+            "ads ads";
+    }
+
+    .cabinet-sidebar   { grid-area: sidebar; }
+    .cabinet-events    { grid-area: events; }
+    .cabinet-personal  { grid-area: personal; }
+    .cabinet-extra     { grid-area: extra; }
+    .cabinet-ads       { grid-area: ads; }
 }
 
-/* Стрічка подій */
+@media (max-width: 768px) {
+    .cabinet-layout {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas:
+            "sidebar"
+            "events"
+            "personal"
+            "extra"
+            "ads";
+    }
+}
+
+/* Карточки-зони */
+.cabinet-sidebar,
 .cabinet-events,
 .cabinet-personal,
-.cabinet-extra {
-    background: #ffffff;
-    border-radius: 8px;
-    padding: 15px;
-    min-height: 500px;
+.cabinet-extra,
+.cabinet-ads {
+    background: var(--cabinet-card-bg);
+    border-radius: 16px;
+    border: 1px solid var(--cabinet-card-border);
+    box-shadow: var(--cabinet-card-shadow);
+    padding: 18px 20px;
+    color: var(--cabinet-text);
 }
 
-/* Права колонка (реклама) */
-.cabinet-ads {
-    background: #f2f2f2;
-    border-left: 3px solid #ddd;
-    padding: 15px;
+/* Заголовки блоків */
+.cabinet-sidebar h3,
+.cabinet-events h3,
+.cabinet-personal h3,
+.cabinet-extra h3,
+.cabinet-ads h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--cabinet-heading);
+}
+
+/* Бічне меню */
+.cabinet-sidebar ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.cabinet-sidebar li + li {
+    margin-top: 6px;
+}
+
+.cabinet-sidebar a {
+    text-decoration: none;
+    color: #2563eb;
+    font-size: 0.95rem;
+}
+
+.cabinet-sidebar a:hover {
+    text-decoration: underline;
 }
 
 /* Плейсхолдери */
 .placeholder {
-    padding: 40px;
-    text-align: center;
+    font-size: 0.95rem;
+    color: var(--cabinet-muted);
     font-style: italic;
-    color: #777;
 }
+
+/* Блок особистої печери */
+.cabinet-personal p {
+    margin-bottom: 10px;
+}
+
+.cabinet-personal small {
+    font-size: 0.85rem;
+    color: var(--cabinet-muted);
+}
+
+/* Блок реклами */
+.cabinet-ads {
+    font-size: 0.9rem;
+}
+
