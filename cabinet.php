@@ -21,7 +21,7 @@ $userTheme = $_SESSION['cabinet_theme'] ?? 'classic';
     <link rel="stylesheet" href="/assets/css/themes/<?= h($userTheme) ?>.css">
 </head>
 
-<body class="cabinet-theme-<?= h($userTheme) ?>">
+<body class="bg-light cabinet-theme-<?= h($userTheme) ?>">
 
 <?php include __DIR__ . '/partials/navbar.php'; ?>
 
