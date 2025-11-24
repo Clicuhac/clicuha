@@ -1,0 +1,20 @@
+/* «Vigvam» – більш “дерев’яна” тема */
+
+.cabinet-theme-vigvam .cabinet-layout {
+    background: linear-gradient(180deg, #fef9f1, #e7f5e9);
+}
+
+.cabinet-theme-vigvam .cabinet-sidebar,
+.cabinet-theme-vigvam .cabinet-events,
+.cabinet-theme-vigvam .cabinet-personal,
+.cabinet-theme-vigvam .cabinet-extra,
+.cabinet-theme-vigvam .cabinet-ads {
+    background: #fffdf7;
+    border-radius: 14px;
+    box-shadow: 0 3px 10px rgba(120,90,60,0.25);
+    border: 1px solid rgba(139, 69, 19, 0.4);
+}
+
+.cabinet-theme-vigvam h3 {
+    color: #8b4513;
+}
