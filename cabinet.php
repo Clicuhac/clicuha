@@ -2,7 +2,7 @@
 require __DIR__ . '/config.php';
 session_start();
 
-// тема інтер'єру кабінету
+// Тема інтер'єру кабінету (з сесії, дефолт — classic)
 $userTheme = $_SESSION['cabinet_theme'] ?? 'classic';
 ?>
 <!DOCTYPE html>
@@ -12,7 +12,7 @@ $userTheme = $_SESSION['cabinet_theme'] ?? 'classic';
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Кабінет</title>
 
-    <!-- Глобальні стилі сайту (як на інших сторінках) -->
+    <!-- Глобальні стилі сайту -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/sema.css">
 
@@ -25,61 +25,65 @@ $userTheme = $_SESSION['cabinet_theme'] ?? 'classic';
 
 <?php include __DIR__ . '/partials/navbar.php'; ?>
 
-<main class="cabinet-layout py-4">
+<main class="container-fluid mt-4">
+    <div class="cabinet-layout">
 
-    <!-- Ліва колонка: управління -->
-    <aside class="cabinet-sidebar">
-        <h3>Управління</h3>
-        <ul>
-            <li><a href="my_nicknames.php">Всі мої клікухи</a></li>
-            <li><a href="create_event.php">Створити подію</a></li>
-            <li><a href="settings.php">Налаштування</a></li>
-            <li><a href="theme.php">Інтер'єр кабінету</a></li>
-        </ul>
-    </aside>
+        <!-- Ліва колонка: управління -->
+        <aside class="cabinet-sidebar">
+            <h3>Управління</h3>
+            <ul>
+                <li><a href="my_nicknames.php">Всі мої клікухи</a></li>
+                <li><a href="add_bootstrap.php">Створити клікуху</a></li>
+                <li><a href="settings.php">Налаштування</a></li>
+                <li><a href="theme.php">Інтер'єр кабінету</a></li>
+            </ul>
+        </aside>
 
-    <!-- Події на сайті -->
-    <section class="cabinet-events">
-        <h3>Події Clicuha</h3>
-    </section>
+        <!-- Події на сайті -->
+        <section class="cabinet-events">
+            <h3>Події Clicuha</h3>
+            <div class="placeholder">
+                Тут буде стрічка подій — батли, тусовки, галереї…
+            </div>
+        </section>
 
-         <!-- Особистий простір користувача -->
-    <section class="cabinet-personal">
-        <h3>Моя печера</h3>
+        <!-- Особистий простір користувача -->
+        <section class="cabinet-personal">
+            <h3>Моя печера</h3>
 
-        <p class="mb-3 text-muted">
-            Тут твій особистий контент, нотатки, чернетки…
-        </p>
+            <p class="mb-3 text-muted">
+                Тут твій особистий контент, нотатки, чернетки…
+            </p>
 
-        <a href="add_bootstrap.php" class="btn btn-primary w-100 mb-2">
-            Я – Творець
-        </a>
+            <a href="add_bootstrap.php" class="btn btn-primary w-100 mb-2">
+                Я – Творець
+            </a>
 
-        <small class="text-muted">
-            Натисни, щоб створити свою першу клікуху або нову істоту для галереї.
-        </small>
-    </section>
+            <small class="text-muted">
+                Натисни, щоб створити свою першу клікуху або нову істоту для галереї.
+            </small>
+        </section>
 
+        <!-- Архів / бібліотека -->
+        <section class="cabinet-extra">
+            <h3>Архів / Бібліотека</h3>
+            <div class="placeholder">
+                Тут будуть матеріали, історія, клікухи…
+            </div>
+        </section>
 
+        <!-- Права колонка: реклама -->
+        <aside class="cabinet-ads">
+            <div class="ads-block">
+                Тут буде контекстна реклама Clicuha Bot Network
+            </div>
+        </aside>
 
-    <!-- Архів / бібліотека -->
-    <section class="cabinet-extra">
-        <h3>Архів / Бібліотека</h3>
-        <div class="placeholder">
-            Тут будуть матеріали, історія, клікухи…
-        </div>
-    </section>
-
-    <!-- Права колонка: реклама -->
-    <aside class="cabinet-ads">
-        <div class="ads-block">
-            Тут буде контекстна реклама Clicuha Bot Network
-        </div>
-    </aside>
-
+    </div>
 </main>
 
 </body>
 </html>
+
 
 
