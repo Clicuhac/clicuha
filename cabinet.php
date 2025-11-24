@@ -48,21 +48,22 @@ $userTheme = $_SESSION['cabinet_theme'] ?? 'classic';
         </section>
 
         <!-- Особистий простір користувача -->
-        <section class="cabinet-personal">
-            <h3>Моя печера</h3>
+       <section class="cabinet-personal">
+    <h3>Моя печера</h3>
 
-            <p class="mb-3 text-muted">
-                Тут твій особистий контент, нотатки, чернетки…
-            </p>
+    <p class="mb-3 text-muted">
+        Тут твій особистий контент, нотатки, чернетки…
+    </p>
 
-            <a href="add_bootstrap.php" class="btn btn-primary w-100 mb-2">
-                Я – Творець
-            </a>
+    <a href="add_bootstrap.php" class="btn btn-primary w-100 mb-2">
+        Я – Творець
+    </a>
 
-            <small class="text-muted">
-                Натисни, щоб створити свою першу клікуху або нову істоту для галереї.
-            </small>
-        </section>
+    <small class="text-muted">
+        Натисни, щоб створити свою першу клікуху або нову істоту для галереї.
+    </small>
+</section>
+
 
         <!-- Архів / бібліотека -->
         <section class="cabinet-extra">
