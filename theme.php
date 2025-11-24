@@ -1,68 +1,55 @@
 <?php
-require __DIR__ . '/config.php';
-session_start();
+require __DIR__ . '/config.php'; // сесія вже стартує тут
 
-// Доступні теми: ключ = значення, яке підставляємо в CSS-файл
-$availableThemes = [
-    'classic' => 'Classic',
-    'cave'    => 'Моя печера',
-    'palace'  => 'Мій палац',
-    'vigvam'  => 'My Vigvam',
-];
+// Поточна тема (щоб select підсвітив обрану)
+$currentTheme = $_SESSION['cabinet_theme'] ?? 'classic';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $theme = $_POST['theme'] ?? 'classic';
 
-    // захист від сміття
-    if (!array_key_exists($theme, $availableThemes)) {
-        $theme = 'classic';
-    }
-
-    // зберігаємо в сесії
+    // пишемо в сесію
     $_SESSION['cabinet_theme'] = $theme;
 
-    // опційно — спробувати зберегти в БД, якщо є таке поле
-    if (!empty($_SESSION['user_id'] ?? null)) {
-        try {
-            $stmt = $pdo->prepare("UPDATE users SET cabinet_theme = :t WHERE id = :id");
-            $stmt->execute([
-                ':t'  => $theme,
-                ':id' => $_SESSION['user_id'],
-            ]);
-        } catch (Throwable $e) {
-            // тихо ігноруємо помилку, щоб не ламати сторінку
-        }
+    // зберігаємо в БД, якщо є user_id
+    if (!empty($_SESSION['user_id'])) {
+        $stmt = $pdo->prepare("UPDATE users SET cabinet_theme = :t WHERE id = :id");
+        $stmt->execute([
+            ':t'  => $theme,
+            ':id' => $_SESSION['user_id'],
+        ]);
     }
 
-    // Повертаємось в кабінет
-    header('Location: cabinet.php');
+    header("Location: cabinet.php");
     exit;
 }
-
-$current = $_SESSION['cabinet_theme'] ?? 'classic';
 ?>
 <!DOCTYPE html>
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
     <title>Інтер'єр кабінету</title>
+    <link rel="stylesheet" href="assets/css/cabinet-base.css">
 </head>
-<body>
-<h3>Оберіть інтер'єр кабінету:</h3>
+<body class="cabinet-theme-<?= htmlspecialchars($currentTheme, ENT_QUOTES, 'UTF-8') ?>">
 
-<form method="post">
-    <select name="theme">
-        <?php foreach ($availableThemes as $value => $label): ?>
-            <option value="<?= h($value) ?>" <?= $current === $value ? 'selected' : '' ?>>
-                <?= h($label) ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
+<?php include 'partials/navbar.php'; ?>
 
-    <button type="submit">Застосувати</button>
-</form>
+<main class="cabinet-theme-page">
+    <h3>Оберіть інтер'єр кабінету:</h3>
+
+    <form method="post">
+        <select name="theme">
+            <option value="classic" <?= $currentTheme === 'classic' ? 'selected' : '' ?>>Classic</option>
+            <option value="cave" <?= $currentTheme === 'cave' ? 'selected' : '' ?>>Моя печера (поки не готово)</option>
+            <option value="palace" <?= $currentTheme === 'palace' ? 'selected' : '' ?>>Мой дворец (поки не готово)</option>
+            <option value="vigvam" <?= $currentTheme === 'vigvam' ? 'selected' : '' ?>>My Vigvam (поки не готово)</option>
+        </select>
+        <button type="submit">Застосувати</button>
+    </form>
+</main>
 
 </body>
 </html>
+
 
 
