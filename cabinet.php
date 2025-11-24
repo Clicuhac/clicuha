@@ -46,7 +46,7 @@ $userTheme = $_SESSION['cabinet_theme'] ?? 'classic';
         </div>
     </section>
 
-      <!-- Особистий простір користувача -->
+         <!-- Особистий простір користувача -->
     <section class="cabinet-personal">
         <h3>Моя печера</h3>
 
@@ -62,6 +62,7 @@ $userTheme = $_SESSION['cabinet_theme'] ?? 'classic';
             Натисни, щоб створити свою першу клікуху або нову істоту для галереї.
         </small>
     </section>
+
 
 
     <!-- Архів / бібліотека -->
