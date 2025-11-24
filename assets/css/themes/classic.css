@@ -1,0 +1,11 @@
+body.cabinet-theme-classic {
+    background: #ededed;
+    color: #222;
+}
+
+.cabinet-sidebar h3,
+.cabinet-events h3,
+.cabinet-personal h3,
+.cabinet-extra h3 {
+    margin-bottom: 10px;
+}
