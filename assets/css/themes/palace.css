@@ -1,0 +1,21 @@
+/* «Палац» */
+
+.cabinet-theme-palace .cabinet-layout {
+    background: linear-gradient(135deg, #fdf5e6, #f7e4ff);
+}
+
+.cabinet-theme-palace .cabinet-sidebar,
+.cabinet-theme-palace .cabinet-events,
+.cabinet-theme-palace .cabinet-personal,
+.cabinet-theme-palace .cabinet-extra,
+.cabinet-theme-palace .cabinet-ads {
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 6px 18px rgba(180,140,200,0.35);
+    border: 1px solid rgba(255, 215, 0, 0.4);
+}
+
+.cabinet-theme-palace h3 {
+    font-family: "Georgia", serif;
+    letter-spacing: 0.03em;
+}
