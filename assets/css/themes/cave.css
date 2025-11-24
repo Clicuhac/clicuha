@@ -1,0 +1,20 @@
+/* «Печерна» тема */
+
+.cabinet-theme-cave .cabinet-layout {
+    background: radial-gradient(circle at top, #444 0, #111 60%);
+    color: #f2f2f2;
+}
+
+.cabinet-theme-cave .cabinet-sidebar,
+.cabinet-theme-cave .cabinet-events,
+.cabinet-theme-cave .cabinet-personal,
+.cabinet-theme-cave .cabinet-extra,
+.cabinet-theme-cave .cabinet-ads {
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+}
+
+.cabinet-theme-cave a {
+    color: #ffd36a;
+}
