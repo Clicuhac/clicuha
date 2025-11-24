@@ -1,7 +1,7 @@
 /* Класична світла тема для кабінету */
 
 .cabinet-theme-classic {
-    --cabinet-bg: linear-gradient(180deg, #f9fafb 0%, #e5f3ff 45%, #f3f4f6 100%);
+    --cabinet-bg: linear-gradient(180deg, #f9fafb 0%, #e5f3ff 40%, #f3f4f6 100%);
     --cabinet-card-bg: #ffffff;
     --cabinet-card-border: rgba(148, 163, 184, 0.45);
     --cabinet-card-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
@@ -10,12 +10,4 @@
     --cabinet-muted: #6b7280;
 }
 
-/* Трохи підкрутимо заголовки */
-.cabinet-theme-classic .cabinet-sidebar h3,
-.cabinet-theme-classic .cabinet-events h3,
-.cabinet-theme-classic .cabinet-personal h3,
-.cabinet-theme-classic .cabinet-extra h3,
-.cabinet-theme-classic .cabinet-ads h3 {
-    letter-spacing: 0.02em;
-}
 
