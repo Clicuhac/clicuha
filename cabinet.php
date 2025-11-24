@@ -41,9 +41,6 @@ $userTheme = $_SESSION['cabinet_theme'] ?? 'classic';
     <!-- Події на сайті -->
     <section class="cabinet-events">
         <h3>Події Clicuha</h3>
-        <div class="placeholder">
-            Тут буде стрічка подій — батли, тусовки, галереї…
-        </div>
     </section>
 
          <!-- Особистий простір користувача -->
