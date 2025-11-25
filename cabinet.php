@@ -1,5 +1,8 @@
 <?php
 // TEST-DEPLOY-002
+git add .
+git commit -m "deploy test 2"
+git push
 
 // CABINET VERSION: LANI-TEST-1
 
