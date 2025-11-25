@@ -6,20 +6,18 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 require_once __DIR__ . '/config.php';
-// УВАГА: мовні файли НЕ підключаємо тут окремо.
-// Логіка мов така сама, як на головній, і вже обробляється всередині header.php.
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Якщо користувач не залогінений — відправити на вхід
+// Якщо користувач не залогінений — відправляємо на сторінку входу
 if (empty($_SESSION['user_id'])) {
     header('Location: /login.php');
     exit;
 }
 
-// Опціонально — заголовок сторінки для header.php
+// Заголовок сторінки для header.php (якщо використовується)
 $pageTitle = 'Кабінет автора';
 
 require_once __DIR__ . '/partials/header.php';
