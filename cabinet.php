@@ -77,12 +77,16 @@ if (empty($_SESSION['user_id'])) {
         }
 
         .cab-card,
-        .cab-ads {
-            background: #ffffff;
-            border-radius: 1rem;
-            box-shadow: 0 10px 25px rgba(15,23,42,0.06);
-            padding: 1.5rem 1.75rem;
-        }
+.cab-ads {
+    background: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(15,23,42,0.06);
+    padding: 1.5rem 1.75rem;
+
+    /* додаємо це 👇 */
+    max-width: 900px;
+    margin: 0 auto 1rem;  /* по центру + відступ знизу */
+}
 
         .cab-card h2 {
             font-size: 1.2rem;
