@@ -1,310 +1,224 @@
 <?php
-// TEST-DEPLOY-002
-git add .
-git commit -m "deploy test 2"
-git push
+// Увімкнути помилки (на проді потім можна вимкнути)
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-// CABINET VERSION: LANI-TEST-1
-
-
+// єдина домовлена форма підключення
 require_once __DIR__ . '/config.php';
 
-// Припускаємо, що session_start() вже викликається в config.php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Перевірка авторизації
 if (empty($_SESSION['user_id'])) {
     header('Location: /login.php');
     exit;
 }
 
-$userId = (int)$_SESSION['user_id'];
-
-// Тема інтер'єру кабінету
-$allowedThemes = ['classic', 'cave', 'palace', 'vigvam'];
+// Тема інтер’єру кабінету (classic / cave / palace / vigvam ...)
 $userTheme = $_SESSION['cabinet_theme'] ?? 'classic';
-
-if (isset($_GET['theme'])) {
-    $requestedTheme = (string)$_GET['theme'];
-    if (in_array($requestedTheme, $allowedThemes, true)) {
-        $_SESSION['cabinet_theme'] = $requestedTheme;
-        $userTheme = $requestedTheme;
-    }
-    // щоб уникнути повторної відправки параметра
-    header('Location: /cabinet.php');
-    exit;
-}
-
-// Тягнемо дані користувача
-$userStmt = $pdo->prepare('SELECT id, username, email, created_at FROM users WHERE id = :id LIMIT 1');
-$userStmt->execute([':id' => $userId]);
-$user = $userStmt->fetch(PDO::FETCH_ASSOC);
-
-if (!$user) {
-    // якщо раптом користувача видалили — глушимо сесію і просимо перелогін
-    session_destroy();
-    header('Location: /login.php');
-    exit;
-}
-
-$profileError = '';
-$profileSuccess = '';
-
-// Обробка форми оновлення ніка
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['form_type'] ?? '') === 'profile') {
-    $newUsername = trim((string)($_POST['username'] ?? ''));
-
-    if ($newUsername === '') {
-        $profileError = 'Введи нік.';
-    } elseif (mb_strlen($newUsername) < 3 || mb_strlen($newUsername) > 32) {
-        $profileError = 'Нік має бути довжиною від 3 до 32 символів.';
-    } else {
-        // Перевіримо унікальність
-        $checkStmt = $pdo->prepare('SELECT COUNT(*) FROM users WHERE username = :u AND id <> :id');
-        $checkStmt->execute([
-            ':u'  => $newUsername,
-            ':id' => $userId,
-        ]);
-        $exists = (int)$checkStmt->fetchColumn();
-
-        if ($exists > 0) {
-            $profileError = 'Такий нік вже використовується. Обери інший.';
-        } else {
-            $updateStmt = $pdo->prepare('UPDATE users SET username = :u WHERE id = :id');
-            $updateStmt->execute([
-                ':u'  => $newUsername,
-                ':id' => $userId,
-            ]);
-
-            $profileSuccess   = 'Нік оновлено.';
-            $user['username'] = $newUsername;
-        }
-    }
-}
-
-// Тимчасово тягнемо всі клікухи (без фільтру по user_id)
-$nickStmt = $pdo->query("
-    SELECT id, title, slug, is_public, created_at
-    FROM nicknames
-    ORDER BY created_at DESC
-");
-$myNicknames = $nickStmt->fetchAll(PDO::FETCH_ASSOC);
-
 ?>
 <!DOCTYPE html>
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <title>Кабінет автора — Clicuha</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Кабінет автора</title>
 
-    <!-- Bootstrap + базові стилі сайту -->
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/css/sema.css?v=123">
-    <!-- Стиль інтер'єру кабінету -->
-    <link rel="stylesheet" href="/assets/css/cabinet-base.css">
+
+    <!-- Базовий стиль кабінету -->
+    <link rel="stylesheet" href="assets/css/cabinet-base.css">
+
+    <!-- Тема інтер’єру (якщо є такий css) -->
+    <link rel="stylesheet" href="assets/css/themes/<?php echo htmlspecialchars($userTheme, ENT_QUOTES); ?>.css">
+
+    <style>
+        /* Якщо немає своїх css – мінімальний запасний варіант */
+
+        body {
+            background: #f5f5f5;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+        }
+
+        main.cabinet-layout {
+            padding: 2rem 0;
+        }
+
+        .cabinet-sidebar {
+            min-height: 100%;
+        }
+
+        .cabinet-sidebar ul {
+            list-style: disc;
+            padding-left: 1.5rem;
+        }
+
+        .cabinet-sidebar a {
+            text-decoration: none;
+        }
+
+        .cabinet-card {
+            background: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            padding: 1.5rem;
+            height: 100%;
+        }
+
+        .cabinet-card h2 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .cabinet-ads {
+            background: #111827;
+            color: #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            height: 100%;
+        }
+
+        .cabinet-ads h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+        }
+    </style>
 </head>
-<body class="bg-light">
+<body>
 
-<?php require __DIR__ . '/partials/navbar.php'; ?>
+<!-- ПРОСТИЙ СТАРИЙ НАВБАР -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    <div class="container">
+        <a class="navbar-brand" href="/">Clicuha</a>
 
-<main class="cabinet-wrapper theme-<?=
-    htmlspecialchars($userTheme, ENT_QUOTES, 'UTF-8')
-?>">
-    <!-- Ліва основна частина -->
-    <section class="cabinet-main container py-4">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#mainNavbar" aria-controls="mainNavbar"
+                aria-expanded="false" aria-label="Перемкнути навігацію">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-        <h1 class="h4 mb-3">Кабінет автора</h1>
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="/index.php">Головна</a></li>
+                <li class="nav-item"><a class="nav-link" href="/gallery.php">Клікухи</a></li>
+                <li class="nav-item"><a class="nav-link" href="/about.php">Про нас</a></li>
+                <li class="nav-item"><a class="nav-link" href="/contacts.php">Контакти</a></li>
+            </ul>
 
-        <?php if ($profileError !== ''): ?>
-            <div class="alert alert-danger">
-                <?= htmlspecialchars($profileError, ENT_QUOTES, 'UTF-8') ?>
+            <div class="d-flex align-items-center gap-2">
+                <a href="/cabinet.php" class="btn btn-outline-secondary btn-sm">Кабінет</a>
+                <a href="/logout.php" class="btn btn-outline-danger btn-sm">Вийти</a>
+                <!-- Мовні кнопки чисто для вигляду, логіку потім -->
+                <a href="?lang=ua" class="btn btn-sm btn-outline-secondary">UA</a>
+                <a href="?lang=en" class="btn btn-sm btn-outline-secondary">EN</a>
+                <a href="?lang=ru" class="btn btn-sm btn-outline-secondary">RU</a>
             </div>
-        <?php endif; ?>
+        </div>
+    </div>
+</nav>
 
-        <?php if ($profileSuccess !== ''): ?>
-            <div class="alert alert-success">
-                <?= htmlspecialchars($profileSuccess, ENT_QUOTES, 'UTF-8') ?>
+<main class="cabinet-layout">
+    <div class="container">
+        <div class="row g-3">
+
+            <!-- ЛІВА КОЛОНКА: УПРАВЛІННЯ -->
+            <div class="col-12 col-md-3">
+                <aside class="cabinet-sidebar bg-light rounded-3 p-3 h-100">
+                    <h5 class="mb-3">Управління</h5>
+                    <ul class="small">
+                        <li><a href="my_nicknames.php">Всі мої клікухи</a></li>
+                        <!-- Ось тут наша зникла опція -->
+                        <li><a href="add_bootstrap.php">Створити клікуху</a></li>
+                        <li><a href="settings.php">Налаштування</a></li>
+                        <li><a href="theme.php">Інтер'єр кабінету</a></li>
+                    </ul>
+                </aside>
             </div>
-        <?php endif; ?>
 
-        <div class="row g-4">
-            <!-- Профіль -->
-            <div class="col-md-5">
-                <div class="card h-100">
-                    <div class="card-body d-flex flex-column">
-                        <h2 class="h6 mb-3">Мій профіль</h2>
+            <!-- СЕРЕДНЯ ЗОНА: КАРТКИ -->
+            <div class="col-12 col-md-6">
+                <div class="row g-3">
 
-                        <dl class="row small mb-3">
-                            <dt class="col-4">Логін:</dt>
-                            <dd class="col-8 mb-1">
-                                <?= htmlspecialchars($user['username'] ?? '', ENT_QUOTES, 'UTF-8') ?>
-                            </dd>
-
-                            <dt class="col-4">Email:</dt>
-                            <dd class="col-8 mb-1">
-                                <?= htmlspecialchars($user['email'] ?? '', ENT_QUOTES, 'UTF-8') ?>
-                            </dd>
-                        </dl>
-
-                        <form method="post" class="mt-auto">
-                            <input type="hidden" name="form_type" value="profile">
-                            <div class="mb-2">
-                                <label for="username" class="form-label small mb-1">Змінити нік</label>
-                                <input
-                                    type="text"
-                                    name="username"
-                                    id="username"
-                                    class="form-control form-control-sm"
-                                    value="<?= htmlspecialchars($user['username'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
-                                    maxlength="32"
-                                    required
-                                >
-                            </div>
-                            <button type="submit" class="btn btn-sm btn-primary">
-                                Оновити нік
-                            </button>
-                        </form>
+                    <!-- Події -->
+                    <div class="col-12">
+                        <section class="cabinet-card">
+                            <h2>Події Clicuha</h2>
+                            <p class="small text-muted mb-2">
+                                Тут з’являться батли, тусовки, галереї та інші події.
+                            </p>
+                            <p class="mb-0 small text-secondary">
+                                (поки що заглушка, потім підключимо реальні події)
+                            </p>
+                        </section>
                     </div>
-                </div>
 
-                <!-- Інтер'єр / тема кабінету -->
-                <div class="card mt-4">
-                    <div class="card-body">
-                        <h2 class="h6 mb-3">Інтер'єр кабінету</h2>
-                        <p class="small text-muted">
-                            Обери антураж: класика, печера, палац або вігвам. Це змінює настрій, але не функціонал.
+                    <!-- Моя печера -->
+                    <div class="col-12">
+                        <section class="cabinet-card text-center">
+                            <h2>Моя печера</h2>
+                            <p class="small text-muted">
+                                Особистий простір Творця. Тут житимуть твої клікухи.
+                            </p>
+                            <a href="add_bootstrap.php" class="btn btn-primary">
+                                Я — Творець
+                            </a>
+                            <p class="small text-muted mt-2 mb-0">
+                                Натисни, щоб створити свою першу клікуху
+                                або нову істоту для галереї.
+                            </p>
+                        </section>
+                    </div>
+
+                    <!-- Архів / бібліотека -->
+                    <div class="col-12">
+                        <section class="cabinet-card">
+                            <h2>Архів / Бібліотека</h2>
+                            <p class="small text-muted mb-0">
+                                Тут згодом буде список збережених історій, ілюстрацій,
+                                батлів та інших артефактів Clicuha.
+                            </p>
+                        </section>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ПРАВА КОЛОНКА: РЕКЛАМА / BOT NETWORK -->
+            <div class="col-12 col-md-3">
+                <aside class="cabinet-ads d-flex flex-column justify-content-between">
+                    <div>
+                        <h3>Реклама Clicuha Bot Network</h3>
+                        <p class="small mb-0">
+                            Тут у майбутньому можна буде показувати банери ботів,
+                            партнерські проєкти та інші веселощі.
                         </p>
-                        <div class="d-flex flex-wrap gap-2">
-                            <a href="/cabinet.php?theme=classic"
-                               class="btn btn-sm <?= $userTheme === 'classic' ? 'btn-primary' : 'btn-outline-primary' ?>">
-                                Класика
-                            </a>
-                            <a href="/cabinet.php?theme=cave"
-                               class="btn btn-sm <?= $userTheme === 'cave' ? 'btn-primary' : 'btn-outline-primary' ?>">
-                                Печера
-                            </a>
-                            <a href="/cabinet.php?theme=palace"
-                               class="btn btn-sm <?= $userTheme === 'palace' ? 'btn-primary' : 'btn-outline-primary' ?>">
-                                Палац
-                            </a>
-                            <a href="/cabinet.php?theme=vigvam"
-                               class="btn btn-sm <?= $userTheme === 'vigvam' ? 'btn-primary' : 'btn-outline-primary' ?>">
-                                Вігвам
-                            </a>
-                        </div>
                     </div>
-                </div>
+                </aside>
             </div>
 
-            <!-- Клікухи + дії -->
-            <div class="col-md-7">
-                <!-- Швидкі дії -->
-                <div class="card mb-4">
-                    <div class="card-body d-flex flex-column flex-sm-row align-items-sm-center justify-content-between">
-                        <div class="mb-3 mb-sm-0">
-                            <h2 class="h6 mb-1">Творчі дії</h2>
-                            <p class="small text-muted mb-0">
-                                Створи нову клікуху або подію в своєму всесвіті Clicuha.
-                            </p>
-                        </div>
-                        <div class="d-flex flex-wrap gap-2">
-                            <a href="/?open=create" class="btn btn-sm btn-outline-primary">
-                                Я – Творець (клікуха)
-                            </a>
-                            <a href="/create_event.php" class="btn btn-sm btn-outline-secondary">
-                                Створити подію
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Список клікух -->
-                <div class="card">
-                    <div class="card-body">
-                        <h2 class="h6 mb-3">Всі мої клікухи</h2>
-
-                        <?php if (empty($myNicknames)): ?>
-                            <p class="small text-muted mb-0">
-                                Поки що немає жодної клікухи. Натисни “Я – Творець”, щоб створити першу.
-                            </p>
-                        <?php else: ?>
-                            <div class="table-responsive">
-                                <table class="table table-sm align-middle mb-0">
-                                    <thead>
-                                    <tr>
-                                        <th>Назва</th>
-                                        <th>Slug</th>
-                                        <th class="text-center">Публічна</th>
-                                        <th>Створено</th>
-                                        <th></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <?php foreach ($myNicknames as $nick): ?>
-                                        <tr>
-                                            <td>
-                                                <?= htmlspecialchars($nick['title'] ?? '', ENT_QUOTES, 'UTF-8') ?>
-                                            </td>
-                                            <td class="small text-muted">
-                                                <?= htmlspecialchars($nick['slug'] ?? '', ENT_QUOTES, 'UTF-8') ?>
-                                            </td>
-                                            <td class="text-center">
-                                                <?php if (!empty($nick['is_public'])): ?>
-                                                    ✅
-                                                <?php else: ?>
-                                                    🔒
-                                                <?php endif; ?>
-                                            </td>
-                                            <td class="small text-muted">
-                                                <?= htmlspecialchars($nick['created_at'] ?? '', ENT_QUOTES, 'UTF-8') ?>
-                                            </td>
-                                            <td class="text-end">
-                                                <a href="/nickname.php?slug=<?= urlencode($nick['slug'] ?? '') ?>"
-                                                   class="btn btn-sm btn-link">
-                                                    Відкрити
-                                                </a>
-                                                <a href="/edit_nickname.php?id=<?= (int)$nick['id'] ?>"
-                                                   class="btn btn-sm btn-outline-secondary">
-                                                    Редагувати
-                                                </a>
-                                                <a href="/delete_nickname.php?id=<?= (int)$nick['id'] ?>"
-                                                   class="btn btn-sm btn-outline-danger"
-                                                   onclick="return confirm('Точно видалити цю клікуху?');">
-                                                    Видалити
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-                </div>
-
-            </div>
         </div>
-
-    </section>
-
-    <!-- Права колонка для майбутньої реклами / віджетів -->
-    <aside class="cabinet-ads">
-        <div class="ads-block">
-            <p class="small text-muted mb-0">
-                Тут буде контекстна реклама Clicuha Bot Network, статистика або міні-віджети.
-            </p>
-        </div>
-    </aside>
-
+    </div>
 </main>
 
 <footer class="border-top py-4 mt-4">
-    <div class="container small text-muted">
-        &copy; <?= date('Y') ?> Clicuha — міні-соцмережа кличок і персонажів.
+    <div class="container text-center small text-muted">
+        © <span id="y"></span> Clicuha
     </div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+</script>
 </body>
 </html>
+
 
 
 
