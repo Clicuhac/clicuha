@@ -1,11 +1,10 @@
 <?php
-// Кабінет автора — світла версія
+// Кабінет автора — світла версія (вертикальний макет)
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Домовлена форма підключення конфігу
 require_once __DIR__ . '/config.php';
 
 if (session_status() === PHP_SESSION_NONE) {
@@ -17,9 +16,6 @@ if (empty($_SESSION['user_id'])) {
     header('Location: /login.php');
     exit;
 }
-
-// Можемо колись підтягувати тему з БД, поки просто light
-$currentTheme = 'light';
 ?>
 <!DOCTYPE html>
 <html lang="uk">
@@ -30,17 +26,16 @@ $currentTheme = 'light';
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Локальні стилі кабінету (максимально ізольовані) -->
+    <!-- Локальні стилі кабінету (ізольовані префіксом cab-) -->
     <style>
         body.cab-body {
             background: #f5f5f7;
         }
 
-       .cab-navbar {
-    background: inherit !important; /* віддати колір глобальним стилям */
-    box-shadow: none;
-}
-
+        /* мінімальний стиль, щоб не сперечатись із глобальним */
+        .cab-navbar {
+            background-color: #f8f9fa !important;
+        }
 
         .cab-navbar .navbar-brand {
             font-weight: 700;
@@ -82,12 +77,12 @@ $currentTheme = 'light';
             text-decoration: underline;
         }
 
-        .cab-card {
+        .cab-card,
+        .cab-ads {
             background: #ffffff;
             border-radius: 1rem;
             box-shadow: 0 10px 25px rgba(15,23,42,0.06);
             padding: 1.5rem 1.75rem;
-            height: 100%;
         }
 
         .cab-card h2 {
@@ -106,10 +101,7 @@ $currentTheme = 'light';
         .cab-ads {
             background: #111827;
             color: #e5e7eb;
-            border-radius: 1rem;
             box-shadow: 0 10px 25px rgba(15,23,42,0.4);
-            padding: 1.5rem 1.75rem;
-            height: 100%;
         }
 
         .cab-ads h3 {
@@ -129,7 +121,7 @@ $currentTheme = 'light';
 </head>
 <body class="cab-body">
 
-<!-- ПРОСТИЙ СВІТЛИЙ НАВБАР -->
+<!-- ПРОСТИЙ НАВБАР (максимально близький до стандартного) -->
 <nav class="navbar navbar-expand-lg navbar-light cab-navbar">
     <div class="container">
         <a class="navbar-brand" href="/">Clicuha</a>
@@ -176,7 +168,7 @@ $currentTheme = 'light';
                 </aside>
             </div>
 
-            <!-- ВЕЛИКА ЦЕНТРАЛЬНА КОЛОНКА: ВСЕ ВЕРТИКАЛЬНО -->
+            <!-- ПРАВА КОЛОНКА: ВСЕ ВЕРТИКАЛЬНО -->
             <div class="col-12 col-md-9">
                 <div class="row g-3">
 
@@ -221,7 +213,7 @@ $currentTheme = 'light';
                         </section>
                     </div>
 
-                    <!-- Реклама Clicuha Bot Network (тепер теж у вертикальному потоці) -->
+                    <!-- Реклама Clicuha Bot Network -->
                     <div class="col-12">
                         <aside class="cab-ads">
                             <h3>Реклама Clicuha Bot Network</h3>
@@ -240,7 +232,6 @@ $currentTheme = 'light';
     </div>
 </main>
 
-
 <footer class="cab-footer border-top py-3 mt-4">
     <div class="container text-center">
         © <span id="cab-year"></span> Clicuha · CABINET v0.3-light
@@ -253,6 +244,7 @@ $currentTheme = 'light';
 </script>
 </body>
 </html>
+
 
 
 
