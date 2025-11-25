@@ -176,8 +176,8 @@ $currentTheme = 'light';
                 </aside>
             </div>
 
-            <!-- СЕРЕДНЯ КОЛОНКА: ПОДІЇ + ПЕЧЕРА + АРХІВ -->
-            <div class="col-12 col-md-6">
+            <!-- ВЕЛИКА ЦЕНТРАЛЬНА КОЛОНКА: ВСЕ ВЕРТИКАЛЬНО -->
+            <div class="col-12 col-md-9">
                 <div class="row g-3">
 
                     <!-- Події Clicuha -->
@@ -221,26 +221,25 @@ $currentTheme = 'light';
                         </section>
                     </div>
 
-                </div>
-            </div>
-
-            <!-- ПРАВА КОЛОНКА: РЕКЛАМА / BOT NETWORK -->
-            <div class="col-12 col-md-3">
-                <aside class="cab-ads d-flex flex-column justify-content-between">
-                    <div>
-                        <h3>Реклама Clicuha Bot Network</h3>
-                        <p class="mb-0">
-                            Тут у майбутньому можна буде показувати банери ботів,
-                            партнерські проєкти, квести для клікух
-                            та інші веселощі з бот-мережі.
-                        </p>
+                    <!-- Реклама Clicuha Bot Network (тепер теж у вертикальному потоці) -->
+                    <div class="col-12">
+                        <aside class="cab-ads">
+                            <h3>Реклама Clicuha Bot Network</h3>
+                            <p class="mb-0">
+                                Тут у майбутньому можна буде показувати банери ботів,
+                                партнерські проєкти, квести для клікух
+                                та інші веселощі з бот-мережі.
+                            </p>
+                        </aside>
                     </div>
-                </aside>
+
+                </div>
             </div>
 
         </div>
     </div>
 </main>
+
 
 <footer class="cab-footer border-top py-3 mt-4">
     <div class="container text-center">
