@@ -36,10 +36,11 @@ $currentTheme = 'light';
             background: #f5f5f7;
         }
 
-        .cab-navbar {
-            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-            background: #ffffff !important;
-        }
+       .cab-navbar {
+    background: inherit !important; /* віддати колір глобальним стилям */
+    box-shadow: none;
+}
+
 
         .cab-navbar .navbar-brand {
             font-weight: 700;
