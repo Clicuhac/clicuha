@@ -6,9 +6,8 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 require_once __DIR__ . '/config.php';
-require_once __DIR__ . '/lang/lang.php';
-
-
+// УВАГА: мовні файли НЕ підключаємо тут окремо.
+// Логіка мов така сама, як на головній, і вже обробляється всередині header.php.
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -251,4 +250,3 @@ require_once __DIR__ . '/partials/header.php';
 </script>
 
 <?php require_once __DIR__ . '/partials/footer.php'; ?>
-
