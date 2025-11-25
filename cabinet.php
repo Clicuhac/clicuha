@@ -116,6 +116,15 @@ if (empty($_SESSION['user_id'])) {
             font-size: 0.8rem;
             color: #6b7280;
         }
+
+        .cab-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;           /* відстань між картками */
+    max-width: 900px;    /* ширина центральної колонки */
+    margin: 0 auto;      /* по центру всередині правої частини */
+}
+
     </style>
 </head>
 <body class="cab-body">
