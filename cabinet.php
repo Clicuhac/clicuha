@@ -178,62 +178,52 @@ if (empty($_SESSION['user_id'])) {
 
             <!-- ПРАВА КОЛОНКА: ВСЕ ВЕРТИКАЛЬНО -->
             <div class="col-12 col-md-9">
-                <div class="row g-3">
+    <div class="cab-stack">
 
-                    <!-- Події Clicuha -->
-                    <div class="col-12">
-                        <section class="cab-card">
-                            <h2>Події Clicuha</h2>
-                            <p class="cab-card-muted mb-2">
-                                Тут з’являться батли, тусовки, галереї та інші події.
-                            </p>
-                            <p class="mb-0 cab-card-muted">
-                                Поки що це заглушка — потім підключимо реальні події та календар.
-                            </p>
-                        </section>
-                    </div>
+        <section class="cab-card">
+            <h2>Події Clicuha</h2>
+            <p class="cab-card-muted mb-2">
+                Тут з’являться батли, тусовки, галереї та інші події.
+            </p>
+            <p class="mb-0 cab-card-muted">
+                Поки що це заглушка — потім підключимо реальні події та календар.
+            </p>
+        </section>
 
-                    <!-- Моя печера -->
-                    <div class="col-12">
-                        <section class="cab-card text-center">
-                            <h2>Моя печера</h2>
-                            <p class="cab-card-muted">
-                                Особистий простір Творця. Тут житимуть твої клікухи, історії та галереї.
-                            </p>
-                            <a href="add_bootstrap.php" class="btn btn-primary">
-                                Я — Творець
-                            </a>
-                            <p class="cab-card-muted mt-2 mb-0">
-                                Натисни, щоб створити свою першу клікуху
-                                або нову істоту для галереї.
-                            </p>
-                        </section>
-                    </div>
+        <section class="cab-card text-center">
+            <h2>Моя печера</h2>
+            <p class="cab-card-muted">
+                Особистий простір Творця. Тут житимуть твої клікухи, історії та галереї.
+            </p>
+            <a href="add_bootstrap.php" class="btn btn-primary">
+                Я — Творець
+            </a>
+            <p class="cab-card-muted mt-2 mb-0">
+                Натисни, щоб створити свою першу клікуху
+                або нову істоту для галереї.
+            </p>
+        </section>
 
-                    <!-- Архів / Бібліотека -->
-                    <div class="col-12">
-                        <section class="cab-card">
-                            <h2>Архів / Бібліотека</h2>
-                            <p class="cab-card-muted mb-0">
-                                Тут згодом буде список збережених історій, ілюстрацій, батлів
-                                та інших артефактів Clicuha — повна хроніка твоєї творчості.
-                            </p>
-                        </section>
-                    </div>
+        <section class="cab-card">
+            <h2>Архів / Бібліотека</h2>
+            <p class="cab-card-muted mb-0">
+                Тут згодом буде список збережених історій, ілюстрацій, батлів
+                та інших артефактів Clicuha — повна хроніка твоєї творчості.
+            </p>
+        </section>
 
-                    <!-- Реклама Clicuha Bot Network -->
-                    <div class="col-12">
-                        <aside class="cab-ads">
-                            <h3>Реклама Clicuha Bot Network</h3>
-                            <p class="mb-0">
-                                Тут у майбутньому можна буде показувати банери ботів,
-                                партнерські проєкти, квести для клікух
-                                та інші веселощі з бот-мережі.
-                            </p>
-                        </aside>
-                    </div>
+        <aside class="cab-ads">
+            <h3>Реклама Clicuha Bot Network</h3>
+            <p class="mb-0">
+                Тут у майбутньому можна буде показувати банери ботів,
+                партнерські проєкти, квести для клікух
+                та інші веселощі з бот-мережі.
+            </p>
+        </aside>
 
-                </div>
+    </div>
+</div>
+
             </div>
 
         </div>
