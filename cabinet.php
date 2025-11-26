@@ -192,105 +192,38 @@ $t = $text[$lang] ?? $text['ua'];
 </head>
 <body>
 
-<!-- Навбар як на головній -->
-<nav class="navbar navbar-expand-lg cab-nav mb-4">
-
+<!-- Навбар "як на головній" у світлому варіанті -->
+<nav class="navbar navbar-expand-lg cab-nav">
     <div class="container">
+        <a class="navbar-brand" href="/index.php">Clicuha</a>
 
-        <a class="navbar-brand" href="/">Clicuha</a>
-
-        <button class="navbar-toggler" type="button" 
-                data-bs-toggle="collapse" data-bs-target="#cabinetNavbar"
-                aria-controls="cabinetNavbar" aria-expanded="false">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#cabinetNav"
+                aria-controls="cabinetNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="cabinetNavbar">
-
-            <!-- Ліва частина меню -->
+        <div class="collapse navbar-collapse" id="cabinetNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/">
-                        <?= t('menu.home') ?>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/?view=list">
-                        <?= t('menu.nick') ?>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/?page=about">
-                        <?= t('menu.about') ?>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/?page=contacts">
-                        <?= t('menu.contacts') ?>
-                    </a>
-                </li>
-
+                <li class="nav-item"><a class="nav-link" href="/index.php"><?= htmlspecialchars($t['menu_home']) ?></a></li>
+                <li class="nav-item"><a class="nav-link" href="/my_nicknames.php"><?= htmlspecialchars($t['menu_nicks']) ?></a></li>
+                <li class="nav-item"><a class="nav-link" href="/about.php"><?= htmlspecialchars($t['menu_about']) ?></a></li>
+                <li class="nav-item"><a class="nav-link" href="/contacts.php"><?= htmlspecialchars($t['menu_contacts']) ?></a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="/cabinet.php"><?= htmlspecialchars($t['menu_cabinet']) ?></a></li>
             </ul>
 
-
-            <!-- Права частина: Кабінет / Вийти або Login / Join -->
-            <div class="d-flex align-items-center gap-2 ms-auto">
-
-                <?php if (!empty($_SESSION['user_id'])): ?>
-
-                    <a href="/cabinet.php" class="btn btn-outline-dark btn-sm">
-                        <?= t('menu.cabinet') ?? 'Кабінет' ?>
-                    </a>
-
-                    <a href="/logout.php" class="btn btn-dark btn-sm">
-                        <?= t('menu.logout') ?? 'Вийти' ?>
-                    </a>
-
-                <?php else: ?>
-
-                    <a href="/login.php"
-                       class="btn btn-sm auth-btn auth-btn-login">
-                        Login
-                    </a>
-
-                    <a href="/register.php" class="nav-link">
-                        Join
-                    </a>
-
-                <?php endif; ?>
+            <div class="d-flex align-items-center gap-2">
+                <div class="btn-group" role="group">
+                    <a href="?lang=ua" class="btn btn-outline-secondary cab-lang-btn<?= $lang === 'ua' ? ' active' : '' ?>">UA</a>
+                    <a href="?lang=en" class="btn btn-outline-secondary cab-lang-btn<?= $lang === 'en' ? ' active' : '' ?>">EN</a>
+                    <a href="?lang=ru" class="btn btn-outline-secondary cab-lang-btn<?= $lang === 'ru' ? ' active' : '' ?>">RU</a>
+                </div>
+                <a href="/logout.php" class="btn btn-outline-danger btn-sm">
+                    <?= htmlspecialchars($t['menu_logout']) ?>
+                </a>
             </div>
-
-
-            <!-- Мовні кнопочки -->
-            <?php
-                $query = $_GET;
-                unset($query['lang']);
-                $baseUrl = strtok($_SERVER['REQUEST_URI'], '?');
-                $qs = http_build_query($query);
-                $qs = $qs ? $qs.'&' : '';
-            ?>
-
-            <div class="d-flex gap-2 ms-3">
-                <a href="<?= $baseUrl.'?'.$qs.'lang=uk' ?>"
-                   class="btn btn-outline-dark btn-sm lang-btn">UA</a>
-
-                <a href="<?= $baseUrl.'?'.$qs.'lang=en' ?>"
-                   class="btn btn-outline-dark btn-sm lang-btn">EN</a>
-
-                <a href="<?= $baseUrl.'?'.$qs.'lang=ru' ?>"
-                   class="btn btn-outline-dark btn-sm lang-btn">RU</a>
-            </div>
-
         </div>
-
     </div>
-
 </nav>
-
 
 <main class="cab-wrapper">
     <div class="container">
@@ -356,3 +289,7 @@ $t = $text[$lang] ?? $text['ua'];
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+
+
+
