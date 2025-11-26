@@ -192,10 +192,11 @@ $t = $text[$lang] ?? $text['ua'];
 </head>
 <body>
 
-<!-- Навбар "як на головній" у світлому варіанті -->
-<nav class="navbar navbar-expand-lg cab-nav">
+<!-- Навбар "як на головній" (темний варіант) -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4" style="background-color:#212529;">
     <div class="container">
         <a class="navbar-brand" href="/index.php">Clicuha</a>
+
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#cabinetNav"
                 aria-controls="cabinetNav" aria-expanded="false" aria-label="Toggle navigation">
