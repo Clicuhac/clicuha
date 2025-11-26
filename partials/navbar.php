@@ -39,16 +39,29 @@ $qs = $qs ? $qs . '&' : '';
 
 <?php if (!empty($_SESSION['user_id'])): ?>
 
-    <!-- Якщо авторизований -->
-    <a href="/cabinet.php" class="btn btn-outline-light btn-sm">
+    <!-- Авторизований користувач -->
+    <a href="/cabinet.php" class="btn btn-outline-dark btn-sm">
         Кабінет
     </a>
 
-    <a href="/logout.php" class="btn btn-light btn-sm">
+    <a href="/logout.php" class="btn btn-dark btn-sm">
         Вийти
     </a>
 
 <?php else: ?>
+
+    <!-- Гість -->
+    <a href="/login.php"
+       class="btn btn-sm auth-btn auth-btn-login">
+        Login
+    </a>
+
+    <a href="/register.php" class="nav-link">
+        Join
+    </a>
+
+<?php endif; ?>
+
 
     <!-- Якщо гість -->
     <a href="/login.php"
