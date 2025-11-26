@@ -193,9 +193,10 @@ $t = $text[$lang] ?? $text['ua'];
 <body>
 
 <!-- Навбар "як на головній" (темний варіант) -->
-<nav class="navbar navbar-expand-lg cab-nav mb-4">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4" style="background-color:#212576;">
     <div class="container">
         <a class="navbar-brand" href="/index.php">Clicuha</a>
+
 
 
 
