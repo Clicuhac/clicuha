@@ -62,7 +62,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <link rel="stylesheet" href="/assets/css/sema.css?v=123">
 </head>
 <body class="bg-light">
-
 <?php require __DIR__ . '/partials/navbar.php'; ?>
 
 <main class="container py-4">
