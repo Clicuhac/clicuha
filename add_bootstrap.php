@@ -39,6 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <link rel="stylesheet" href="/assets/css/sema.css">
 </head>
 <body class="bg-light">
+<?php require __DIR__ . '/partials/navbar.php'; ?>
+
   <div class="container py-4">
     <div class="mb-3">
       <a href="/" class="btn btn-link">&larr; На головну</a>
