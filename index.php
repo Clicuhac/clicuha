@@ -27,6 +27,7 @@ $stmt->bindValue(':limit',  $limit,  PDO::PARAM_INT);
 $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
 $nicknames = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$currentUserId = isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : null;
 
 ?>
 <!doctype html>
@@ -75,8 +76,14 @@ $nicknames = $stmt->fetchAll(PDO::FETCH_ASSOC);
               <div class="text-muted small">@<?= h($n['slug']) ?></div>
             <?php endif; ?>
 
+            <?php
+              $ownerId = ($n['user_id'] === null || $n['user_id'] === '') ? null : (int)$n['user_id'];
+              $isOwnedByCurrentUser = $ownerId !== null && $currentUserId !== null && $ownerId === $currentUserId;
+            ?>
             <div class="mt-1 mb-2">
-              <?php if (!$n['user_id']): ?>
+              <?php if ($isOwnedByCurrentUser): ?>
+                <span class="badge bg-secondary">Вже належить</span>
+              <?php elseif ($ownerId === null): ?>
                 <span class="badge bg-success">Вільна</span>
               <?php else: ?>
                 <?php if ((int)$n['is_anonymous'] === 0 && $n['author_username']): ?>
