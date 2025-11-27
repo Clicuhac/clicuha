@@ -10,7 +10,7 @@ $qs = http_build_query($query);
 $qs = $qs ? $qs . '&' : '';
 ?>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+<nav class="navbar navbar-expand-lg navbar-light clic-nav mb-4">
 
 
     <div class="container">
