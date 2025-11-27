@@ -140,21 +140,10 @@ $t = $text[$lang] ?? $text['ua'];
 
     <!-- Підключаємо той самий Bootstrap / стилі, що й на головній (мінімально) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/css/sema.css?v=<?= time() ?>">
     <style>
         body {
             background: #f4f5f9;
-        }
-        .cab-nav {
-            background: #ffffff;
-            border-bottom: 1px solid rgba(0,0,0,0.06);
-        }
-        .cab-nav .navbar-brand {
-            font-weight: 700;
-            letter-spacing: 0.03em;
-        }
-        .cab-nav .nav-link.active {
-            font-weight: 600;
         }
         .cab-wrapper {
             padding: 2.5rem 0 3rem;
@@ -193,7 +182,7 @@ $t = $text[$lang] ?? $text['ua'];
 <body>
 
 <!-- Навбар "як на головній" у світлому варіанті -->
-<nav class="navbar navbar-expand-lg cab-nav">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
     <div class="container">
         <a class="navbar-brand" href="/index.php">Clicuha</a>
 
