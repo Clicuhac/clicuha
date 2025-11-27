@@ -21,6 +21,9 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute(['id' => $id]);
 $clicuha = $stmt->fetch(PDO::FETCH_ASSOC);
 
+$currentUserId = $_SESSION['user_id'] ?? null;
+$canEdit      = $currentUserId && isset($clicuha['user_id']) && (int)$clicuha['user_id'] === (int)$currentUserId;
+
 if (!$clicuha) {
     http_response_code(404);
     echo 'Not found';
@@ -68,9 +71,20 @@ if (!$clicuha) {
                         <?= htmlspecialchars($clicuha['description'] ?? $clicuha['text'] ?? '') ?>
                     </p>
 
-                    <div class="mt-4 d-flex justify-content-between">
-                        <a href="index.php" class="btn btn-outline-secondary">&larr; back</a>
-                        <a href="index.php#card-<?= (int)$clicuha['id'] ?>" class="btn btn-outline-primary">All Clicuhas</a>
+                    <div class="mt-4 d-flex justify-content-between align-items-center">
+                        <div class="d-flex gap-2">
+                            <a href="index.php" class="btn btn-outline-secondary">&larr; back</a>
+                            <a href="index.php#card-<?= (int)$clicuha['id'] ?>" class="btn btn-outline-primary">All Clicuhas</a>
+                        </div>
+
+                        <?php if ($canEdit): ?>
+                            <button type="button"
+                                    class="btn btn-primary"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#editNicknameModal">
+                                Редагувати
+                            </button>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -78,5 +92,53 @@ if (!$clicuha) {
     </div>
 </div>
 
+<?php if ($canEdit): ?>
+<div class="modal fade" id="editNicknameModal" tabindex="-1" aria-labelledby="editNicknameModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form class="modal-content" method="post" action="/edit_nickname.php?id=<?= (int)$clicuha['id'] ?>">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editNicknameModalLabel">Редагувати клікуху</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label" for="edit-title">Назва</label>
+                    <input type="text"
+                           class="form-control"
+                           id="edit-title"
+                           name="title"
+                           value="<?= htmlspecialchars($clicuha['title'] ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?>"
+                           required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="edit-slug">Slug (@ім'я)</label>
+                    <input type="text"
+                           class="form-control"
+                           id="edit-slug"
+                           name="slug"
+                           value="<?= htmlspecialchars($clicuha['slug'] ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?>">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="edit-description">Опис</label>
+                    <textarea class="form-control"
+                              id="edit-description"
+                              name="description"
+                              rows="4"><?= htmlspecialchars($clicuha['description'] ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?></textarea>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Скасувати</button>
+                <button type="submit" class="btn btn-primary">Зберегти</button>
+            </div>
+        </form>
+    </div>
+</div>
+<?php endif; ?>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
