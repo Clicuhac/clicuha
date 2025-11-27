@@ -63,11 +63,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 </head>
 <body class="bg-light">
-<nav class="navbar navbar-light clic-nav mb-4">
-    <div class="container">
-        <a class="navbar-brand" href="index.php">Clicuha</a>
-    </div>
-</nav>
+
+<?php require __DIR__ . '/partials/navbar.php'; ?>
 
 <div class="container">
     <div class="row justify-content-center">

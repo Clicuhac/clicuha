@@ -1,6 +1,10 @@
 <?php
-// тут вже є t(), бо config.php підключається ДО navbar.php
-// і там оголошено $lang
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+$loggedIn = !empty($_SESSION['user_id'] ?? null);
+$page = basename($_SERVER['PHP_SELF']);
 
 // зберігаємо поточні параметри, крім lang
 $query = $_GET;
@@ -23,64 +27,86 @@ $qs = $qs ? $qs . '&' : '';
         <div class="collapse navbar-collapse" id="mainNavbar">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="/"><?= t('menu.home') ?></a>
+                    <a class="nav-link" href="/index.php">Головна</a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link" href="/?view=list"><?= t('menu.nick') ?></a>
+                    <a class="nav-link" href="/nicknames.php">Клікухи</a>
                 </li>
+
+                <?php if ($loggedIn): ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/my_nicknames.php">Мої клікухи</a>
+                    </li>
+                <?php endif; ?>
+
                 <li class="nav-item">
-                    <a class="nav-link" href="/?page=about"><?= t('menu.about') ?></a>
+                    <a class="nav-link" href="/about.php">Про нас</a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link" href="/?page=contacts"><?= t('menu.contacts') ?></a>
+                    <a class="nav-link" href="/contacts.php">Контакти</a>
                 </li>
             </ul>
-<div class="d-flex align-items-center gap-2 ms-auto">
 
-<?php if (!empty($_SESSION['user_id'])): ?>
+            <ul class="navbar-nav ms-auto align-items-center gap-2">
+                <?php if ($loggedIn): ?>
+                    <!-- Залогінений користувач -->
 
-    <!-- Якщо авторизований -->
-    <a href="/cabinet.php" class="btn btn-outline-light btn-sm">
-        Кабінет
-    </a>
+                    <!-- Нова клікуха -->
+                    <li class="nav-item">
+                        <a href="/add_bootstrap.php" class="btn btn-success btn-sm">
+                            Нова клікуха
+                        </a>
+                    </li>
 
-    <a href="/logout.php" class="btn btn-light btn-sm">
-        Вийти
-    </a>
+                    <!-- Кабінет -->
+                    <li class="nav-item">
+                        <a href="/cabinet.php" class="btn btn-outline-primary btn-sm">
+                            Кабінет
+                        </a>
+                    </li>
 
-<?php else: ?>
+                    <!-- Вийти -->
+                    <li class="nav-item">
+                        <a href="/logout.php" class="btn btn-outline-danger btn-sm">
+                            Вийти
+                        </a>
+                    </li>
 
-    <!-- Якщо гість -->
-    <a href="/login.php"
-       class="btn btn-sm auth-btn auth-btn-login">
-        Login
-    </a>
+                <?php else: ?>
+                    <!-- Гість -->
 
-    <a href="/register.php" class="nav-link">
-        Join
-    </a>
+                    <?php if ($page !== 'login.php'): ?>
+                        <li class="nav-item">
+                            <a href="/login.php" class="btn btn-warning btn-sm">
+                                Login
+                            </a>
+                        </li>
+                    <?php endif; ?>
 
-<?php endif; ?>
+                    <?php if ($page !== 'register.php'): ?>
+                        <li class="nav-item">
+                            <a href="/register.php" class="btn btn-outline-warning btn-sm">
+                                Join
+                            </a>
+                        </li>
+                    <?php endif; ?>
 
-</div>
+                <?php endif; ?>
 
-
-                <!-- Мовні кнопочки, як були -->
-     <div class="d-flex gap-2 ms-3">
-    <a href="<?= $baseUrl . '?' . $qs . 'lang=uk' ?>"
-       class="btn btn-outline-light btn-sm lang-btn">UA</a>
-
-    <a href="<?= $baseUrl . '?' . $qs . 'lang=en' ?>"
-       class="btn btn-outline-light btn-sm lang-btn">EN</a>
-
-    <a href="<?= $baseUrl . '?' . $qs . 'lang=ru' ?>"
-       class="btn btn-outline-light btn-sm lang-btn">RU</a>
-</div>
-
-
-
-            </div>
-
+                <!-- Мови завжди -->
+                <li class="nav-item">
+                    <a href="<?= $baseUrl . '?' . $qs . 'lang=uk' ?>" class="btn btn-outline-dark btn-sm">UA</a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= $baseUrl . '?' . $qs . 'lang=en' ?>" class="btn btn-outline-dark btn-sm">EN</a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= $baseUrl . '?' . $qs . 'lang=ru' ?>" class="btn btn-outline-dark btn-sm">RU</a>
+                </li>
+            </ul>
         </div>
+
     </div>
 </nav>
