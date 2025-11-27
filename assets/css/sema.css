@@ -1,4 +1,22 @@
 /* ================================
+   Базові кольори Clicuha
+   ================================ */
+
+:root {
+    --clic-primary: #2d004d;
+    --clic-primary-hover: #000000;
+    --clic-nav-bg: #e8d4ff;
+    --clic-nav-border: #b388ff;
+    --clic-yes: #1e7e34;
+    --clic-no: #c82333;
+    --clic-maybe: #b7950b;
+    --clic-join-bg: #ffe082;
+    --clic-join-border: #ffb300;
+    --clic-join-text: #4a2c00;
+    --clic-join-hover: #ffd54f;
+}
+
+/* ================================
    Clicuha: універсальні кнопки
    ================================ */
 
@@ -16,8 +34,8 @@
 
 /* YES — зелений текст */
 .clic-btn-yes {
-    color: #1e7e34;
-    border-color: #1e7e34;
+    color: var(--clic-yes);
+    border-color: var(--clic-yes);
 }
 .clic-btn-yes:hover {
     background-color: #e8f6ee;
@@ -25,8 +43,8 @@
 
 /* NO — червоний */
 .clic-btn-no {
-    color: #c82333;
-    border-color: #c82333;
+    color: var(--clic-no);
+    border-color: var(--clic-no);
 }
 .clic-btn-no:hover {
     background-color: #fde8e8;
@@ -34,8 +52,8 @@
 
 /* MAYBE — жовтий */
 .clic-btn-maybe {
-    color: #b7950b;
-    border-color: #b7950b;
+    color: var(--clic-maybe);
+    border-color: var(--clic-maybe);
 }
 .clic-btn-maybe:hover {
     background-color: #fff8d6;
@@ -60,58 +78,43 @@
 }
 
 /* Login — світла кнопка з темним текстом */
-.auth-btn-login {
-    background-color: #ffffff !important;
-    border: 1px solid #2d004d !important;
-    color: #2d004d !important;
+.auth-btn-login,
+.navbar a[href="/login.php"],
+.navbar a[href="https://clicuha.com/login.php"] {
+    background-color: #ffffff;
+    border: 1px solid var(--clic-primary);
+    color: var(--clic-primary);
+    padding: 0.25rem 0.9rem;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.9rem;
 }
-.auth-btn-login:hover {
-    background-color: #f0e4ff !important;
-    color: #000000 !important;
+
+.auth-btn-login:hover,
+.navbar a[href="/login.php"]:hover,
+.navbar a[href="https://clicuha.com/login.php"]:hover {
+    background-color: #f0e4ff;
+    color: var(--clic-primary-hover);
 }
 
 /* Join — «жовтий» семафор */
-.auth-btn-join {
-    background-color: #ffe082 !important;
-    border: 1px solid #ffb300 !important;
-    color: #4a2c00 !important;
-}
-.auth-btn-join:hover {
-    background-color: #ffd54f !important;
-    color: #3a2500 !important;
-}
-
-/* Додаткова підстраховка для селекторів у navbar */
-.navbar a[href="/login.php"],
-.navbar a[href="https://clicuha.com/login.php"] {
-    background-color: #ffffff !important;
-    border: 1px solid #2d004d !important;
-    color: #2d004d !important;
-    padding: 0.25rem 0.9rem !important;
-    border-radius: 4px !important;
-    font-weight: 600 !important;
-    font-size: 0.9rem !important;
-}
-.navbar a[href="/login.php"]:hover,
-.navbar a[href="https://clicuha.com/login.php"]:hover {
-    background-color: #f0e4ff !important;
-    color: #000000 !important;
-}
-
+.auth-btn-join,
 .navbar a[href="/register.php"],
 .navbar a[href="https://clicuha.com/register.php"] {
-    background-color: #ffe082 !important;
-    border: 1px solid #ffb300 !important;
-    color: #4a2c00 !important;
-    padding: 0.25rem 0.9rem !important;
-    border-radius: 4px !important;
-    font-weight: 600 !important;
-    font-size: 0.9rem !important;
+    background-color: var(--clic-join-bg);
+    border: 1px solid var(--clic-join-border);
+    color: var(--clic-join-text);
+    padding: 0.25rem 0.9rem;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.9rem;
 }
+
+.auth-btn-join:hover,
 .navbar a[href="/register.php"]:hover,
 .navbar a[href="https://clicuha.com/register.php"]:hover {
-    background-color: #ffd54f !important;
-    color: #3a2500 !important;
+    background-color: var(--clic-join-hover);
+    color: #3a2500;
 }
 
 /* ================================
@@ -120,20 +123,20 @@
 
 /* Головна шапка: фіолетовий бар + нижня межа */
 .navbar.navbar-dark.bg-dark {
-    background-color: #e8d4ff !important;   /* наш базовий лавандовий */
-    border-bottom: 3px solid #b388ff !important;
+    background-color: var(--clic-nav-bg);
+    border-bottom: 3px solid var(--clic-nav-border);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
 /* Колір тексту в меню + логотип */
 .navbar.navbar-dark .navbar-brand,
 .navbar.navbar-dark .nav-link {
-    color: #2d004d !important;  /* темно-фіолетовий */
+    color: var(--clic-primary);
 }
 
 .navbar.navbar-dark .navbar-brand:hover,
 .navbar.navbar-dark .nav-link:hover {
-    color: #000000 !important;
+    color: var(--clic-primary-hover);
 }
 
 /* ================================
@@ -142,9 +145,9 @@
 
 .navbar .lang-btn,
 .navbar a.btn.btn-outline-light.btn-sm {
-    color: #2d004d !important;
-    border-color: #2d004d !important;
-    background-color: rgba(255, 255, 255, 0.95) !important;
+    color: var(--clic-primary);
+    border-color: var(--clic-primary);
+    background-color: rgba(255, 255, 255, 0.95);
     font-weight: 600;
     padding: 0.15rem 0.6rem;
     border-width: 2px;
@@ -152,7 +155,7 @@
 
 .navbar .lang-btn:hover,
 .navbar a.btn.btn-outline-light.btn-sm:hover {
-    background-color: #f3e9ff !important;
+    background-color: #f3e9ff;
 }
 
 /* ================================
@@ -163,10 +166,11 @@
    з класами text-primary / text-success */
 .navbar .nav-link.text-primary,
 .navbar .nav-link.text-success {
-    color: #2d004d !important;
+    color: var(--clic-primary);
     font-weight: 600;
 }
+
 .navbar .nav-link.text-primary:hover,
 .navbar .nav-link.text-success:hover {
-    color: #000 !important;
+    color: var(--clic-primary-hover);
 }
