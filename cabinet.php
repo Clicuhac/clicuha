@@ -181,38 +181,7 @@ $t = $text[$lang] ?? $text['ua'];
 </head>
 <body>
 
-<!-- Навбар "як на головній" у світлому варіанті -->
-<nav class="navbar navbar-expand-lg navbar-light clic-nav mb-4">
-    <div class="container">
-        <a class="navbar-brand" href="/index.php">Clicuha</a>
-
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#cabinetNav"
-                aria-controls="cabinetNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="cabinetNav">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="/index.php"><?= htmlspecialchars($t['menu_home']) ?></a></li>
-                <li class="nav-item"><a class="nav-link" href="/my_nicknames.php"><?= htmlspecialchars($t['menu_nicks']) ?></a></li>
-                <li class="nav-item"><a class="nav-link" href="/about.php"><?= htmlspecialchars($t['menu_about']) ?></a></li>
-                <li class="nav-item"><a class="nav-link" href="/contacts.php"><?= htmlspecialchars($t['menu_contacts']) ?></a></li>
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="/cabinet.php"><?= htmlspecialchars($t['menu_cabinet']) ?></a></li>
-            </ul>
-
-            <div class="d-flex align-items-center gap-2">
-                <div class="btn-group" role="group">
-                    <a href="?lang=ua" class="btn btn-outline-secondary cab-lang-btn<?= $lang === 'ua' ? ' active' : '' ?>">UA</a>
-                    <a href="?lang=en" class="btn btn-outline-secondary cab-lang-btn<?= $lang === 'en' ? ' active' : '' ?>">EN</a>
-                    <a href="?lang=ru" class="btn btn-outline-secondary cab-lang-btn<?= $lang === 'ru' ? ' active' : '' ?>">RU</a>
-                </div>
-                <a href="/logout.php" class="btn btn-outline-danger btn-sm">
-                    <?= htmlspecialchars($t['menu_logout']) ?>
-                </a>
-            </div>
-        </div>
-    </div>
-</nav>
+<?php require __DIR__ . '/partials/navbar.php'; ?>
 
 <main class="cab-wrapper">
     <div class="container">
