@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 </head>
 <body class="bg-light">
-<nav class="navbar navbar-dark bg-dark mb-4">
+<nav class="navbar navbar-light clic-nav mb-4">
     <div class="container">
         <a class="navbar-brand" href="index.php">Clicuha</a>
     </div>

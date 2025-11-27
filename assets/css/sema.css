@@ -121,22 +121,36 @@
    Верхнє меню Clicuha (navbar)
    ================================ */
 
-/* Головна шапка: фіолетовий бар + нижня межа */
-.navbar.navbar-dark.bg-dark {
+.clic-nav {
     background-color: var(--clic-nav-bg);
-    border-bottom: 3px solid var(--clic-nav-border);
+    border-top: 3px solid var(--clic-nav-border);
+    border-bottom: 1px solid rgba(179, 136, 255, 0.35);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
-/* Колір тексту в меню + логотип */
-.navbar.navbar-dark .navbar-brand,
-.navbar.navbar-dark .nav-link {
+.clic-nav .navbar-brand,
+.clic-nav .nav-link,
+.clic-nav .navbar-text {
+    color: var(--clic-primary);
+    font-weight: 600;
+}
+
+.clic-nav .nav-link.active {
+    color: var(--clic-primary-hover);
+}
+
+.clic-nav .navbar-brand:hover,
+.clic-nav .nav-link:hover {
+    color: var(--clic-primary-hover);
+}
+
+.clic-nav .navbar-toggler {
+    border-color: var(--clic-primary);
     color: var(--clic-primary);
 }
 
-.navbar.navbar-dark .navbar-brand:hover,
-.navbar.navbar-dark .nav-link:hover {
-    color: var(--clic-primary-hover);
+.clic-nav .navbar-toggler:focus {
+    box-shadow: 0 0 0 0.15rem rgba(179, 136, 255, 0.45);
 }
 
 /* ================================
