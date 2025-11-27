@@ -1,5 +1,5 @@
 /* ================================
-   Стандарт кнопок Clicuha
+   Clicuha: універсальні кнопки
    ================================ */
 
 .clic-btn {
@@ -45,133 +45,18 @@
 .clic-btn + .clic-btn {
     margin-left: 10px;
 }
-/* ===== Auth buttons in navbar ===== */
 
+/* ================================
+   Auth buttons (Login / Join)
+   ================================ */
+
+/* Базовий стиль для всіх auth-кнопок */
 .auth-btn {
-    border-width: 2px;
-    border-radius: 999px;      /* таблетка */
+    padding: 4px 14px;
+    border-radius: 6px;
     font-weight: 500;
-    padding-inline: 14px;
-    padding-block: 4px;
-}
-
-/* Login / Logout – світлий контур на темній шапці */
-.navbar-dark .auth-btn.btn-outline-light {
-    color: #ffffff;
-    border-color: #ffffff;
-}
-
-/* Join – жовта «привітальна» кнопка */
-.navbar-dark .auth-btn-join.btn-warning {
-    background-color: #fcf36d;
-    border-color: #e0c800;
-    color: #333333;
-}
-.navbar-dark .auth-btn-join.btn-warning:hover {
-    background-color: #f5e629;
-    border-color: #d4b900;
-}
-/* ===== Clicuha: верхнє меню (оновлено) ===== */
-
-.navbar.navbar-dark.bg-dark {
-    /* світліший, але більш насичений фіолетовий */
-    background-color: #e4ccff !important;
-    /* чітка нижня лінія, щоб не було відчуття "розмазаної" шапки */
-    border-bottom: 3px solid #c09bff !important;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-}
-
-/* колір тексту в меню + логотип */
-.navbar.navbar-dark .navbar-brand,
-.navbar.navbar-dark .nav-link {
-    color: #2d004d !important;   /* темно-фіолетовий */
-}
-
-.navbar.navbar-dark .navbar-brand:hover,
-.navbar.navbar-dark .nav-link:hover {
-    color: #000000 !important;
-}
-
-
-/* Мовні кнопки в шапці */
-.navbar a.btn.btn-outline-light.btn-sm,
-.navbar .lang-btn {
-    color: #2d004d !important;
-    border-color: #2d004d !important;
-    background-color: rgba(255, 255, 255, 0.95) !important;
-    font-weight: 600;
-    padding: 0.15rem 0.6rem;
-    border-width: 2px;
-}
-
-.navbar a.btn.btn-outline-light.btn-sm:hover,
-.navbar .lang-btn:hover {
-    background-color: #f3e9ff !important;
-}
-/* ==== CLICUHA: виправлення Login / Join ==== */
-.navbar .nav-link.text-primary,
-.navbar .nav-link.text-success {
-    color: #2d004d !important;        /* темний фіолетовий – добре видно */
-    font-weight: 600;
-}
-
-.navbar .nav-link.text-primary:hover,
-.navbar .nav-link.text-success:hover {
-    color: #000 !important;           /* чорний при наведенні */
-}
-/* ==== CLICUHA: нижня межа фіолетового бара ==== */
-.navbar.navbar-dark.bg-dark {
-    border-bottom: 3px solid #b388ff !important; 
-}
-.navbar.navbar-dark.bg-dark {
-    background-color: #e8d4ff !important;  /* трохи темніший */
-}
-/* ==== Clicuha: видимі кнопки Login / Join у хедері ==== */
-
-/* Загальний стиль для обох */
-.navbar a[href="/login.php"],
-.navbar a[href="/register.php"],
-.navbar .auth-btn {
-    padding: 0.25rem 0.9rem !important;
-    border-radius: 4px !important;
-    font-weight: 600 !important;
-    font-size: 0.9rem !important;
-}
-
-/* Login — світла кнопка з темним текстом */
-.navbar a[href="/login.php"],
-.navbar .auth-btn-login {
-    background-color: #ffffff !important;
-    border: 1px solid #2d004d !important;
-    color: #2d004d !important;
-}
-
-.navbar a[href="/login.php"]:hover,
-.navbar .auth-btn-login:hover {
-    background-color: #f0e4ff !important;
-    color: #000000 !important;
-}
-
-/* Join — легкий «золотистий» акцент */
-.navbar a[href="/register.php"],
-.navbar .auth-btn-join {
-    background-color: #ffe082 !important;
-    border: 1px solid #ffb300 !important;
-    color: #4a2c00 !important;
-}
-
-.navbar a[href="/register.php"]:hover,
-.navbar .auth-btn-join:hover {
-    background-color: #ffd54f !important;
-    color: #3a2500 !important;
-}
-/* ===== Clicuha: кнопки Login / Join в шапці ===== */
-
-.auth-btn {
-    padding: 0.25rem 0.9rem !important;
-    border-radius: 4px !important;
-    font-weight: 600 !important;
-    font-size: 0.9rem !important;
+    border: 2px solid transparent;
+    font-size: 0.9rem;
 }
 
 /* Login — світла кнопка з темним текстом */
@@ -180,7 +65,6 @@
     border: 1px solid #2d004d !important;
     color: #2d004d !important;
 }
-
 .auth-btn-login:hover {
     background-color: #f0e4ff !important;
     color: #000000 !important;
@@ -192,26 +76,97 @@
     border: 1px solid #ffb300 !important;
     color: #4a2c00 !important;
 }
-
 .auth-btn-join:hover {
     background-color: #ffd54f !important;
     color: #3a2500 !important;
 }
-.auth-btn {
-    padding: 4px 14px;
-    border-radius: 6px;
-    font-weight: 500;
-    border: 2px solid transparent;
+
+/* Додаткова підстраховка для селекторів у navbar */
+.navbar a[href="/login.php"],
+.navbar a[href="https://clicuha.com/login.php"] {
+    background-color: #ffffff !important;
+    border: 1px solid #2d004d !important;
+    color: #2d004d !important;
+    padding: 0.25rem 0.9rem !important;
+    border-radius: 4px !important;
+    font-weight: 600 !important;
+    font-size: 0.9rem !important;
+}
+.navbar a[href="/login.php"]:hover,
+.navbar a[href="https://clicuha.com/login.php"]:hover {
+    background-color: #f0e4ff !important;
+    color: #000000 !important;
 }
 
-.auth-btn-login {
-    color: #155724;
-    border-color: #28a745;
-    background: #eaffea;
+.navbar a[href="/register.php"],
+.navbar a[href="https://clicuha.com/register.php"] {
+    background-color: #ffe082 !important;
+    border: 1px solid #ffb300 !important;
+    color: #4a2c00 !important;
+    padding: 0.25rem 0.9rem !important;
+    border-radius: 4px !important;
+    font-weight: 600 !important;
+    font-size: 0.9rem !important;
+}
+.navbar a[href="/register.php"]:hover,
+.navbar a[href="https://clicuha.com/register.php"]:hover {
+    background-color: #ffd54f !important;
+    color: #3a2500 !important;
 }
 
-.auth-btn-join {
-    color: #856404;
-    border-color: #ffc107;
-    background: #fff6d6;
+/* ================================
+   Верхнє меню Clicuha (navbar)
+   ================================ */
+
+/* Головна шапка: фіолетовий бар + нижня межа */
+.navbar.navbar-dark.bg-dark {
+    background-color: #e8d4ff !important;   /* наш базовий лавандовий */
+    border-bottom: 3px solid #b388ff !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* Колір тексту в меню + логотип */
+.navbar.navbar-dark .navbar-brand,
+.navbar.navbar-dark .nav-link {
+    color: #2d004d !important;  /* темно-фіолетовий */
+}
+
+.navbar.navbar-dark .navbar-brand:hover,
+.navbar.navbar-dark .nav-link:hover {
+    color: #000000 !important;
+}
+
+/* ================================
+   Мовні кнопки в шапці
+   ================================ */
+
+.navbar .lang-btn,
+.navbar a.btn.btn-outline-light.btn-sm {
+    color: #2d004d !important;
+    border-color: #2d004d !important;
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    font-weight: 600;
+    padding: 0.15rem 0.6rem;
+    border-width: 2px;
+}
+
+.navbar .lang-btn:hover,
+.navbar a.btn.btn-outline-light.btn-sm:hover {
+    background-color: #f3e9ff !important;
+}
+
+/* ================================
+   Login / Join як .nav-link (fallback)
+   ================================ */
+
+/* Якщо десь Login / Join залишаться як звичайні .nav-link
+   з класами text-primary / text-success */
+.navbar .nav-link.text-primary,
+.navbar .nav-link.text-success {
+    color: #2d004d !important;
+    font-weight: 600;
+}
+.navbar .nav-link.text-primary:hover,
+.navbar .nav-link.text-success:hover {
+    color: #000 !important;
 }
