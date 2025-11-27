@@ -77,15 +77,24 @@ $qs = $qs ? $qs . '&' : '';
                 <?php else: ?>
                     <!-- Гість -->
 
-                    <?php if ($page !== 'login.php'): ?>
+                    <?php if ($page === 'login.php'): ?>
+                        <li class="nav-item">
+                            <a href="/register.php" class="btn btn-outline-warning btn-sm">
+                                Join
+                            </a>
+                        </li>
+                    <?php elseif ($page === 'register.php'): ?>
                         <li class="nav-item">
                             <a href="/login.php" class="btn btn-warning btn-sm">
                                 Login
                             </a>
                         </li>
-                    <?php endif; ?>
-
-                    <?php if ($page !== 'register.php'): ?>
+                    <?php else: ?>
+                        <li class="nav-item">
+                            <a href="/login.php" class="btn btn-warning btn-sm">
+                                Login
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a href="/register.php" class="btn btn-outline-warning btn-sm">
                                 Join
