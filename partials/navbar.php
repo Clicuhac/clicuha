@@ -5,27 +5,22 @@ if (session_status() === PHP_SESSION_NONE) {
 
 $loggedIn = !empty($_SESSION['user_id'] ?? null);
 $page = basename($_SERVER['PHP_SELF']);
-
-// зберігаємо поточні параметри, крім lang
-$query = $_GET;
-unset($query['lang']);
-$baseUrl = strtok($_SERVER['REQUEST_URI'], '?');
-$qs = http_build_query($query);
-$qs = $qs ? $qs . '&' : '';
 ?>
-
-<nav class="navbar navbar-expand-lg navbar-light clic-nav mb-4">
-
-
+<nav class="navbar navbar-expand-lg bg-white border-bottom mb-4">
     <div class="container">
-        <a class="navbar-brand" href="/">Clicuha</a>
+        <a class="navbar-brand" href="/index.php">Clicuha</a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#mainNav" aria-controls="mainNav"
+                aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="mainNavbar">
+        <div class="collapse navbar-collapse" id="mainNav">
+
+            <!-- Ліве меню -->
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
                 <li class="nav-item">
                     <a class="nav-link" href="/index.php">Головна</a>
                 </li>
@@ -47,11 +42,13 @@ $qs = $qs ? $qs . '&' : '';
                 <li class="nav-item">
                     <a class="nav-link" href="/contacts.php">Контакти</a>
                 </li>
+
             </ul>
 
+            <!-- Праві кнопки -->
             <ul class="navbar-nav ms-auto align-items-center gap-2">
+
                 <?php if ($loggedIn): ?>
-                    <!-- Залогінений користувач -->
 
                     <!-- Нова клікуха -->
                     <li class="nav-item">
@@ -75,47 +72,37 @@ $qs = $qs ? $qs . '&' : '';
                     </li>
 
                 <?php else: ?>
+
                     <!-- Гість -->
 
-                    <?php if ($page === 'login.php'): ?>
+                    <?php if ($page !== 'login.php'): ?>
                         <li class="nav-item">
-                            <a href="/register.php" class="btn btn-outline-warning btn-sm">
-                                Join
-                            </a>
+                            <a href="/login.php" class="btn btn-warning btn-sm">Login</a>
                         </li>
-                    <?php elseif ($page === 'register.php'): ?>
+                    <?php endif; ?>
+
+                    <?php if ($page !== 'register.php'): ?>
                         <li class="nav-item">
-                            <a href="/login.php" class="btn btn-warning btn-sm">
-                                Login
-                            </a>
-                        </li>
-                    <?php else: ?>
-                        <li class="nav-item">
-                            <a href="/login.php" class="btn btn-warning btn-sm">
-                                Login
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/register.php" class="btn btn-outline-warning btn-sm">
-                                Join
-                            </a>
+                            <a href="/register.php" class="btn btn-outline-warning btn-sm">Join</a>
                         </li>
                     <?php endif; ?>
 
                 <?php endif; ?>
 
-                <!-- Мови завжди -->
+                <!-- Мовні кнопки -->
                 <li class="nav-item">
-                    <a href="<?= $baseUrl . '?' . $qs . 'lang=uk' ?>" class="btn btn-outline-dark btn-sm">UA</a>
+                    <a href="?lang=ua" class="btn btn-outline-dark btn-sm">UA</a>
                 </li>
+
                 <li class="nav-item">
-                    <a href="<?= $baseUrl . '?' . $qs . 'lang=en' ?>" class="btn btn-outline-dark btn-sm">EN</a>
+                    <a href="?lang=en" class="btn btn-outline-dark btn-sm">EN</a>
                 </li>
+
                 <li class="nav-item">
-                    <a href="<?= $baseUrl . '?' . $qs . 'lang=ru' ?>" class="btn btn-outline-dark btn-sm">RU</a>
+                    <a href="?lang=ru" class="btn btn-outline-dark btn-sm">RU</a>
                 </li>
+
             </ul>
         </div>
-
     </div>
 </nav>
