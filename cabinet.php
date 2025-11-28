@@ -140,7 +140,7 @@ $t = $text[$lang] ?? $text['ua'];
 
     <!-- Підключаємо той самий Bootstrap / стилі, що й на головній (мінімально) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/css/sema.css?v=<?= time() ?>">
+    <link rel="stylesheet" href="/assets/css/sema.css?v=123">
     <style>
         body {
             background: #f4f5f9;

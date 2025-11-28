@@ -38,7 +38,7 @@ $currentUserId = isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : null;
   <title>Clicuha — Галерея</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/sema.css?v=<?= time() ?>">
+  <link rel="stylesheet" href="/assets/css/sema.css?v=123">
 </head>
 <body class="bg-light">
 
