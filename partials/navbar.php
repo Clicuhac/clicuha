@@ -6,7 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 $loggedIn = !empty($_SESSION['user_id'] ?? null);
 $page = basename($_SERVER['PHP_SELF']);
 ?>
-<nav class="navbar navbar-expand-lg bg-white shadow-sm mb-4">
+<nav class="navbar navbar-expand-lg clic-nav mb-4">
 
 
     <div class="container">
@@ -93,15 +93,15 @@ $page = basename($_SERVER['PHP_SELF']);
 
                 <!-- Мовні кнопки -->
                 <li class="nav-item">
-                    <a href="?lang=ua" class="btn btn-outline-dark btn-sm">UA</a>
+                    <a href="?lang=ua" class="btn btn-sm lang-btn">UA</a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="?lang=en" class="btn btn-outline-dark btn-sm">EN</a>
+                    <a href="?lang=en" class="btn btn-sm lang-btn">EN</a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="?lang=ru" class="btn btn-outline-dark btn-sm">RU</a>
+                    <a href="?lang=ru" class="btn btn-sm lang-btn">RU</a>
                 </li>
 
             </ul>

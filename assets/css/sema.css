@@ -118,58 +118,52 @@
 }
 
 /* ================================
-   Верхнє меню Clicuha (navbar)
+   Clicuha Beige Navbar
    ================================ */
+
+/* === Clicuha Beige Navbar === */
 
 .clic-nav {
-    background-color: var(--clic-nav-bg);
-    border-top: 3px solid var(--clic-nav-border);
-    border-bottom: 1px solid rgba(179, 136, 255, 0.35);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    background-color: #F5E9D3 !important;
+    border-bottom: 1px solid #E0D1BC;
+    padding-top: 0.65rem;
+    padding-bottom: 0.65rem;
 }
 
-.clic-nav .navbar-brand,
-.clic-nav .nav-link,
-.clic-nav .navbar-text {
-    color: var(--clic-primary);
+.clic-nav .navbar-brand {
+    color: #3C2F2F !important;
     font-weight: 600;
 }
 
-.clic-nav .nav-link.active {
-    color: var(--clic-primary-hover);
+.clic-nav .nav-link {
+    color: #3C2F2F !important;
+    font-weight: 500;
 }
 
-.clic-nav .navbar-brand:hover,
 .clic-nav .nav-link:hover {
-    color: var(--clic-primary-hover);
+    color: #000 !important;
 }
 
-.clic-nav .navbar-toggler {
-    border-color: var(--clic-primary);
-    color: var(--clic-primary);
+.navbar .btn {
+    color: #3C2F2F !important;
+    background-color: #CDAF6E !important;
+    border: none;
 }
 
-.clic-nav .navbar-toggler:focus {
-    box-shadow: 0 0 0 0.15rem rgba(179, 136, 255, 0.45);
+.navbar .btn:hover {
+    background-color: #BFA064 !important;
+    color: #fff !important;
 }
 
-/* ================================
-   Мовні кнопки в шапці
-   ================================ */
-
-.navbar .lang-btn,
-.navbar a.btn.btn-outline-light.btn-sm {
-    color: var(--clic-primary);
-    border-color: var(--clic-primary);
-    background-color: rgba(255, 255, 255, 0.95);
-    font-weight: 600;
-    padding: 0.15rem 0.6rem;
-    border-width: 2px;
+.lang-btn {
+    background: transparent !important;
+    border: 1px solid #CDAF6E !important;
+    color: #3C2F2F !important;
 }
 
-.navbar .lang-btn:hover,
-.navbar a.btn.btn-outline-light.btn-sm:hover {
-    background-color: #f3e9ff;
+.lang-btn:hover {
+    background-color: #CDAF6E !important;
+    color: #fff !important;
 }
 
 /* ================================
