@@ -299,8 +299,8 @@
 }
 
 .navbar.clic-nav {
-    /* Яскравіший “античний” пісочний фон */
-    background-color: #F1D8A5 !important;
+    /* Яскравий лавандовий фон */
+    background-color: #cba3f7 !important;
 
     /* Чітка нижня межа, щоб бар не був плямою */
     border-bottom: 2px solid #D4A85D !important;
@@ -332,5 +332,5 @@
 }
 
 .clic-nav {
-    background-color: #ff00ff !important; /* тимчасовий тестовий колір */
+    background-color: #cba3f7 !important;
 }
