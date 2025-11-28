@@ -242,3 +242,66 @@
     background-color: #CBB5F8 !important;
     color: #000 !important;
 }
+/* ================================
+   Clicuha Lavender Navbar FINAL
+   ================================ */
+
+.clic-nav {
+    /* фон + “антик” лаванда */
+    background-color: #DCC1FF !important;
+
+    /* висота бара */
+    padding-top: 0.8rem !important;
+    padding-bottom: 0.8rem !important;
+
+    /* чіткі, але не кричущі окантовки */
+    border-top: 3px solid #A876FF !important;
+    border-bottom: 2px solid #C9A8FF !important;
+
+    /* легкий об’єм */
+    box-shadow:
+        inset 0 -1px 0 rgba(0, 0, 0, 0.06),
+        0 2px 4px rgba(0, 0, 0, 0.07) !important;
+}
+
+/* Бренд + посилання в меню */
+.clic-nav .navbar-brand,
+.clic-nav .nav-link {
+    color: #3A2B5C !important;   /* темна лаванда */
+    font-weight: 500;
+}
+
+.clic-nav .navbar-brand {
+    font-weight: 700;
+}
+
+.clic-nav .nav-link:hover {
+    color: #000000 !important;
+}
+
+/* Кнопки Login / Join в навбарі */
+.navbar .btn {
+    background-color: #E6D4FF !important;   /* світла лаванда */
+    color: #3A2B5C !important;
+    border: 1px solid #B28CE8 !important;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.navbar .btn:hover {
+    background-color: #C9A8FF !important;   /* насиченіший hover */
+    color: #ffffff !important;
+}
+
+/* Мовні кнопки */
+.lang-btn {
+    background: transparent !important;
+    border: 1px solid #9D7BD5 !important;
+    color: #3A2B5C !important;
+    font-weight: 600;
+}
+
+.lang-btn:hover {
+    background-color: #CBB5F8 !important;
+    color: #000000 !important;
+}
