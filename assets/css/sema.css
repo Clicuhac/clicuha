@@ -330,3 +330,7 @@
 .navbar.clic-nav .navbar-brand:hover {
     color: #000000 !important;
 }
+
+.clic-nav {
+    background-color: #ff00ff !important; /* тимчасовий тестовий колір */
+}
