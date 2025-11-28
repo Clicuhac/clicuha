@@ -8,7 +8,7 @@ $page = basename($_SERVER['PHP_SELF']);
 ?>
 <nav class="navbar navbar-expand-lg bg-white border-bottom mb-4">
     <div class="container">
-        <a class="navbar-brand" href="/index.php">Clicuha</a>
+        <a class="navbar-brand" href="/index.php">Clicuha!</a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#mainNav" aria-controls="mainNav"
