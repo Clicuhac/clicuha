@@ -50,8 +50,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Інтерʼєр кабінету</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/sema.css?v=123">
 </head>
-<body>
+<body class="bg-light">
+<?php require __DIR__ . '/partials/navbar.php'; ?>
+
+    <div class="container py-4">
     <h3>Оберіть інтерʼєр кабінету:</h3>
 
     <form method="post">
@@ -69,6 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         Після зміни теми тебе має перекинути в
         <a href="cabinet.php">кабінет</a>.
     </p>
+    </div>
 </body>
 </html>
 

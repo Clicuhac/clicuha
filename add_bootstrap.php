@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <title>Додати клікуху — Bootstrap</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/sema.css">
+  <link rel="stylesheet" href="/assets/css/sema.css?v=123">
 </head>
 <body class="bg-light">
 <?php require __DIR__ . '/partials/navbar.php'; ?>

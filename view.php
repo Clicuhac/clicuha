@@ -41,15 +41,10 @@ if (!$clicuha) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Можеш замінити на свій локальний CSS, якщо вже підключав Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/sema.css?v=123">
 </head>
 <body class="bg-light">
 <?php require __DIR__ . '/partials/navbar.php'; ?>
-
-<nav class="navbar navbar-light clic-nav mb-4">
-    <div class="container">
-        <a class="navbar-brand" href="index.php">Clicuha</a>
-    </div>
-</nav>
 
 <div class="container py-5">
     <div class="row justify-content-center">
