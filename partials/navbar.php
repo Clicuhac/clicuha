@@ -6,7 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 $loggedIn = !empty($_SESSION['user_id'] ?? null);
 $page = basename($_SERVER['PHP_SELF']);
 ?>
-<nav class="navbar navbar-expand-lg border-bottom mb-4"clic-nav,>
+<nav class="navbar navbar-expand-lg border-bottom mb-4 clic-nav">
     <div class="container">
         <a class="navbar-brand" href="/index.php">Clicuha</a>
 
