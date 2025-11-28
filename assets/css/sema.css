@@ -188,3 +188,57 @@
 .navbar .nav-link.text-success:hover {
     color: var(--clic-primary-hover);
 }
+/* ================================
+   Clicuha Lavender Navbar 2.0
+   ================================ */
+
+.clic-nav {
+    background-color: #DCC1FF !important; /* преміальна лаванда */
+    padding-top: 0.65rem;
+    padding-bottom: 0.65rem;
+
+    /* окантовки зверху і знизу */
+    border-top: 3px solid #B28CE8 !important;
+    border-bottom: 3px solid #B28CE8 !important;
+
+    box-shadow: 0 2px 4px rgba(0,0,0,0.07);
+}
+
+/* Бренд */
+.clic-nav .navbar-brand {
+    color: #3A235A !important;
+    font-weight: 700;
+}
+
+/* Посилання */
+.clic-nav .nav-link {
+    color: #3A2B5C !important;
+    font-weight: 500;
+}
+.clic-nav .nav-link:hover {
+    color: #000 !important;
+}
+
+/* Login / Join */
+.navbar .btn {
+    color: #3A2B5C !important;
+    background-color: #E6D4FF !important;
+    border: 1px solid #B28CE8 !important;
+    font-weight: 600;
+}
+.navbar .btn:hover {
+    background-color: #C9A8FF !important;
+    color: #fff !important;
+}
+
+/* Мовні кнопки */
+.lang-btn {
+    background: transparent !important;
+    border: 1px solid #9D7BD5 !important;
+    color: #3A2B5C !important;
+    font-weight: 600;
+}
+.lang-btn:hover {
+    background-color: #CBB5F8 !important;
+    color: #000 !important;
+}
