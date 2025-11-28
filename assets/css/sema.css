@@ -297,3 +297,36 @@
     background-color: #CBB5F8 !important;
     color: #000000 !important;
 }
+
+.navbar.clic-nav {
+    /* Яскравіший “античний” пісочний фон */
+    background-color: #F1D8A5 !important;
+
+    /* Чітка нижня межа, щоб бар не був плямою */
+    border-bottom: 2px solid #D4A85D !important;
+
+    /* Трохи повітря зверху/знизу */
+    padding-top: 0.8rem !important;
+    padding-bottom: 0.8rem !important;
+
+    /* Легка тінь, щоб бар “відділявся” від сторінки */
+    box-shadow:
+        inset 0 -1px 0 rgba(0, 0, 0, 0.10),
+        0 2px 4px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* Текст у навбарі на пісочному фоні */
+.navbar.clic-nav .navbar-brand,
+.navbar.clic-nav .nav-link {
+    color: #3D2A10 !important;  /* темний, читабельний */
+    font-weight: 500;
+}
+
+.navbar.clic-nav .navbar-brand {
+    font-weight: 700;
+}
+
+.navbar.clic-nav .nav-link:hover,
+.navbar.clic-nav .navbar-brand:hover {
+    color: #000000 !important;
+}
