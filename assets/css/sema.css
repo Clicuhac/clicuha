@@ -122,14 +122,21 @@
    ================================ */
 
 .clic-nav {
-    background-color: var(--clic-nav-bg);
-    border-top: 3px solid var(--clic-nav-border);
-    border-bottom: 1px solid rgba(179, 136, 255, 0.35);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    background-color: #E9D5FF !important;      /* насичена тепла лаванда */
+    border-bottom: 2px solid #C29BFF !important; /* чітка нижня границя */
+    padding-top: 0.8rem !important;
+    padding-bottom: 0.8rem !important;
+
+    box-shadow:
+        inset 0 -1px 0 rgba(0, 0, 0, 0.10),
+        0 2px 4px rgba(0, 0, 0, 0.15) !important;
 }
 
 .clic-nav .navbar-brand,
-.clic-nav .nav-link,
+.clic-nav .nav-link {
+    color: #3A2B5C !important;
+}
+
 .clic-nav .navbar-text {
     color: var(--clic-primary);
     font-weight: 600;
@@ -141,7 +148,7 @@
 
 .clic-nav .navbar-brand:hover,
 .clic-nav .nav-link:hover {
-    color: var(--clic-primary-hover);
+    color: #000 !important;
 }
 
 .clic-nav .navbar-toggler {
@@ -193,27 +200,24 @@
    ================================ */
 
 .clic-nav {
-    background-color: #DCC1FF !important; /* преміальна лаванда */
-    padding-top: 0.65rem;
-    padding-bottom: 0.65rem;
+    background-color: #E9D5FF !important;      /* насичена тепла лаванда */
+    border-bottom: 2px solid #C29BFF !important; /* чітка нижня границя */
+    padding-top: 0.8rem !important;
+    padding-bottom: 0.8rem !important;
 
-    /* окантовки зверху і знизу */
-    border-top: 3px solid #B28CE8 !important;
-    border-bottom: 3px solid #B28CE8 !important;
-
-    box-shadow: 0 2px 4px rgba(0,0,0,0.07);
+    box-shadow:
+        inset 0 -1px 0 rgba(0, 0, 0, 0.10),
+        0 2px 4px rgba(0, 0, 0, 0.15) !important;
 }
 
 /* Бренд */
 .clic-nav .navbar-brand {
-    color: #3A235A !important;
-    font-weight: 700;
+    color: #3A2B5C !important;
 }
 
 /* Посилання */
 .clic-nav .nav-link {
     color: #3A2B5C !important;
-    font-weight: 500;
 }
 .clic-nav .nav-link:hover {
     color: #000 !important;
@@ -247,36 +251,24 @@
    ================================ */
 
 .clic-nav {
-    /* фон + “антик” лаванда */
-    background-color: #DCC1FF !important;
-
-    /* висота бара */
+    background-color: #E9D5FF !important;      /* насичена тепла лаванда */
+    border-bottom: 2px solid #C29BFF !important; /* чітка нижня границя */
     padding-top: 0.8rem !important;
     padding-bottom: 0.8rem !important;
 
-    /* чіткі, але не кричущі окантовки */
-    border-top: 3px solid #A876FF !important;
-    border-bottom: 2px solid #C9A8FF !important;
-
-    /* легкий об’єм */
     box-shadow:
-        inset 0 -1px 0 rgba(0, 0, 0, 0.06),
-        0 2px 4px rgba(0, 0, 0, 0.07) !important;
+        inset 0 -1px 0 rgba(0, 0, 0, 0.10),
+        0 2px 4px rgba(0, 0, 0, 0.15) !important;
 }
 
 /* Бренд + посилання в меню */
 .clic-nav .navbar-brand,
 .clic-nav .nav-link {
-    color: #3A2B5C !important;   /* темна лаванда */
-    font-weight: 500;
-}
-
-.clic-nav .navbar-brand {
-    font-weight: 700;
+    color: #3A2B5C !important;
 }
 
 .clic-nav .nav-link:hover {
-    color: #000000 !important;
+    color: #000 !important;
 }
 
 /* Кнопки Login / Join в навбарі */
