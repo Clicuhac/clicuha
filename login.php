@@ -30,6 +30,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!$user || $storedHash === '' || !password_verify($password, $storedHash)) {
             $errors[] = 'Невірний email або пароль.';
         } else {
+            $loginStmt = $pdo->prepare('UPDATE users SET last_login = NOW() WHERE id = :id');
+            $loginStmt->execute([':id' => (int)$user['id']]);
+
             session_regenerate_id(true);
             $_SESSION['user_id'] = (int)$user['id'];
             $_SESSION['LAST_ACTIVITY'] = time();
