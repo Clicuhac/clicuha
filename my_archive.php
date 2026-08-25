@@ -8,7 +8,7 @@ $uid=(int)$_SESSION['user_id'];if(empty($_SESSION['csrf_token']))$_SESSION['csrf
 if($_SERVER['REQUEST_METHOD']==='POST'){
  if(!hash_equals((string)$_SESSION['csrf_token'],(string)($_POST['csrf_token']??''))){http_response_code(403);exit('Невірний токен форми');}
  $id=(int)($_POST['id']??0);
- if($id>0){$s=$pdo->prepare('SELECT title FROM nicknames WHERE id=? AND user_id=? AND deleted_at IS NOT NULL');$s->execute([$id,$uid]);$title=$s->fetchColumn();if($title!==false){$u=$pdo->prepare('UPDATE nicknames SET deleted_at=NULL WHERE id=? AND user_id=? AND deleted_at IS NOT NULL');$u->execute([$id,$uid]);if($u->rowCount()>0){audit_log($pdo,$uid,'clicuha_restore','clicuha_id='.$id.'; title='.(string)$title);$_SESSION['archive_flash']='Клікуху відновлено.';}}}
+ if($id>0){$s=$pdo->prepare('SELECT title FROM nicknames WHERE id=? AND user_id=? AND deleted_at IS NOT NULL');$s->execute([$id,$uid]);$title=$s->fetchColumn();if($title!==false){$u=$pdo->prepare('UPDATE nicknames SET deleted_at=NULL WHERE id=? AND user_id=? AND deleted_at IS NOT NULL');$u->execute([$id,$uid]);if($u->rowCount()>0){clicuha_audit($pdo,$uid,'clicuha_restore','clicuha_id='.$id.'; title='.(string)$title);$_SESSION['archive_flash']='Клікуху відновлено.';}}}
  header('Location: /my_archive.php');exit;
 }
 $stmt=$pdo->prepare('SELECT id,title,slug,description,avatar_path,deleted_at FROM nicknames WHERE user_id=? AND deleted_at IS NOT NULL ORDER BY deleted_at DESC');$stmt->execute([$uid]);$items=$stmt->fetchAll(PDO::FETCH_ASSOC);$flash=(string)($_SESSION['archive_flash']??'');unset($_SESSION['archive_flash']);
