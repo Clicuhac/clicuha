@@ -1,5 +1,6 @@
 <?php
 require __DIR__ . '/config.php';
+require_once __DIR__ . '/lib/avatar.php';
 
 $limit = 12;
 $total = (int)$pdo->query("SELECT COUNT(*) FROM nicknames WHERE deleted_at IS NULL")->fetchColumn();
@@ -30,7 +31,7 @@ function gallery_page_href(int $targetPage): string
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Clicuha — <?= h(t('latest_nicknames')) ?></title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/sema.css?v=123">
+  <link rel="stylesheet" href="/assets/css/sema.css?v=124">
 </head>
 <body class="bg-light">
 <?php require __DIR__.'/partials/navbar.php'; ?>
@@ -44,18 +45,39 @@ function gallery_page_href(int $targetPage): string
   <div class="row g-3">
     <?php if (!$nicknames): ?><div class="col-12"><div class="alert alert-secondary"><?= h(t('gallery.empty')) ?></div></div><?php endif; ?>
     <?php foreach ($nicknames as $n): ?>
-      <div class="col-12 col-sm-6 col-lg-4"><div class="card h-100"><div class="card-body d-flex flex-column">
-        <h2 class="h5 mb-1"><?= h($n['title']) ?></h2>
-        <?php if ($n['slug']): ?><div class="text-muted small">@<?= h($n['slug']) ?></div><?php endif; ?>
-        <?php $ownerId = ($n['user_id'] === null || $n['user_id'] === '') ? null : (int)$n['user_id']; ?>
-        <div class="mt-1 mb-2">
-          <?php if ($ownerId === null): ?><span class="badge bg-success"><?= h(t('status_free')) ?></span>
-          <?php elseif ((int)$n['is_anonymous'] === 0 && $n['author_username']): ?><span class="badge bg-primary"><?= h(t('creator')) ?>: @<?= h($n['author_username']) ?></span>
-          <?php else: ?><span class="badge bg-primary"><?= h(t('status_owned')) ?></span><?php endif; ?>
+      <?php
+        $avatarUrl = clicuha_avatar_url($n['avatar_path'] ?? null);
+        $initial = mb_strtoupper(mb_substr(trim((string)$n['title']), 0, 1, 'UTF-8'), 'UTF-8');
+        if ($initial === '') $initial = 'C';
+      ?>
+      <div class="col-12 col-sm-6 col-lg-4">
+        <div class="card h-100 clic-gallery-card">
+          <div class="card-body d-flex flex-column">
+            <div class="clic-gallery-head">
+              <a class="clic-gallery-avatar" href="/view.php?id=<?= (int)$n['id'] ?>" aria-label="<?= h($n['title']) ?>">
+                <?php if ($avatarUrl): ?>
+                  <img src="<?= h($avatarUrl) ?>" alt="<?= h($n['title']) ?>">
+                <?php else: ?>
+                  <span aria-hidden="true"><?= h($initial) ?></span>
+                <?php endif; ?>
+              </a>
+              <div class="clic-gallery-titlebox">
+                <h2 class="h5 mb-1"><?= h($n['title']) ?></h2>
+                <?php if ($n['slug']): ?><div class="text-muted small">@<?= h($n['slug']) ?></div><?php endif; ?>
+              </div>
+            </div>
+
+            <?php $ownerId = ($n['user_id'] === null || $n['user_id'] === '') ? null : (int)$n['user_id']; ?>
+            <div class="mt-2 mb-2">
+              <?php if ($ownerId === null): ?><span class="badge bg-success"><?= h(t('status_free')) ?></span>
+              <?php elseif ((int)$n['is_anonymous'] === 0 && $n['author_username']): ?><span class="badge bg-primary"><?= h(t('creator')) ?>: @<?= h($n['author_username']) ?></span>
+              <?php else: ?><span class="badge bg-primary"><?= h(t('status_owned')) ?></span><?php endif; ?>
+            </div>
+            <?php if ($n['description']): ?><p class="small text-muted mb-1"><?= h(mb_substr($n['description'],0,140)) ?><?= mb_strlen($n['description']) > 140 ? '…' : '' ?></p><?php endif; ?>
+            <a href="/view.php?id=<?= (int)$n['id'] ?>" class="btn btn-sm btn-outline-primary mt-auto">Go →</a>
+          </div>
         </div>
-        <?php if ($n['description']): ?><p class="small text-muted mb-1"><?= h(mb_substr($n['description'],0,140)) ?><?= mb_strlen($n['description']) > 140 ? '…' : '' ?></p><?php endif; ?>
-        <a href="/view.php?id=<?= (int)$n['id'] ?>" class="btn btn-sm btn-outline-primary mt-auto">Go →</a>
-      </div></div></div>
+      </div>
     <?php endforeach; ?>
   </div>
 
