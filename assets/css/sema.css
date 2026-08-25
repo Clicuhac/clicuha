@@ -16,63 +16,369 @@
     --clic-join-hover: #ffd54f;
 }
 
-.clic-btn { border: 2px solid #ccc; border-radius: 6px; padding: 6px 16px; background-color: #fff; font-weight: 600; cursor: pointer; transition: .15s ease-in-out; min-width: 70px; text-align: center; }
-.clic-btn-yes { color: var(--clic-yes); border-color: var(--clic-yes); }
-.clic-btn-yes:hover { background-color: #e8f6ee; }
-.clic-btn-no { color: var(--clic-no); border-color: var(--clic-no); }
-.clic-btn-no:hover { background-color: #fde8e8; }
-.clic-btn-maybe { color: var(--clic-maybe); border-color: var(--clic-maybe); }
-.clic-btn-maybe:hover { background-color: #fff8d6; }
-.clic-btn + .clic-btn { margin-left: 10px; }
+/* ================================
+   Clicuha: універсальні кнопки
+   ================================ */
 
-.auth-btn { padding: 4px 14px; border-radius: 6px; font-weight: 500; border: 2px solid transparent; font-size: .9rem; }
+.clic-btn {
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    padding: 6px 16px;
+    background-color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.15s ease-in-out;
+    min-width: 70px;
+    text-align: center;
+}
+
+/* YES — зелений текст */
+.clic-btn-yes {
+    color: var(--clic-yes);
+    border-color: var(--clic-yes);
+}
+.clic-btn-yes:hover {
+    background-color: #e8f6ee;
+}
+
+/* NO — червоний */
+.clic-btn-no {
+    color: var(--clic-no);
+    border-color: var(--clic-no);
+}
+.clic-btn-no:hover {
+    background-color: #fde8e8;
+}
+
+/* MAYBE — жовтий */
+.clic-btn-maybe {
+    color: var(--clic-maybe);
+    border-color: var(--clic-maybe);
+}
+.clic-btn-maybe:hover {
+    background-color: #fff8d6;
+}
+
+/* Відстані між кнопками */
+.clic-btn + .clic-btn {
+    margin-left: 10px;
+}
+
+/* ================================
+   Auth buttons (Login / Join)
+   ================================ */
+
+/* Базовий стиль для всіх auth-кнопок */
+.auth-btn {
+    padding: 4px 14px;
+    border-radius: 6px;
+    font-weight: 500;
+    border: 2px solid transparent;
+    font-size: 0.9rem;
+}
+
+/* Login — світла кнопка з темним текстом */
 .auth-btn-login,
 .navbar a[href="/login.php"],
-.navbar a[href="https://clicuha.com/login.php"] { background-color: #fff; border: 1px solid var(--clic-primary); color: var(--clic-primary); padding: .25rem .9rem; border-radius: 4px; font-weight: 600; font-size: .9rem; }
+.navbar a[href="https://clicuha.com/login.php"] {
+    background-color: #ffffff;
+    border: 1px solid var(--clic-primary);
+    color: var(--clic-primary);
+    padding: 0.25rem 0.9rem;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
 .auth-btn-login:hover,
 .navbar a[href="/login.php"]:hover,
-.navbar a[href="https://clicuha.com/login.php"]:hover { background-color: #f0e4ff; color: var(--clic-primary-hover); }
+.navbar a[href="https://clicuha.com/login.php"]:hover {
+    background-color: #f0e4ff;
+    color: var(--clic-primary-hover);
+}
+
+/* Join — «жовтий» семафор */
 .auth-btn-join,
 .navbar a[href="/register.php"],
-.navbar a[href="https://clicuha.com/register.php"] { background-color: var(--clic-join-bg); border: 1px solid var(--clic-join-border); color: var(--clic-join-text); padding: .25rem .9rem; border-radius: 4px; font-weight: 600; font-size: .9rem; }
+.navbar a[href="https://clicuha.com/register.php"] {
+    background-color: var(--clic-join-bg);
+    border: 1px solid var(--clic-join-border);
+    color: var(--clic-join-text);
+    padding: 0.25rem 0.9rem;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
 .auth-btn-join:hover,
 .navbar a[href="/register.php"]:hover,
-.navbar a[href="https://clicuha.com/register.php"]:hover { background-color: var(--clic-join-hover); color: #3a2500; }
+.navbar a[href="https://clicuha.com/register.php"]:hover {
+    background-color: var(--clic-join-hover);
+    color: #3a2500;
+}
 
-.navbar.clic-nav,
-.clic-nav { background-color: #cba3f7 !important; border-bottom: 2px solid #D4A85D !important; padding-top: .8rem !important; padding-bottom: .8rem !important; box-shadow: inset 0 -1px 0 rgba(0,0,0,.10), 0 2px 4px rgba(0,0,0,.12) !important; }
-.navbar.clic-nav .navbar-brand,
-.navbar.clic-nav .nav-link,
+/* ================================
+   Верхнє меню Clicuha (navbar)
+   ================================ */
+
+.clic-nav {
+    background-color: #E9D5FF !important;
+    border-bottom: 2px solid #C29BFF !important;
+    padding-top: 0.8rem !important;
+    padding-bottom: 0.8rem !important;
+
+    box-shadow:
+        inset 0 -1px 0 rgba(0, 0, 0, 0.10),
+        0 2px 4px rgba(0, 0, 0, 0.15) !important;
+}
+
 .clic-nav .navbar-brand,
-.clic-nav .nav-link { color: #3D2A10 !important; font-weight: 500; }
-.navbar.clic-nav .navbar-brand,
-.clic-nav .navbar-brand { font-weight: 700; }
-.navbar.clic-nav .nav-link:hover,
-.navbar.clic-nav .navbar-brand:hover,
-.clic-nav .nav-link:hover,
-.clic-nav .navbar-brand:hover { color: #000 !important; }
-.clic-nav .navbar-text { color: var(--clic-primary); font-weight: 600; }
-.clic-nav .navbar-toggler { border-color: var(--clic-primary); color: var(--clic-primary); }
-.clic-nav .navbar-toggler:focus { box-shadow: 0 0 0 .15rem rgba(179,136,255,.45); }
+.clic-nav .nav-link {
+    color: #3A2B5C !important;
+}
 
-.navbar .btn { background-color: #E6D4FF !important; color: #3A2B5C !important; border: 1px solid #B28CE8 !important; border-radius: 4px; font-weight: 600; }
-.navbar .btn:hover { background-color: #C9A8FF !important; color: #fff !important; }
-.lang-btn,
+.clic-nav .navbar-text {
+    color: var(--clic-primary);
+    font-weight: 600;
+}
+
+.clic-nav .nav-link.active {
+    color: var(--clic-primary-hover);
+}
+
+.clic-nav .navbar-brand:hover,
+.clic-nav .nav-link:hover {
+    color: #000 !important;
+}
+
+.clic-nav .navbar-toggler {
+    border-color: var(--clic-primary);
+    color: var(--clic-primary);
+}
+
+.clic-nav .navbar-toggler:focus {
+    box-shadow: 0 0 0 0.15rem rgba(179, 136, 255, 0.45);
+}
+
+/* ================================
+   Мовні кнопки в шапці
+   ================================ */
+
 .navbar .lang-btn,
-.navbar a.btn.btn-outline-light.btn-sm { background: transparent !important; border: 1px solid #9D7BD5 !important; color: #3A2B5C !important; font-weight: 600; }
-.lang-btn:hover,
-.navbar .lang-btn:hover,
-.navbar a.btn.btn-outline-light.btn-sm:hover { background-color: #CBB5F8 !important; color: #000 !important; }
+.navbar a.btn.btn-outline-light.btn-sm {
+    color: var(--clic-primary);
+    border-color: var(--clic-primary);
+    background-color: rgba(255, 255, 255, 0.95);
+    font-weight: 600;
+    padding: 0.15rem 0.6rem;
+    border-width: 2px;
+}
 
-/* Gallery cards with lightweight avatar thumbnails */
-.clic-gallery-head { display: flex; align-items: flex-start; gap: .8rem; min-height: 68px; }
-.clic-gallery-titlebox { min-width: 0; flex: 1 1 auto; }
-.clic-gallery-avatar { width: 64px; height: 64px; border-radius: 10px; overflow: hidden; flex: 0 0 64px; display: flex; align-items: center; justify-content: center; text-decoration: none; background: #f3ecfb; border: 1px solid #d8c7ea; color: #5f427d; font-size: 1.45rem; font-weight: 700; }
-.clic-gallery-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.clic-gallery-avatar:hover { border-color: #9D7BD5; color: #3A2B5C; }
-.clic-gallery-card .card-body { padding: 1rem; }
+.navbar .lang-btn:hover,
+.navbar a.btn.btn-outline-light.btn-sm:hover {
+    background-color: #f3e9ff;
+}
+
+/* ================================
+   Login / Join як .nav-link (fallback)
+   ================================ */
+
+.navbar .nav-link.text-primary,
+.navbar .nav-link.text-success {
+    color: var(--clic-primary);
+    font-weight: 600;
+}
+
+.navbar .nav-link.text-primary:hover,
+.navbar .nav-link.text-success:hover {
+    color: var(--clic-primary-hover);
+}
+/* ================================
+   Clicuha Lavender Navbar 2.0
+   ================================ */
+
+.clic-nav {
+    background-color: #E9D5FF !important;
+    border-bottom: 2px solid #C29BFF !important;
+    padding-top: 0.8rem !important;
+    padding-bottom: 0.8rem !important;
+
+    box-shadow:
+        inset 0 -1px 0 rgba(0, 0, 0, 0.10),
+        0 2px 4px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Бренд */
+.clic-nav .navbar-brand {
+    color: #3A2B5C !important;
+}
+
+/* Посилання */
+.clic-nav .nav-link {
+    color: #3A2B5C !important;
+}
+.clic-nav .nav-link:hover {
+    color: #000 !important;
+}
+
+/* Login / Join */
+.navbar .btn {
+    color: #3A2B5C !important;
+    background-color: #E6D4FF !important;
+    border: 1px solid #B28CE8 !important;
+    font-weight: 600;
+}
+.navbar .btn:hover {
+    background-color: #C9A8FF !important;
+    color: #fff !important;
+}
+
+/* Мовні кнопки */
+.lang-btn {
+    background: transparent !important;
+    border: 1px solid #9D7BD5 !important;
+    color: #3A2B5C !important;
+    font-weight: 600;
+}
+.lang-btn:hover {
+    background-color: #CBB5F8 !important;
+    color: #000 !important;
+}
+/* ================================
+   Clicuha Lavender Navbar FINAL
+   ================================ */
+
+.clic-nav {
+    background-color: #E9D5FF !important;
+    border-bottom: 2px solid #C29BFF !important;
+    padding-top: 0.8rem !important;
+    padding-bottom: 0.8rem !important;
+
+    box-shadow:
+        inset 0 -1px 0 rgba(0, 0, 0, 0.10),
+        0 2px 4px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Бренд + посилання в меню */
+.clic-nav .navbar-brand,
+.clic-nav .nav-link {
+    color: #3A2B5C !important;
+}
+
+.clic-nav .nav-link:hover {
+    color: #000 !important;
+}
+
+/* Кнопки Login / Join в навбарі */
+.navbar .btn {
+    background-color: #E6D4FF !important;
+    color: #3A2B5C !important;
+    border: 1px solid #B28CE8 !important;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.navbar .btn:hover {
+    background-color: #C9A8FF !important;
+    color: #ffffff !important;
+}
+
+/* Мовні кнопки */
+.lang-btn {
+    background: transparent !important;
+    border: 1px solid #9D7BD5 !important;
+    color: #3A2B5C !important;
+    font-weight: 600;
+}
+
+.lang-btn:hover {
+    background-color: #CBB5F8 !important;
+    color: #000000 !important;
+}
+
+.navbar.clic-nav {
+    background-color: #cba3f7 !important;
+    border-bottom: 2px solid #D4A85D !important;
+    padding-top: 0.8rem !important;
+    padding-bottom: 0.8rem !important;
+
+    box-shadow:
+        inset 0 -1px 0 rgba(0, 0, 0, 0.10),
+        0 2px 4px rgba(0, 0, 0, 0.12) !important;
+}
+
+.navbar.clic-nav .navbar-brand,
+.navbar.clic-nav .nav-link {
+    color: #3D2A10 !important;
+    font-weight: 500;
+}
+
+.navbar.clic-nav .navbar-brand {
+    font-weight: 700;
+}
+
+.navbar.clic-nav .nav-link:hover,
+.navbar.clic-nav .navbar-brand:hover {
+    color: #000000 !important;
+}
+
+.clic-nav {
+    background-color: #cba3f7 !important;
+}
+
+/* ================================
+   Gallery avatar thumbnails
+   ================================ */
+
+.clic-gallery-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    min-height: 68px;
+}
+
+.clic-gallery-titlebox {
+    min-width: 0;
+    flex: 1 1 auto;
+}
+
+.clic-gallery-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 10px;
+    overflow: hidden;
+    flex: 0 0 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    background: #f3ecfb;
+    border: 1px solid #d8c7ea;
+    color: #5f427d;
+    font-size: 1.45rem;
+    font-weight: 700;
+}
+
+.clic-gallery-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.clic-gallery-avatar:hover {
+    border-color: #9D7BD5;
+    color: #3A2B5C;
+}
 
 @media (max-width: 575.98px) {
-    .clic-gallery-avatar { width: 56px; height: 56px; flex-basis: 56px; }
-    .clic-gallery-head { min-height: 60px; }
+    .clic-gallery-avatar {
+        width: 56px;
+        height: 56px;
+        flex-basis: 56px;
+    }
+
+    .clic-gallery-head {
+        min-height: 60px;
+    }
 }
