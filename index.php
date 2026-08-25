@@ -1,17 +1,28 @@
 <?php
 require __DIR__ . '/config.php';
 
-$page = max(1, (int)($_GET['page'] ?? 1));
 $limit = 12;
-$offset = ($page - 1) * $limit;
 $total = (int)$pdo->query("SELECT COUNT(*) FROM nicknames WHERE deleted_at IS NULL")->fetchColumn();
 $totalPages = max(1, (int)ceil($total / $limit));
+$page = max(1, min((int)($_GET['page'] ?? 1), $totalPages));
+$offset = ($page - 1) * $limit;
+
 $stmt = $pdo->prepare("SELECT n.*, u.username AS author_username FROM nicknames n LEFT JOIN users u ON u.id = n.user_id WHERE n.deleted_at IS NULL ORDER BY n.created_at DESC LIMIT :limit OFFSET :offset");
 $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
 $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
 $nicknames = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $currentUserId = isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : null;
+
+$shownFrom = $total > 0 ? $offset + 1 : 0;
+$shownTo = min($offset + count($nicknames), $total);
+
+function gallery_page_href(int $targetPage): string
+{
+    $query = $_GET;
+    $query['page'] = $targetPage;
+    return '?' . http_build_query($query);
+}
 ?>
 <!doctype html>
 <html lang="<?= h($lang) ?>">
@@ -29,6 +40,7 @@ $currentUserId = isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : null;
     <h1 class="h4 mb-0"><?= h(t('latest_nicknames')) ?></h1>
     <?php if ($currentUserId): ?><a href="/add_bootstrap.php" class="btn btn-sm btn-primary"><?= h(t('menu.new')) ?></a><?php endif; ?>
   </div>
+
   <div class="row g-3">
     <?php if (!$nicknames): ?><div class="col-12"><div class="alert alert-secondary"><?= h(t('gallery.empty')) ?></div></div><?php endif; ?>
     <?php foreach ($nicknames as $n): ?>
@@ -46,11 +58,32 @@ $currentUserId = isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : null;
       </div></div></div>
     <?php endforeach; ?>
   </div>
-  <?php if ($totalPages > 1): ?><nav><ul class="pagination justify-content-center mt-4">
-    <li class="page-item <?= $page <= 1 ? 'disabled' : '' ?>"><a class="page-link" href="?page=<?= $page-1 ?>">«</a></li>
-    <?php for ($i=1;$i<=$totalPages;$i++): ?><li class="page-item <?= $i === $page ? 'active' : '' ?>"><a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a></li><?php endfor; ?>
-    <li class="page-item <?= $page >= $totalPages ? 'disabled' : '' ?>"><a class="page-link" href="?page=<?= $page+1 ?>">»</a></li>
-  </ul></nav><?php endif; ?>
+
+  <section class="mt-4 pt-3 border-top" aria-label="Gallery pagination">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+      <div class="text-muted small">
+        Показано <strong><?= $shownFrom ?>–<?= $shownTo ?></strong> із <strong><?= $total ?></strong> клікух
+      </div>
+
+      <?php if ($totalPages > 1): ?>
+        <nav aria-label="Сторінки галереї">
+          <ul class="pagination pagination-lg mb-0 flex-wrap">
+            <li class="page-item <?= $page <= 1 ? 'disabled' : '' ?>">
+              <a class="page-link" href="<?= h(gallery_page_href(max(1, $page - 1))) ?>" aria-label="Попередня">←</a>
+            </li>
+            <?php for ($i=1; $i<=$totalPages; $i++): ?>
+              <li class="page-item <?= $i === $page ? 'active' : '' ?>">
+                <a class="page-link" href="<?= h(gallery_page_href($i)) ?>"><?= $i ?></a>
+              </li>
+            <?php endfor; ?>
+            <li class="page-item <?= $page >= $totalPages ? 'disabled' : '' ?>">
+              <a class="page-link" href="<?= h(gallery_page_href(min($totalPages, $page + 1))) ?>" aria-label="Наступна">→</a>
+            </li>
+          </ul>
+        </nav>
+      <?php endif; ?>
+    </div>
+  </section>
 </main>
 <footer class="border-top py-3 mt-4 text-center small text-muted">© <?= date('Y') ?> Clicuha</footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
