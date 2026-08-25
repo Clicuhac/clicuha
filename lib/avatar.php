@@ -21,6 +21,33 @@ function clicuha_avatar_url(?string $path): ?string
     return '/' . ltrim($path, '/');
 }
 
+function clicuha_detect_avatar_mime(string $tmp): string
+{
+    if (class_exists('finfo')) {
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $mime = $finfo->file($tmp);
+        if (is_string($mime) && $mime !== '') {
+            return $mime;
+        }
+    }
+
+    if (function_exists('mime_content_type')) {
+        $mime = @mime_content_type($tmp);
+        if (is_string($mime) && $mime !== '') {
+            return $mime;
+        }
+    }
+
+    if (function_exists('getimagesize')) {
+        $info = @getimagesize($tmp);
+        if (is_array($info) && !empty($info['mime'])) {
+            return (string)$info['mime'];
+        }
+    }
+
+    return '';
+}
+
 function clicuha_save_avatar_upload(array $file, int $clicuhaId): string
 {
     if (($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
@@ -31,8 +58,11 @@ function clicuha_save_avatar_upload(array $file, int $clicuhaId): string
     }
 
     $tmp = (string)($file['tmp_name'] ?? '');
-    $finfo = new finfo(FILEINFO_MIME_TYPE);
-    $mime = $finfo->file($tmp) ?: '';
+    if ($tmp === '' || !is_uploaded_file($tmp)) {
+        throw new RuntimeException('Некоректний файл завантаження.');
+    }
+
+    $mime = clicuha_detect_avatar_mime($tmp);
     $allowed = [
         'image/jpeg' => 'jpg',
         'image/png' => 'png',
