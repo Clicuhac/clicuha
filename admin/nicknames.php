@@ -37,7 +37,14 @@ $status = (string)($_GET['status'] ?? 'all');
 $allowedStatuses = ['all','active','free','owned','anonymous','avatar','no_avatar','archived'];
 if (!in_array($status,$allowedStatuses,true)) $status='all';
 $where=[];$params=[];
-if($q!==''){ $where[]='(n.title LIKE :q OR n.slug LIKE :q OR u.email LIKE :q OR u.username LIKE :q)'; $params[':q']='%'.$q.'%'; }
+if($q!==''){
+    $where[]='(n.title LIKE :q_title OR n.slug LIKE :q_slug OR u.email LIKE :q_email OR u.username LIKE :q_username)';
+    $needle='%'.$q.'%';
+    $params[':q_title']=$needle;
+    $params[':q_slug']=$needle;
+    $params[':q_email']=$needle;
+    $params[':q_username']=$needle;
+}
 switch($status){case'active':$where[]='n.deleted_at IS NULL';break;case'free':$where[]='n.deleted_at IS NULL AND n.user_id IS NULL';break;case'owned':$where[]='n.deleted_at IS NULL AND n.user_id IS NOT NULL';break;case'anonymous':$where[]='n.deleted_at IS NULL AND n.is_anonymous = 1';break;case'avatar':$where[]="n.deleted_at IS NULL AND n.avatar_path IS NOT NULL AND n.avatar_path <> ''";break;case'no_avatar':$where[]="n.deleted_at IS NULL AND (n.avatar_path IS NULL OR n.avatar_path = '')";break;case'archived':$where[]='n.deleted_at IS NOT NULL';break;}
 $sql="SELECT n.id,n.title,n.slug,n.user_id,n.is_anonymous,n.avatar_path,n.created_at,n.deleted_at,u.email,u.username FROM nicknames n LEFT JOIN users u ON u.id=n.user_id";
 if($where)$sql.=' WHERE '.implode(' AND ',$where);$sql.=' ORDER BY n.created_at DESC LIMIT 200';
