@@ -4,7 +4,7 @@
   <nav class="admin-nav" aria-label="Admin navigation">
     <a class="<?= $adminSection === 'dashboard' ? 'active' : '' ?>" href="/admin/">Dashboard</a>
     <a class="<?= $adminSection === 'nicknames' ? 'active' : '' ?>" href="/admin/nicknames.php">Clicuhas</a>
-    <span>Users <small>soon</small></span>
+    <a class="<?= $adminSection === 'users' ? 'active' : '' ?>" href="/admin/users.php">Users</a>
     <span>Archive <small>soon</small></span>
     <span>Logs <small>soon</small></span>
   </nav>
