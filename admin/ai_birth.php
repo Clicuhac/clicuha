@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $state !== 'born') {
                 $nicknameId = (int)$existingId;
             } else {
                 $stmt = $pdo->prepare(
-                    'INSERT INTO nicknames (user_id, title, short_title, slug, description, is_anonymous)\n                     VALUES (NULL, :title, NULL, :slug, :description, :is_anonymous)'
+                    'INSERT INTO nicknames (user_id, title, short_title, slug, description, is_anonymous) VALUES (NULL, :title, NULL, :slug, :description, :is_anonymous)'
                 );
                 $stmt->execute([
                     ':title' => $birth['title'],
