@@ -41,6 +41,7 @@ $latestNicknames = $pdo->query(
     .admin-nav a,.admin-nav span { color:#d7d3dc; text-decoration:none; padding:10px 12px; border-radius:10px; }
     .admin-nav a.active { color:#17151d; background:var(--admin-lav); font-weight:700; }
     .admin-nav small { float:right; opacity:.55; }
+    .admin-nav .admin-nav-group { color:#817b89; font-size:.68rem; font-weight:700; letter-spacing:.12em; padding:12px 12px 0; margin-top:4px; }
     .admin-sidebar-bottom { margin-top:auto; display:grid; gap:8px; }
     .admin-sidebar-bottom a { color:#cfcad5; text-decoration:none; font-size:.9rem; }
     .admin-main { padding:32px; }
