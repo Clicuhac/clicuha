@@ -2,80 +2,8 @@
 declare(strict_types=1);
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/lib/auth.php';
-
-if (empty($_SESSION['user_id'])) {
-    header('Location: /login.php');
-    exit;
-}
-
-$currentUser = current_user($pdo);
-$isAdmin = $currentUser && (($currentUser['role'] ?? 'user') === 'admin');
+if (empty($_SESSION['user_id'])) { header('Location: /login.php'); exit; }
+$currentUser = current_user($pdo);$isAdmin=$currentUser&&(($currentUser['role']??'user')==='admin');
+$archiveStmt=$pdo->prepare('SELECT COUNT(*) FROM nicknames WHERE user_id=? AND deleted_at IS NOT NULL');$archiveStmt->execute([(int)$_SESSION['user_id']]);$archiveCount=(int)$archiveStmt->fetchColumn();
 ?>
-<!doctype html>
-<html lang="<?= h($lang) ?>">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title><?= h(t('cabinet.title')) ?> · Clicuha</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/assets/css/sema.css?v=123">
-  <style>
-    body { background:#f4f5f9; }
-    .cab-wrapper { padding:2.5rem 0 3rem; }
-    .cab-card { border-radius:18px; border:1px solid rgba(0,0,0,.05); box-shadow:0 8px 20px rgba(15,23,42,.04); background:#fff; height:100%; }
-    .cab-card-dark { background:#050816; color:#f9fafb; border:none; }
-    .cab-card-dark h5,.cab-card-dark p { color:#f9fafb; }
-    .cab-sidebar-title { font-weight:600; font-size:1.05rem; margin-bottom:.75rem; }
-  </style>
-</head>
-<body>
-<?php require __DIR__ . '/partials/navbar.php'; ?>
-<main class="cab-wrapper">
-  <div class="container">
-    <?php if (isset($_GET['deleted']) && $_GET['deleted'] === '1'): ?>
-      <div class="alert alert-success"><?= h(t('cabinet.archived')) ?></div>
-    <?php endif; ?>
-    <div class="row g-4">
-      <div class="col-12 col-md-3">
-        <aside class="cab-card p-4 h-100">
-          <div class="cab-sidebar-title"><?= h(t('cabinet.manage')) ?></div>
-          <ul class="list-unstyled mb-0">
-            <li class="mb-2"><a href="/my_nicknames.php" class="link-dark text-decoration-none">• <?= h(t('cabinet.my')) ?></a></li>
-            <li class="mb-2"><a href="/add_bootstrap.php" class="link-dark text-decoration-none">• <?= h(t('cabinet.create')) ?></a></li>
-            <?php if ($isAdmin): ?>
-              <li class="mb-2"><a href="/admin/" class="link-dark text-decoration-none fw-semibold">• Адмінка</a></li>
-            <?php endif; ?>
-            <li class="mb-2"><span class="text-secondary">• <?= h(t('cabinet.settings')) ?></span></li>
-            <li><span class="text-secondary">• <?= h(t('cabinet.theme')) ?></span></li>
-          </ul>
-        </aside>
-      </div>
-      <div class="col-12 col-md-3">
-        <section class="cab-card p-4 h-100">
-          <h5 class="mb-3"><?= h(t('cabinet.events')) ?></h5>
-          <p class="mb-0"><?= h(t('cabinet.events_text')) ?></p>
-        </section>
-      </div>
-      <div class="col-12 col-md-3">
-        <section class="cab-card p-4 mb-4">
-          <h5 class="mb-3 text-center"><?= h(t('cabinet.activity')) ?></h5>
-          <p class="mb-3"><?= h(t('cabinet.activity_text')) ?></p>
-          <div class="text-center"><a href="/add_bootstrap.php" class="btn btn-primary"><?= h(t('cabinet.create')) ?></a></div>
-        </section>
-        <section class="cab-card p-4">
-          <h5 class="mb-3"><?= h(t('cabinet.archive')) ?></h5>
-          <p class="mb-0"><?= h(t('cabinet.archive_text')) ?></p>
-        </section>
-      </div>
-      <div class="col-12 col-md-3">
-        <section class="cab-card cab-card-dark p-4 h-100">
-          <h5 class="mb-3"><?= h(t('cabinet.ads')) ?></h5>
-          <p class="mb-0"><?= h(t('cabinet.ads_text')) ?></p>
-        </section>
-      </div>
-    </div>
-  </div>
-</main>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+<!doctype html><html lang="<?=h($lang)?>"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title><?=h(t('cabinet.title'))?> · Clicuha</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"><link rel="stylesheet" href="/assets/css/sema.css?v=123"><style>body{background:#f4f5f9}.cab-wrapper{padding:2.5rem 0 3rem}.cab-card{border-radius:18px;border:1px solid rgba(0,0,0,.05);box-shadow:0 8px 20px rgba(15,23,42,.04);background:#fff;height:100%}.cab-card-dark{background:#050816;color:#f9fafb;border:none}.cab-card-dark h5,.cab-card-dark p{color:#f9fafb}.cab-sidebar-title{font-weight:600;font-size:1.05rem;margin-bottom:.75rem}</style></head><body><?php require __DIR__.'/partials/navbar.php';?><main class="cab-wrapper"><div class="container"><?php if(isset($_GET['deleted'])&&$_GET['deleted']==='1'):?><div class="alert alert-success"><?=h(t('cabinet.archived'))?></div><?php endif;?><div class="row g-4"><div class="col-12 col-md-3"><aside class="cab-card p-4 h-100"><div class="cab-sidebar-title"><?=h(t('cabinet.manage'))?></div><ul class="list-unstyled mb-0"><li class="mb-2"><a href="/my_nicknames.php" class="link-dark text-decoration-none">• <?=h(t('cabinet.my'))?></a></li><li class="mb-2"><a href="/add_bootstrap.php" class="link-dark text-decoration-none">• <?=h(t('cabinet.create'))?></a></li><?php if($isAdmin):?><li class="mb-2"><a href="/admin/" class="link-dark text-decoration-none fw-semibold">• Адмінка</a></li><?php endif;?><li class="mb-2"><span class="text-secondary">• <?=h(t('cabinet.settings'))?></span></li><li><span class="text-secondary">• <?=h(t('cabinet.theme'))?></span></li></ul></aside></div><div class="col-12 col-md-3"><section class="cab-card p-4 h-100"><h5 class="mb-3"><?=h(t('cabinet.events'))?></h5><p class="mb-0"><?=h(t('cabinet.events_text'))?></p></section></div><div class="col-12 col-md-3"><section class="cab-card p-4 mb-4"><h5 class="mb-3 text-center"><?=h(t('cabinet.activity'))?></h5><p class="mb-3"><?=h(t('cabinet.activity_text'))?></p><div class="text-center"><a href="/add_bootstrap.php" class="btn btn-primary"><?=h(t('cabinet.create'))?></a></div></section><section class="cab-card p-4"><h5 class="mb-2"><?=h(t('cabinet.archive'))?> <?php if($archiveCount):?><span class="badge text-bg-secondary"><?=$archiveCount?></span><?php endif;?></h5><p class="mb-3"><?=h(t('cabinet.archive_text'))?></p><a href="/my_archive.php" class="btn btn-sm btn-outline-secondary">Відкрити архів</a></section></div><div class="col-12 col-md-3"><section class="cab-card cab-card-dark p-4 h-100"><h5 class="mb-3"><?=h(t('cabinet.ads'))?></h5><p class="mb-0"><?=h(t('cabinet.ads_text'))?></p></section></div></div></div></main><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script></body></html>
