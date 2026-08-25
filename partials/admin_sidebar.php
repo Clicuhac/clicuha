@@ -8,7 +8,7 @@
     <a class="<?= $adminSection === 'archive' ? 'active' : '' ?>" href="/admin/archive.php">Archive</a>
     <a class="<?= $adminSection === 'logs' ? 'active' : '' ?>" href="/admin/logs.php">Logs</a>
   </nav>
-  <div class="admin-sidebar-bottom">
+  <div class="admin-sidebar-bottom" style="margin-top:18px;">
     <a href="/cabinet.php">← Кабінет</a>
     <a href="/logout.php">Вийти</a>
   </div>
