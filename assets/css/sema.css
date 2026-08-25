@@ -122,8 +122,8 @@
    ================================ */
 
 .clic-nav {
-    background-color: #E9D5FF !important;      /* насичена тепла лаванда */
-    border-bottom: 2px solid #C29BFF !important; /* чітка нижня границя */
+    background-color: #E9D5FF !important;
+    border-bottom: 2px solid #C29BFF !important;
     padding-top: 0.8rem !important;
     padding-bottom: 0.8rem !important;
 
@@ -183,8 +183,6 @@
    Login / Join як .nav-link (fallback)
    ================================ */
 
-/* Якщо десь Login / Join залишаться як звичайні .nav-link
-   з класами text-primary / text-success */
 .navbar .nav-link.text-primary,
 .navbar .nav-link.text-success {
     color: var(--clic-primary);
@@ -200,8 +198,8 @@
    ================================ */
 
 .clic-nav {
-    background-color: #E9D5FF !important;      /* насичена тепла лаванда */
-    border-bottom: 2px solid #C29BFF !important; /* чітка нижня границя */
+    background-color: #E9D5FF !important;
+    border-bottom: 2px solid #C29BFF !important;
     padding-top: 0.8rem !important;
     padding-bottom: 0.8rem !important;
 
@@ -251,8 +249,8 @@
    ================================ */
 
 .clic-nav {
-    background-color: #E9D5FF !important;      /* насичена тепла лаванда */
-    border-bottom: 2px solid #C29BFF !important; /* чітка нижня границя */
+    background-color: #E9D5FF !important;
+    border-bottom: 2px solid #C29BFF !important;
     padding-top: 0.8rem !important;
     padding-bottom: 0.8rem !important;
 
@@ -273,7 +271,7 @@
 
 /* Кнопки Login / Join в навбарі */
 .navbar .btn {
-    background-color: #E6D4FF !important;   /* світла лаванда */
+    background-color: #E6D4FF !important;
     color: #3A2B5C !important;
     border: 1px solid #B28CE8 !important;
     border-radius: 4px;
@@ -281,7 +279,7 @@
 }
 
 .navbar .btn:hover {
-    background-color: #C9A8FF !important;   /* насиченіший hover */
+    background-color: #C9A8FF !important;
     color: #ffffff !important;
 }
 
@@ -299,26 +297,19 @@
 }
 
 .navbar.clic-nav {
-    /* Яскравий лавандовий фон */
     background-color: #cba3f7 !important;
-
-    /* Чітка нижня межа, щоб бар не був плямою */
     border-bottom: 2px solid #D4A85D !important;
-
-    /* Трохи повітря зверху/знизу */
     padding-top: 0.8rem !important;
     padding-bottom: 0.8rem !important;
 
-    /* Легка тінь, щоб бар “відділявся” від сторінки */
     box-shadow:
         inset 0 -1px 0 rgba(0, 0, 0, 0.10),
         0 2px 4px rgba(0, 0, 0, 0.12) !important;
 }
 
-/* Текст у навбарі на пісочному фоні */
 .navbar.clic-nav .navbar-brand,
 .navbar.clic-nav .nav-link {
-    color: #3D2A10 !important;  /* темний, читабельний */
+    color: #3D2A10 !important;
     font-weight: 500;
 }
 
@@ -333,4 +324,61 @@
 
 .clic-nav {
     background-color: #cba3f7 !important;
+}
+
+/* ================================
+   Gallery avatar thumbnails
+   ================================ */
+
+.clic-gallery-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    min-height: 68px;
+}
+
+.clic-gallery-titlebox {
+    min-width: 0;
+    flex: 1 1 auto;
+}
+
+.clic-gallery-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 10px;
+    overflow: hidden;
+    flex: 0 0 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    background: #f3ecfb;
+    border: 1px solid #d8c7ea;
+    color: #5f427d;
+    font-size: 1.45rem;
+    font-weight: 700;
+}
+
+.clic-gallery-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.clic-gallery-avatar:hover {
+    border-color: #9D7BD5;
+    color: #3A2B5C;
+}
+
+@media (max-width: 575.98px) {
+    .clic-gallery-avatar {
+        width: 56px;
+        height: 56px;
+        flex-basis: 56px;
+    }
+
+    .clic-gallery-head {
+        min-height: 60px;
+    }
 }
