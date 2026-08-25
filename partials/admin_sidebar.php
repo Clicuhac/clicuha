@@ -5,7 +5,7 @@
     <a class="<?= $adminSection === 'dashboard' ? 'active' : '' ?>" href="/admin/">Dashboard</a>
     <a class="<?= $adminSection === 'nicknames' ? 'active' : '' ?>" href="/admin/nicknames.php">Clicuhas</a>
     <a class="<?= $adminSection === 'users' ? 'active' : '' ?>" href="/admin/users.php">Users</a>
-    <span>Archive <small>soon</small></span>
+    <a class="<?= $adminSection === 'archive' ? 'active' : '' ?>" href="/admin/archive.php">Archive</a>
     <span>Logs <small>soon</small></span>
   </nav>
   <div class="admin-sidebar-bottom">
