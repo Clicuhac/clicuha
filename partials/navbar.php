@@ -4,9 +4,11 @@ $loggedIn = !empty($_SESSION['user_id']);
 $page = basename($_SERVER['PHP_SELF']);
 $query = $_GET;
 unset($query['lang']);
-function lang_href(string $code, array $query): string {
-    $query['lang'] = $code;
-    return '?' . http_build_query($query);
+if (!function_exists('lang_href')) {
+    function lang_href(string $code, array $query): string {
+        $query['lang'] = $code;
+        return '?' . http_build_query($query);
+    }
 }
 ?>
 <nav class="navbar navbar-expand-lg border-bottom mb-4 clic-nav">
