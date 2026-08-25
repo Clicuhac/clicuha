@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/lib/audit.php';
 $errors=[];
 if(!empty($_SESSION['user_id'])){header('Location: /cabinet.php');exit;}
 $hasBlockedAt=(bool)$pdo->query("SHOW COLUMNS FROM users LIKE 'blocked_at'")->fetch(PDO::FETCH_ASSOC);
@@ -12,8 +13,8 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
         $stmt=$pdo->prepare($sql);$stmt->execute([':email'=>$email]);$user=$stmt->fetch(PDO::FETCH_ASSOC);
         $storedHash=$user?(($user['password_hash']??'')?:($user['pass_hash']??'')):'';
         if(!$user||$storedHash===''||!password_verify($password,$storedHash)){$errors[]='Невірний email або пароль.';}
-        elseif($hasBlockedAt&&!empty($user['blocked_at'])){$errors[]='Цей акаунт заблоковано адміністратором.';}
-        else{$loginStmt=$pdo->prepare('UPDATE users SET last_login=NOW() WHERE id=:id');$loginStmt->execute([':id'=>(int)$user['id']]);session_regenerate_id(true);$_SESSION['user_id']=(int)$user['id'];$_SESSION['LAST_ACTIVITY']=time();header('Location: /cabinet.php');exit;}
+        elseif($hasBlockedAt&&!empty($user['blocked_at'])){clicuha_audit($pdo,(int)$user['id'],'login_blocked','blocked account login attempt');$errors[]='Цей акаунт заблоковано адміністратором.';}
+        else{$loginStmt=$pdo->prepare('UPDATE users SET last_login=NOW() WHERE id=:id');$loginStmt->execute([':id'=>(int)$user['id']]);clicuha_audit($pdo,(int)$user['id'],'login','successful login');session_regenerate_id(true);$_SESSION['user_id']=(int)$user['id'];$_SESSION['LAST_ACTIVITY']=time();header('Location: /cabinet.php');exit;}
     }
 }
 ?>
