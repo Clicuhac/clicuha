@@ -81,7 +81,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!$errors) {
         $stmt = $pdo->prepare(
-            'INSERT INTO nicknames (title, slug, description, is_anonymous, user_id)\n             VALUES (:title, :slug, :description, :is_anonymous, :user_id)'
+            "INSERT INTO nicknames (title, slug, description, is_anonymous, user_id)
+             VALUES (:title, :slug, :description, :is_anonymous, :user_id)"
         );
         $stmt->execute([
             ':title' => $title,
