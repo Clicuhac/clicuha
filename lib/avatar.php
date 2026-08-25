@@ -53,8 +53,8 @@ function clicuha_save_avatar_upload(array $file, int $clicuhaId): string
     if (($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
         throw new RuntimeException('Не вдалося завантажити файл.');
     }
-    if (($file['size'] ?? 0) <= 0 || (int)$file['size'] > 5 * 1024 * 1024) {
-        throw new RuntimeException('Аватар має бути не більшим за 5 МБ.');
+    if (($file['size'] ?? 0) <= 0 || (int)$file['size'] > 2 * 1024 * 1024) {
+        throw new RuntimeException('Аватар має бути не більшим за 2 МБ.');
     }
 
     $tmp = (string)($file['tmp_name'] ?? '');
