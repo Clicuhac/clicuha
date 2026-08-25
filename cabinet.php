@@ -1,11 +1,15 @@
 <?php
 declare(strict_types=1);
 require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/lib/auth.php';
 
 if (empty($_SESSION['user_id'])) {
     header('Location: /login.php');
     exit;
 }
+
+$currentUser = current_user($pdo);
+$isAdmin = $currentUser && (($currentUser['role'] ?? 'user') === 'admin');
 ?>
 <!doctype html>
 <html lang="<?= h($lang) ?>">
@@ -38,6 +42,9 @@ if (empty($_SESSION['user_id'])) {
           <ul class="list-unstyled mb-0">
             <li class="mb-2"><a href="/my_nicknames.php" class="link-dark text-decoration-none">• <?= h(t('cabinet.my')) ?></a></li>
             <li class="mb-2"><a href="/add_bootstrap.php" class="link-dark text-decoration-none">• <?= h(t('cabinet.create')) ?></a></li>
+            <?php if ($isAdmin): ?>
+              <li class="mb-2"><a href="/admin/" class="link-dark text-decoration-none fw-semibold">• Адмінка</a></li>
+            <?php endif; ?>
             <li class="mb-2"><span class="text-secondary">• <?= h(t('cabinet.settings')) ?></span></li>
             <li><span class="text-secondary">• <?= h(t('cabinet.theme')) ?></span></li>
           </ul>
