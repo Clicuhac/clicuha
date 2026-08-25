@@ -10,10 +10,67 @@ if (!$clicuha) { http_response_code(404); echo 'Not found'; exit; }
 $currentUserId = isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : null;
 $canEdit = $currentUserId !== null && (int)$clicuha['user_id'] === $currentUserId;
 ?>
-<!doctype html><html lang="<?= h($lang) ?>"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title><?= h($clicuha['title']) ?> · Clicuha</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"><link rel="stylesheet" href="/assets/css/sema.css?v=123"></head><body class="bg-light">
+<!doctype html>
+<html lang="<?= h($lang) ?>">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><?= h($clicuha['title']) ?> · Clicuha</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/sema.css?v=123">
+  <link rel="stylesheet" href="/assets/css/detail.css?v=1">
+</head>
+<body class="bg-light">
 <?php require __DIR__ . '/partials/navbar.php'; ?>
-<div class="container py-5"><div class="row justify-content-center"><div class="col-lg-8"><div class="card shadow-sm border-0"><div class="card-body">
-<h1 class="card-title h3 mb-2"><?= h($clicuha['title']) ?></h1><?php if ($clicuha['slug']): ?><p class="text-muted mb-3">@<?= h($clicuha['slug']) ?></p><?php endif; ?><hr><p class="card-text" style="white-space:pre-wrap"><?= h($clicuha['description'] ?? '') ?></p>
-<div class="mt-4 d-flex justify-content-between"><a href="/index.php" class="btn btn-outline-secondary">← <?= h(t('latest_nicknames')) ?></a><?php if ($canEdit): ?><a href="/edit_nickname.php?id=<?= $id ?>" class="btn btn-primary"><?= h(t('btn_edit')) ?></a><?php endif; ?></div>
-</div></div></div></div></div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script></body></html>
+<main class="container py-4">
+  <div class="mb-4">
+    <div class="text-muted small">Clicuha #<?= $id ?></div>
+    <h1 class="h3 mb-1"><?= h($clicuha['title']) ?></h1>
+    <?php if ($clicuha['slug']): ?><div class="text-muted">@<?= h($clicuha['slug']) ?></div><?php endif; ?>
+  </div>
+
+  <div class="clic-detail-grid">
+    <section class="clic-panel">
+      <div class="clic-panel-body">
+        <div class="clic-panel-title">Who is…</div>
+        <p class="mb-0" style="white-space:pre-wrap"><?= h($clicuha['description'] ?? '') ?></p>
+        <div class="clic-action-row mt-4">
+          <a href="/index.php" class="btn btn-outline-secondary">← <?= h(t('latest_nicknames')) ?></a>
+          <?php if ($canEdit): ?><a href="/edit_nickname.php?id=<?= $id ?>" class="btn btn-primary"><?= h(t('btn_edit')) ?></a><?php endif; ?>
+        </div>
+      </div>
+    </section>
+
+    <section class="clic-panel">
+      <div class="clic-panel-body">
+        <div class="clic-panel-title">Характеристики</div>
+        <div class="clic-module-placeholder">
+          <strong>Профіль рис</strong>
+          <p class="clic-panel-muted mb-0 mt-2">Тут з’являться характеристики, категорії, шкали та інші параметри цієї Clicuha.</p>
+        </div>
+        <div class="clic-module-placeholder">
+          <strong>Поведінка та реакції</strong>
+          <p class="clic-panel-muted mb-0 mt-2">Зона для реакцій, зв’язків між рисами та майбутньої еволюції персонажа.</p>
+        </div>
+      </div>
+    </section>
+
+    <aside class="clic-panel">
+      <div class="clic-panel-body">
+        <div class="clic-panel-title">Статус і модулі</div>
+        <div class="clic-status-line"><span class="text-muted">Автор</span><strong><?= (int)$clicuha['is_anonymous'] === 1 ? 'Анонімно' : 'Відкрито' ?></strong></div>
+        <div class="clic-status-line"><span class="text-muted">Власність</span><strong><?= empty($clicuha['user_id']) ? 'Вільна' : 'Закріплена' ?></strong></div>
+        <?php if (!empty($clicuha['created_at'])): ?>
+          <div class="clic-status-line"><span class="text-muted">Створено</span><strong><?= h(date('d.m.Y', strtotime((string)$clicuha['created_at']))) ?></strong></div>
+        <?php endif; ?>
+        <div class="clic-module-placeholder mt-3">
+          <strong>Майбутні можливості</strong>
+          <p class="clic-panel-muted mb-0 mt-2">Аватар, події, активність, історія, купівля/передача та інші модулі можуть додаватися сюди без перебудови сторінки.</p>
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
