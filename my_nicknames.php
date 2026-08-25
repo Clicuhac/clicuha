@@ -33,7 +33,7 @@ $my = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <h1 class="h4 mb-4">Мої клікухи</h1>
 
     <?php if (empty($my)): ?>
-        <div class="alert alert-info">У тебе ще немає жодної клікухи.</div>
+        <div class="alert alert-info">У тебе наразі немає жодної клікухи.</div>
     <?php else: ?>
         <div class="row g-3">
             <?php foreach ($my as $nick): ?>
