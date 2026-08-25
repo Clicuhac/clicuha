@@ -1,7 +1,7 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) { session_start(); }
 $loggedIn = !empty($_SESSION['user_id']);
-$page = basename($_SERVER['PHP_SELF']);
+$currentPageFile = basename($_SERVER['PHP_SELF']);
 $query = $_GET;
 unset($query['lang']);
 if (!function_exists('lang_href')) {
@@ -28,8 +28,8 @@ if (!function_exists('lang_href')) {
           <li class="nav-item"><a href="/cabinet.php" class="btn btn-outline-primary btn-sm"><?= h(t('menu.cabinet')) ?></a></li>
           <li class="nav-item"><a href="/logout.php" class="btn btn-outline-danger btn-sm"><?= h(t('auth_logout')) ?></a></li>
         <?php else: ?>
-          <?php if ($page !== 'login.php'): ?><li class="nav-item"><a href="/login.php" class="btn btn-warning btn-sm"><?= h(t('auth_login')) ?></a></li><?php endif; ?>
-          <?php if ($page !== 'register.php'): ?><li class="nav-item"><a href="/register.php" class="btn btn-outline-warning btn-sm"><?= h(t('auth_join')) ?></a></li><?php endif; ?>
+          <?php if ($currentPageFile !== 'login.php'): ?><li class="nav-item"><a href="/login.php" class="btn btn-warning btn-sm"><?= h(t('auth_login')) ?></a></li><?php endif; ?>
+          <?php if ($currentPageFile !== 'register.php'): ?><li class="nav-item"><a href="/register.php" class="btn btn-outline-warning btn-sm"><?= h(t('auth_join')) ?></a></li><?php endif; ?>
         <?php endif; ?>
         <li class="nav-item"><a href="<?= h(lang_href('uk', $query)) ?>" class="btn btn-outline-dark btn-sm">UA</a></li>
         <li class="nav-item"><a href="<?= h(lang_href('en', $query)) ?>" class="btn btn-outline-dark btn-sm">EN</a></li>
