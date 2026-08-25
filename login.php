@@ -22,11 +22,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (!$errors) {
-        $stmt = $pdo->prepare('SELECT id, email, password_hash FROM users WHERE email = :email LIMIT 1');
+        $stmt = $pdo->prepare('SELECT id, email, password_hash, pass_hash FROM users WHERE email = :email LIMIT 1');
         $stmt->execute([':email' => $email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $storedHash = $user ? (($user['password_hash'] ?? '') ?: ($user['pass_hash'] ?? '')) : '';
 
-        if (!$user || !password_verify($password, $user['password_hash'])) {
+        if (!$user || $storedHash === '' || !password_verify($password, $storedHash)) {
             $errors[] = 'Невірний email або пароль.';
         } else {
             session_regenerate_id(true);
