@@ -15,7 +15,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
     header('Location: /admin/user.php?id='.$id);exit;
 }
 $fields='id,email,username,role,created_at,last_login'.($hasBlockedAt?',blocked_at':'');$stmt=$pdo->prepare('SELECT '.$fields.' FROM users WHERE id=? LIMIT 1');$stmt->execute([$id]);$user=$stmt->fetch(PDO::FETCH_ASSOC);if(!$user){http_response_code(404);exit('User not found');}
-$ns=$pdo->prepare('SELECT id,title,slug,is_anonymous,avatar_path,created_at,deleted_at FROM nicknames WHERE user_id=? ORDER BY created_at DESC LIMIT 200');$ns->execute([$id]);$nicknames=$ns->fetchAll(PDO::FETCH_ASSOC);
+$ns=$pdo->prepare('SELECT id,title,slug,is_anonymous,avatar_path,created_at,deleted_at FROM nicknames WHERE owner_id=? ORDER BY created_at DESC LIMIT 200');$ns->execute([$id]);$nicknames=$ns->fetchAll(PDO::FETCH_ASSOC);
 $ls=$pdo->prepare('SELECT id,action,details,ip,created_at FROM logs WHERE user_id=? ORDER BY created_at DESC,id DESC LIMIT 100');$ls->execute([$id]);$logs=$ls->fetchAll(PDO::FETCH_ASSOC);
 $active=0;$archived=0;foreach($nicknames as $n){if(empty($n['deleted_at']))$active++;else$archived++;}$flash=(string)($_SESSION['admin_user_flash']??'');unset($_SESSION['admin_user_flash']);
 ?>

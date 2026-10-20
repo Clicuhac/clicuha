@@ -4,7 +4,7 @@ require_once __DIR__ . '/config.php';
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 if ($id <= 0) { http_response_code(404); echo 'Not found'; exit; }
-$stmt = $pdo->prepare('SELECT id,title,slug,description,user_id,deleted_at FROM nicknames WHERE id=:id AND deleted_at IS NULL LIMIT 1');
+$stmt = $pdo->prepare('SELECT id,title,slug,description,owner_id,deleted_at FROM nicknames WHERE id=:id AND deleted_at IS NULL LIMIT 1');
 $stmt->execute([':id'=>$id]);
 $clicuha = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$clicuha) { http_response_code(404); echo 'Not found'; exit; }

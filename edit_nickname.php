@@ -33,7 +33,7 @@ $stmt=$pdo->prepare('SELECT * FROM nicknames WHERE id=:id AND deleted_at IS NULL
 $stmt->execute([':id'=>$id]);
 $nick=$stmt->fetch(PDO::FETCH_ASSOC);
 if(!$nick){http_response_code(404);echo 'Клікуху не знайдено';exit;}
-if((int)$nick['user_id']!==(int)$currentUserId){http_response_code(403);echo 'Це не ваша клікуха 🙂';exit;}
+if((int)$nick['owner_id']!==(int)$currentUserId){http_response_code(403);echo 'Це не ваша клікуха 🙂';exit;}
 
 $avatarReady = clicuha_avatar_column_exists($pdo);
 $avatarUrl = $avatarReady ? clicuha_avatar_url($nick['avatar_path'] ?? null) : null;
@@ -44,7 +44,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
     $title=trim($_POST['title']??'');$slugInput=trim($_POST['slug']??'');$description=trim($_POST['description']??'');$isAnonymous=isset($_POST['is_anonymous'])?1:0;
     if($title==='')$errors[]='Clicuha не може бути порожньою.';
     $slug=normalize_slug($slugInput!==''?$slugInput:$title);$slug=$slug!==''?ensure_unique_slug($pdo,$slug,$id):null;
-    if(!$errors){$stmt=$pdo->prepare('UPDATE nicknames SET title=:title,slug=:slug,description=:description,is_anonymous=:is_anonymous WHERE id=:id AND user_id=:uid AND deleted_at IS NULL LIMIT 1');$stmt->execute([':title'=>$title,':slug'=>$slug,':description'=>$description!==''?$description:null,':is_anonymous'=>$isAnonymous,':id'=>$id,':uid'=>(int)$currentUserId]);header('Location: /my_nicknames.php?updated=1');exit;}
+    if(!$errors){$stmt=$pdo->prepare('UPDATE nicknames SET title=:title,slug=:slug,description=:description,is_anonymous=:is_anonymous WHERE id=:id AND owner_id=:uid AND deleted_at IS NULL LIMIT 1');$stmt->execute([':title'=>$title,':slug'=>$slug,':description'=>$description!==''?$description:null,':is_anonymous'=>$isAnonymous,':id'=>$id,':uid'=>(int)$currentUserId]);header('Location: /my_nicknames.php?updated=1');exit;}
 }
 ?>
 <!doctype html><html lang="<?= h($lang) ?>"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Редагувати клікуху — Clicuha</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"><link rel="stylesheet" href="/assets/css/sema.css?v=123"><link rel="stylesheet" href="/assets/css/detail.css?v=2"></head><body class="bg-light">
