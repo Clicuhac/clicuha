@@ -4,32 +4,36 @@ Release checklist for PR #51 (`issue-50-authorship-ownership`).
 
 ## Before merge
 
-1. Back up the production database, especially `nicknames`.
-2. In production phpMyAdmin run and save the output of:
+1. Back up the production database.
+2. In production phpMyAdmin record:
    - `SHOW CREATE TABLE nicknames;`
    - `SELECT COUNT(*) AS total, SUM(user_id IS NULL) AS free_rows FROM nicknames;`
-3. Confirm the production `user_id` type is compatible with `BIGINT UNSIGNED NULL` and note any foreign keys/indexes involving `user_id`.
-4. Pause application writes while migrating.
+   - foreign keys/indexes involving `user_id`.
+3. Confirm `user_id` is compatible with `BIGINT UNSIGNED NULL`.
 
 ## Migration
 
 Run `migrations/2026-10-20_separate_authorship_ownership.sql` exactly once.
 
+This migration is intentionally additive: it keeps legacy `user_id`, adds `created_by` and `owner_id`, then backfills both from `user_id`. Keeping `user_id` avoids breaking the currently deployed code before the new code goes live and gives us a safer rollback path.
+
 Immediately verify:
 
 ```sql
 SELECT COUNT(*) AS total,
+       SUM(user_id IS NULL) AS old_free_rows,
        SUM(created_by IS NULL) AS unknown_authors,
        SUM(owner_id IS NULL) AS free_rows,
-       SUM(owner_id = created_by) AS legacy_owned_rows
+       SUM(created_by <=> user_id) AS authors_match_legacy,
+       SUM(owner_id <=> user_id) AS owners_match_legacy
 FROM nicknames;
 ```
 
-The row count must match the pre-migration total. Legacy rows with `user_id IS NULL` must remain free (`owner_id IS NULL`).
+Expected for the current production snapshot: total `48`, old/free rows `6`, unknown authors `6`, free rows `6`, and both match counts `48`.
 
 ## Merge/deploy
 
-Only after the migration succeeds, merge PR #51 into `main`. A push to `main` triggers the repository's deploy hook, so do not merge first.
+After the migration verification succeeds, merge PR #51 into `main` immediately. A push to `main` triggers the production deploy hook.
 
 ## Post-deploy smoke checks
 
@@ -43,4 +47,4 @@ Only after the migration succeeds, merge PR #51 into `main`. A push to `main` tr
 
 ## Rollback
 
-Do not attempt a code-only rollback after the database migration: old code expects `nicknames.user_id`. If rollback is required, restore the database backup together with the previous code revision.
+Because legacy `user_id` is retained during this release, the previous PHP code can be restored without first undoing the schema additions. Do not remove `user_id` until Issue #50 has been stable in production and a separate cleanup migration is reviewed.
