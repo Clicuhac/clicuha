@@ -17,7 +17,7 @@ $stats = [
 $latestNicknames = $pdo->query(
     "SELECT n.id, n.title, n.slug, n.created_at, u.email, u.username
      FROM nicknames n
-     LEFT JOIN users u ON u.id = n.user_id
+     LEFT JOIN users u ON u.id = n.owner_id
      WHERE n.deleted_at IS NULL
      ORDER BY n.created_at DESC
      LIMIT 6"

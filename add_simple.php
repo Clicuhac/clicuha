@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/config.php';
+if (empty($_SESSION['user_id'])) { header('Location: /login.php'); exit; }
 
 
 // ВКЛЮЧАЄМО помилки, щоб не було «білих сторінок»
@@ -164,6 +165,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $slugInput   = trim($_POST['slug'] ?? '');
     $description = trim($_POST['description'] ?? '');
     $isAnonymous = isset($_POST['is_anonymous']) ? 1 : 0;
+    $leaveFree   = isset($_POST['leave_free']);
     $userId      = $_SESSION['user_id'] ?? null;
 
     if ($title === '') {
@@ -185,11 +187,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$errors) {
         try {
             $stmt = $pdo->prepare(
-                "INSERT INTO nicknames (user_id, title, short_title, slug, description, is_anonymous)
-                 VALUES (:user_id, :title, :short_title, :slug, :description, :is_anonymous)"
+                "INSERT INTO nicknames (created_by, owner_id, title, short_title, slug, description, is_anonymous)
+                 VALUES (:created_by, :owner_id, :title, :short_title, :slug, :description, :is_anonymous)"
             );
             $stmt->execute([
-                ':user_id'      => $userId,
+                ':created_by'   => $userId,
+                ':owner_id'     => $leaveFree ? null : $userId,
                 ':title'        => $title,
                 ':short_title'  => null,
                 ':slug'         => $slug,
@@ -251,6 +254,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <textarea name="description" rows="4" class="form-control"><?= isset($description) ? h($description) : '' ?></textarea>
       </div>
 
+      <div class="form-check mb-3"><input class="form-check-input" type="checkbox" id="leave_free" name="leave_free" <?= !empty($leaveFree) ? 'checked' : '' ?>><label class="form-check-label" for="leave_free">Залишити клікуху вільною</label></div>
       <div class="form-check mb-3">
         <input class="form-check-input" type="checkbox" id="is_anonymous" name="is_anonymous" value="1"
                <?= !empty($isAnonymous) ? 'checked' : '' ?>>

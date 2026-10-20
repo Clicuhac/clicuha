@@ -10,7 +10,7 @@ $sql="SELECT u.id,u.email,u.username,u.role,u.created_at,u.last_login,
 COUNT(n.id) total_clicuhas,
 SUM(CASE WHEN n.id IS NOT NULL AND n.deleted_at IS NULL THEN 1 ELSE 0 END) active_clicuhas,
 SUM(CASE WHEN n.id IS NOT NULL AND n.deleted_at IS NOT NULL THEN 1 ELSE 0 END) archived_clicuhas
-FROM users u LEFT JOIN nicknames n ON n.user_id=u.id $where
+FROM users u LEFT JOIN nicknames n ON n.owner_id=u.id $where
 GROUP BY u.id,u.email,u.username,u.role,u.created_at,u.last_login
 ORDER BY u.created_at DESC LIMIT 200";
 $stmt=$pdo->prepare($sql);$stmt->execute($params);$users=$stmt->fetchAll(PDO::FETCH_ASSOC);
