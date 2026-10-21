@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types=1);require_once __DIR__ . '/lib/http.php';
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/lib/avatar.php';
 
@@ -33,14 +33,14 @@ $stmt=$pdo->prepare('SELECT * FROM nicknames WHERE id=:id AND deleted_at IS NULL
 $stmt->execute([':id'=>$id]);
 $nick=$stmt->fetch(PDO::FETCH_ASSOC);
 if(!$nick){http_response_code(404);echo 'Клікуху не знайдено';exit;}
-if((int)$nick['owner_id']!==(int)$currentUserId){http_response_code(403);echo 'Це не ваша клікуха 🙂';exit;}
+if((int)$nick['owner_id']!==(int)$currentUserId){clicuha_forbidden('Це не ваша клікуха 🙂');}
 
 $avatarReady = clicuha_avatar_column_exists($pdo);
 $avatarUrl = $avatarReady ? clicuha_avatar_url($nick['avatar_path'] ?? null) : null;
 $errors=[];
 $title=$nick['title']??'';$slugInput=$nick['slug']??'';$description=$nick['description']??'';$isAnonymous=(int)($nick['is_anonymous']??0)===1?1:0;
 if($_SERVER['REQUEST_METHOD']==='POST'){
-    if(!hash_equals($_SESSION['csrf_token'],(string)($_POST['csrf_token']??''))){http_response_code(403);echo 'Невірний токен форми';exit;}
+    if(!hash_equals($_SESSION['csrf_token'],(string)($_POST['csrf_token']??''))){clicuha_forbidden('Невірний токен форми');}
     $title=trim($_POST['title']??'');$slugInput=trim($_POST['slug']??'');$description=trim($_POST['description']??'');$isAnonymous=isset($_POST['is_anonymous'])?1:0;
     if($title==='')$errors[]='Clicuha не може бути порожньою.';
     $slug=normalize_slug($slugInput!==''?$slugInput:$title);$slug=$slug!==''?ensure_unique_slug($pdo,$slug,$id):null;

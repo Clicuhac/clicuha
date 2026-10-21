@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/lib/http.php';
 require_once __DIR__.'/config.php';
 require_once __DIR__.'/lib/avatar.php';
 require_once __DIR__.'/lib/audit.php';
@@ -6,7 +7,7 @@ if(empty($_SESSION['user_id'])){header('Location: /login.php');exit;}
 $userId=(int)$_SESSION['user_id'];
 if(empty($_SESSION['csrf_token']))$_SESSION['csrf_token']=bin2hex(random_bytes(32));
 if($_SERVER['REQUEST_METHOD']==='POST'){
- if(!hash_equals((string)$_SESSION['csrf_token'],(string)($_POST['csrf_token']??''))){http_response_code(403);exit('Невірний токен форми');}
+ if(!hash_equals((string)$_SESSION['csrf_token'],(string)($_POST['csrf_token']??''))){clicuha_forbidden('Невірний токен форми');}
  $id=(int)($_POST['id']??0);$action=(string)($_POST['action']??'');
  if($id>0&&in_array($action,['publish','cabinet'],true)){
   $from=$action==='publish'?0:1;$to=$action==='publish'?1:0;
