@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/lib/clicuha_access.php';
 require_once __DIR__ . '/lib/avatar.php';
 require_once __DIR__ . '/lib/auth.php';
 
@@ -10,8 +11,9 @@ $stmt = $pdo->prepare('SELECT * FROM nicknames WHERE id = :id AND deleted_at IS 
 $stmt->execute([':id'=>$id]);
 $clicuha = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$clicuha) { http_response_code(404); echo 'Not found'; exit; }
+clicuha_assert_view($pdo, $clicuha);
 $currentUserId = isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : null;
-$canEdit = $currentUserId !== null && (int)$clicuha['owner_id'] === $currentUserId;
+$canEdit = clicuha_can_manage($clicuha, (int)$currentUserId, clicuha_is_admin($pdo));
 $avatarReady = clicuha_avatar_column_exists($pdo);
 $avatarUrl = $avatarReady ? clicuha_avatar_url($clicuha['avatar_path'] ?? null) : null;
 $persona = null;

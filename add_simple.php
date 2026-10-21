@@ -187,8 +187,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$errors) {
         try {
             $stmt = $pdo->prepare(
-                "INSERT INTO nicknames (created_by, owner_id, title, short_title, slug, description, is_anonymous)
-                 VALUES (:created_by, :owner_id, :title, :short_title, :slug, :description, :is_anonymous)"
+                "INSERT INTO nicknames (created_by, owner_id, title, short_title, slug, description, is_anonymous, is_published)
+                 VALUES (:created_by, :owner_id, :title, :short_title, :slug, :description, :is_anonymous, 0)"
             );
             $stmt->execute([
                 ':created_by'   => $userId,
@@ -201,7 +201,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
 
             // після успіху — в кабінет
-            header('Location: /cabinet.php?added=1');
+            header('Location: /personality.php?id='.(int)$pdo->lastInsertId());
             exit;
         } catch (Throwable $e) {
             $errors[] = 'DB error: ' . $e->getMessage();
