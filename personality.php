@@ -55,8 +55,9 @@ $missing = personality_missing($core, (int)($stored['schema_version'] ?? 1));
 <h1 class="h3">Формування: <?=h($nick['title'])?></h1>
 <?php foreach($errors as $error):?><p class="alert alert-danger"><?=h($error)?></p><?php endforeach;?>
 <?php if(isset($_GET['saved'])):?><p class="alert alert-success">Ядро збережено.</p><?php endif;?>
-<p><?= $missing ? 'Особистість ще формується' : 'READY · Мінімальне ядро сформовано' ?></p>
-<?php if($missing):?><div class="alert alert-info">До READY бракує:<ul><?php foreach($missing as $item):?><li><?=h($item)?></li><?php endforeach;?></ul></div><?php endif;?>
+<p><?= $missing ? 'Мінімальне ядро ще формується' : 'CORE READY · Мінімальне ядро сформовано' ?></p>
+<p class="text-muted">CORE READY — мінімальна технічна готовність ядра. Збереження ядра не публікує Clicuha: першу публікацію творець обирає окремою дією. Можна залишати її «На формуванні» скільки завгодно.</p>
+<?php if($missing):?><div class="alert alert-info">До CORE READY бракує:<ul><?php foreach($missing as $item):?><li><?=h($item)?></li><?php endforeach;?></ul></div><?php endif;?>
 <form method="post" class="card card-body mb-4"><input type="hidden" name="csrf_token" value="<?=h($_SESSION['csrf_token'])?>"><input type="hidden" name="mode" value="manual"><fieldset><legend class="h5">Риси характеру — щонайменше три</legend><?php foreach(personality_traits() as $key=>$label):?><label class="d-block"><input type="checkbox" name="traits[]" value="<?=h($key)?>" <?=in_array($key,$core['traits']??[],true)?'checked':''?>> <?=h($label)?></label><?php endforeach;?></fieldset>
 <label class="mt-3" for="motivation">Мотивація — чого прагне</label><textarea class="form-control" id="motivation" name="motivation" maxlength="1000"><?=h($core['motivation']??'')?></textarea>
 <label class="mt-3" for="vulnerability">Обмеження / вразливість — що дається трудно</label><textarea class="form-control" id="vulnerability" name="vulnerability" maxlength="1000"><?=h($core['vulnerability']??'')?></textarea>

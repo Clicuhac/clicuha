@@ -72,7 +72,7 @@ function clicuha_publication_action(PDO $pdo, int $id, string $action): void
     if ($action === 'publish' && !is_personality_ready($pdo, $id)) {
         $pdo->rollBack();
         http_response_code(422);
-        exit('Публікація заборонена: ядро особистості ще не READY.');
+        exit('Публікація заборонена: мінімальне ядро ще не CORE READY.');
     }
     $sql = $action === 'publish'
         ? 'UPDATE nicknames SET is_published=1,first_published_at=COALESCE(first_published_at,NOW()) WHERE id=?'
