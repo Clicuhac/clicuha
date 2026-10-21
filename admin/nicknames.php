@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types=1);require_once __DIR__.'/../lib/http.php';
 
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../lib/auth.php';
@@ -11,7 +11,7 @@ if (empty($_SESSION['admin_csrf'])) $_SESSION['admin_csrf'] = bin2hex(random_byt
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $token = (string)($_POST['csrf'] ?? '');
-    if (!hash_equals((string)$_SESSION['admin_csrf'], $token)) { http_response_code(403); exit('Invalid CSRF token'); }
+    if (!hash_equals((string)$_SESSION['admin_csrf'], $token)) { clicuha_forbidden('Невірний токен форми'); }
     $id=(int)($_POST['id']??0);$action=(string)($_POST['action']??'');
     if($id>0 && in_array($action,['archive','restore'],true)){
         $titleStmt=$pdo->prepare('SELECT title FROM nicknames WHERE id=?');$titleStmt->execute([$id]);$title=(string)($titleStmt->fetchColumn()?:'');

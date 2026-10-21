@@ -3,6 +3,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/auth.php';
 require_once __DIR__ . '/http.php';
 require_once __DIR__ . '/personality.php';
+require_once __DIR__ . '/audit.php';
 
 function clicuha_is_admin(PDO $pdo): bool
 {
@@ -78,4 +79,5 @@ function clicuha_publication_action(PDO $pdo, int $id, string $action): void
         : 'UPDATE nicknames SET is_published=0 WHERE id=?';
     $pdo->prepare($sql)->execute([$id]);
     $pdo->commit();
+    clicuha_audit($pdo,(int)$_SESSION['user_id'],$action === 'publish' ? 'clicuha_publish' : 'clicuha_to_cabinet','clicuha_id='.$id.'; title='.$nick['title']);
 }

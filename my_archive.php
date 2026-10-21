@@ -1,12 +1,12 @@
 <?php
-declare(strict_types=1);
+declare(strict_types=1);require_once __DIR__.'/lib/http.php';
 require_once __DIR__.'/config.php';
 require_once __DIR__.'/lib/avatar.php';
 require_once __DIR__.'/lib/audit.php';
 if(empty($_SESSION['user_id'])){header('Location: /login.php');exit;}
 $uid=(int)$_SESSION['user_id'];if(empty($_SESSION['csrf_token']))$_SESSION['csrf_token']=bin2hex(random_bytes(32));
 if($_SERVER['REQUEST_METHOD']==='POST'){
- if(!hash_equals((string)$_SESSION['csrf_token'],(string)($_POST['csrf_token']??''))){http_response_code(403);exit('Невірний токен форми');}
+ if(!hash_equals((string)$_SESSION['csrf_token'],(string)($_POST['csrf_token']??''))){clicuha_forbidden('Невірний токен форми');}
  $id=(int)($_POST['id']??0);
  if($id>0){$s=$pdo->prepare('SELECT title FROM nicknames WHERE id=? AND owner_id=? AND deleted_at IS NOT NULL');$s->execute([$id,$uid]);$title=$s->fetchColumn();if($title!==false){$u=$pdo->prepare('UPDATE nicknames SET deleted_at=NULL,is_published=0 WHERE id=? AND owner_id=? AND deleted_at IS NOT NULL');$u->execute([$id,$uid]);if($u->rowCount()>0){clicuha_audit($pdo,$uid,'clicuha_restore','clicuha_id='.$id.'; title='.(string)$title);$_SESSION['archive_flash']='Клікуху відновлено.';}}}
  header('Location: /my_archive.php');exit;
