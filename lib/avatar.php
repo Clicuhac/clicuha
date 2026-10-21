@@ -97,3 +97,20 @@ function clicuha_remove_avatar_file(?string $path): void
         @unlink($full);
     }
 }
+
+// Shared by profile and ROOM. Reuses the existing upload/persona/payload storage.
+function clicuha_profile_avatar_url(array $nick, ?array $persona): ?string
+{
+    $uploaded = clicuha_avatar_url($nick['avatar_path'] ?? null);
+    if ($uploaded !== null) return $uploaded;
+    $url = clicuha_avatar_url($persona['avatar_url'] ?? null);
+    // Preserve the post-#50 baseline's existing Tyha Iskra payload fallback.
+    if (($nick['slug'] ?? '') === 'tyha-iskra') {
+        $payload = __DIR__ . '/../assets/avatars/tyha-iskra.b64';
+        if (is_file($payload)) {
+            $base64 = trim((string)file_get_contents($payload));
+            if ($base64 !== '') return 'data:image/jpeg;base64,' . $base64;
+        }
+    }
+    return $url;
+}

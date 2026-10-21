@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '/config.php';
+require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/lib/avatar.php';
 
 $limit = 12;

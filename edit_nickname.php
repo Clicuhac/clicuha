@@ -1,7 +1,8 @@
 <?php
-declare(strict_types=1);
+declare(strict_types=1);require_once __DIR__ . '/lib/http.php';
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/lib/avatar.php';
+require_once __DIR__ . '/lib/clicuha_access.php';
 
 $currentUserId = $_SESSION['user_id'] ?? null;
 if (!$currentUserId) { header('Location: /login.php'); exit; }
@@ -29,28 +30,30 @@ if (!function_exists('basic_translit')) {
 
 $id=(int)($_GET['id']??0);
 if($id<=0){http_response_code(400);echo 'Некоректний ID';exit;}
-$stmt=$pdo->prepare('SELECT * FROM nicknames WHERE id=:id AND deleted_at IS NULL LIMIT 1');
+if($_SERVER['REQUEST_METHOD']==='POST') $pdo->beginTransaction();
+$stmt=$pdo->prepare('SELECT * FROM nicknames WHERE id=:id AND deleted_at IS NULL LIMIT 1'.($_SERVER['REQUEST_METHOD']==='POST'?' FOR UPDATE':''));
 $stmt->execute([':id'=>$id]);
 $nick=$stmt->fetch(PDO::FETCH_ASSOC);
 if(!$nick){http_response_code(404);echo 'Клікуху не знайдено';exit;}
-if((int)$nick['owner_id']!==(int)$currentUserId){http_response_code(403);echo 'Це не ваша клікуха 🙂';exit;}
+clicuha_assert_manage($pdo, $nick);
 
 $avatarReady = clicuha_avatar_column_exists($pdo);
 $avatarUrl = $avatarReady ? clicuha_avatar_url($nick['avatar_path'] ?? null) : null;
 $errors=[];
 $title=$nick['title']??'';$slugInput=$nick['slug']??'';$description=$nick['description']??'';$isAnonymous=(int)($nick['is_anonymous']??0)===1?1:0;
 if($_SERVER['REQUEST_METHOD']==='POST'){
-    if(!hash_equals($_SESSION['csrf_token'],(string)($_POST['csrf_token']??''))){http_response_code(403);echo 'Невірний токен форми';exit;}
+    if(!hash_equals($_SESSION['csrf_token'],(string)($_POST['csrf_token']??''))){clicuha_forbidden('Невірний токен форми');}
     $title=trim($_POST['title']??'');$slugInput=trim($_POST['slug']??'');$description=trim($_POST['description']??'');$isAnonymous=isset($_POST['is_anonymous'])?1:0;
     if($title==='')$errors[]='Clicuha не може бути порожньою.';
     $slug=normalize_slug($slugInput!==''?$slugInput:$title);$slug=$slug!==''?ensure_unique_slug($pdo,$slug,$id):null;
-    if(!$errors){$stmt=$pdo->prepare('UPDATE nicknames SET title=:title,slug=:slug,description=:description,is_anonymous=:is_anonymous WHERE id=:id AND owner_id=:uid AND deleted_at IS NULL LIMIT 1');$stmt->execute([':title'=>$title,':slug'=>$slug,':description'=>$description!==''?$description:null,':is_anonymous'=>$isAnonymous,':id'=>$id,':uid'=>(int)$currentUserId]);header('Location: /my_nicknames.php?updated=1');exit;}
+    if(!$errors){$stmt=$pdo->prepare('UPDATE nicknames SET title=:title,slug=:slug,description=:description,is_anonymous=:is_anonymous WHERE id=:id AND deleted_at IS NULL LIMIT 1');$stmt->execute([':title'=>$title,':slug'=>$slug,':description'=>$description!==''?$description:null,':is_anonymous'=>$isAnonymous,':id'=>$id]);$pdo->commit();header('Location: /edit_nickname.php?id='.$id.'&updated=1');exit;}
 }
+if($pdo->inTransaction()) $pdo->rollBack();
 ?>
 <!doctype html><html lang="<?= h($lang) ?>"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Редагувати клікуху — Clicuha</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"><link rel="stylesheet" href="/assets/css/sema.css?v=123"><link rel="stylesheet" href="/assets/css/detail.css?v=2"></head><body class="bg-light">
 <?php require __DIR__.'/partials/navbar.php'; ?>
 <main class="container py-4">
-<div class="mb-4"><div class="text-muted small">Clicuha #<?= $id ?></div><h1 class="h4 mb-0">Редагувати клікуху</h1></div>
+<p><a href="/personality.php?id=<?=$id?>">Формувати особистість</a></p><div class="mb-4"><div class="text-muted small">Clicuha #<?= $id ?></div><h1 class="h4 mb-0">Редагувати клікуху</h1></div>
 <?php if($errors):?><div class="alert alert-danger"><?php foreach($errors as $e):?><div><?=h($e)?></div><?php endforeach;?></div><?php endif;?>
 <?php if(isset($_GET['avatar']) && $_GET['avatar']==='updated'):?><div class="alert alert-success">Аватар оновлено.</div><?php endif;?>
 <?php if(!empty($_GET['avatar_error'])):?><div class="alert alert-danger"><?=h($_GET['avatar_error'])?></div><?php endif;?>

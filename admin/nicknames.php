@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types=1);require_once __DIR__.'/../lib/http.php';
 
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../lib/auth.php';
@@ -11,12 +11,12 @@ if (empty($_SESSION['admin_csrf'])) $_SESSION['admin_csrf'] = bin2hex(random_byt
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $token = (string)($_POST['csrf'] ?? '');
-    if (!hash_equals((string)$_SESSION['admin_csrf'], $token)) { http_response_code(403); exit('Invalid CSRF token'); }
+    if (!hash_equals((string)$_SESSION['admin_csrf'], $token)) { clicuha_forbidden('Невірний токен форми'); }
     $id=(int)($_POST['id']??0);$action=(string)($_POST['action']??'');
     if($id>0 && in_array($action,['archive','restore'],true)){
         $titleStmt=$pdo->prepare('SELECT title FROM nicknames WHERE id=?');$titleStmt->execute([$id]);$title=(string)($titleStmt->fetchColumn()?:'');
-        if($action==='archive'){$stmt=$pdo->prepare('UPDATE nicknames SET deleted_at=NOW() WHERE id=? AND deleted_at IS NULL');$stmt->execute([$id]);$_SESSION['admin_flash']='Клікуху відправлено в архів.';}
-        else{$stmt=$pdo->prepare('UPDATE nicknames SET deleted_at=NULL WHERE id=? AND deleted_at IS NOT NULL');$stmt->execute([$id]);$_SESSION['admin_flash']='Клікуху відновлено.';}
+        if($action==='archive'){$stmt=$pdo->prepare('UPDATE nicknames SET deleted_at=NOW(),is_published=0 WHERE id=? AND deleted_at IS NULL');$stmt->execute([$id]);$_SESSION['admin_flash']='Клікуху відправлено в архів.';}
+        else{$stmt=$pdo->prepare('UPDATE nicknames SET deleted_at=NULL,is_published=0 WHERE id=? AND deleted_at IS NOT NULL');$stmt->execute([$id]);$_SESSION['admin_flash']='Клікуху відновлено.';}
         if($stmt->rowCount()>0){$log=$pdo->prepare('INSERT INTO logs (user_id,action,details,ip,created_at) VALUES (?,?,?,?,NOW())');$log->execute([(int)$admin['id'],'admin_'.$action,'clicuha_id='.$id.'; title='.$title,(string)($_SERVER['REMOTE_ADDR']??'')]);}
     }
     $returnStatus=(string)($_POST['return_status']??'all');$returnQ=trim((string)($_POST['return_q']??''));header('Location: /admin/nicknames.php?status='.urlencode($returnStatus).($returnQ!==''?'&q='.urlencode($returnQ):''));exit;

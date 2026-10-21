@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/lib/http.php';
+if (empty($_SESSION['csrf_token'])) $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 if (empty($_SESSION['user_id'])) { header('Location: /login.php'); exit; }
 
 
@@ -161,6 +163,7 @@ $errors  = [];
 $success = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!hash_equals($_SESSION['csrf_token'], (string)($_POST['csrf_token'] ?? ''))) clicuha_forbidden('Невірний токен форми.');
     $title       = trim($_POST['title'] ?? '');
     $slugInput   = trim($_POST['slug'] ?? '');
     $description = trim($_POST['description'] ?? '');
@@ -187,8 +190,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$errors) {
         try {
             $stmt = $pdo->prepare(
-                "INSERT INTO nicknames (created_by, owner_id, title, short_title, slug, description, is_anonymous)
-                 VALUES (:created_by, :owner_id, :title, :short_title, :slug, :description, :is_anonymous)"
+                "INSERT INTO nicknames (created_by, owner_id, title, short_title, slug, description, is_anonymous, is_published)
+                 VALUES (:created_by, :owner_id, :title, :short_title, :slug, :description, :is_anonymous, 0)"
             );
             $stmt->execute([
                 ':created_by'   => $userId,
@@ -201,7 +204,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
 
             // після успіху — в кабінет
-            header('Location: /cabinet.php?added=1');
+            header('Location: /personality.php?id='.(int)$pdo->lastInsertId());
             exit;
         } catch (Throwable $e) {
             $errors[] = 'DB error: ' . $e->getMessage();
@@ -234,7 +237,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
   <?php endif; ?>
 
-  <form method="post" class="card shadow-sm">
+  <form method="post" class="card shadow-sm"><input type="hidden" name="csrf_token" value="<?=h($_SESSION['csrf_token'])?>">
     <div class="card-body">
       <div class="mb-3">
         <label class="form-label">Clicuha*</label>
