@@ -18,7 +18,7 @@ if (!function_exists('lang_href')) {
     <div class="collapse navbar-collapse" id="mainNav">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item"><a class="nav-link" href="/index.php"><?= h(t('menu.home')) ?></a></li>
-        <?php if ($loggedIn): ?><li class="nav-item"><a class="nav-link" href="/my_nicknames.php"><?= h(t('menu.my')) ?></a></li><?php endif; ?>
+        <?php if ($loggedIn): ?><li class="nav-item"><a class="nav-link" href="/forming.php">На формуванні</a></li><li class="nav-item"><a class="nav-link" href="/my_nicknames.php"><?= h(t('menu.my')) ?></a></li><?php endif; ?>
         <li class="nav-item"><a class="nav-link" href="/about.php"><?= h(t('menu.about')) ?></a></li>
         <li class="nav-item"><a class="nav-link" href="/contacts.php"><?= h(t('menu.contacts')) ?></a></li>
       </ul>
